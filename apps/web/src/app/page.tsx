@@ -15,7 +15,7 @@ export default function HomePage() {
       <section className="mb-10 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-300">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
-          Validation runs server-side · nothing is stored
+          Validation runs in your browser · nothing leaves the page
         </span>
         <h1 className="mt-5 text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl">
           Lint &amp; secure your{' '}

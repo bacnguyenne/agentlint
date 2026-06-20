@@ -24,8 +24,8 @@ export function Footer() {
           <p className="mt-3 max-w-sm text-sm text-zinc-400">
             Lint and security-check your AI coding-agent configuration: Claude Code
             (<code className="text-zinc-300">CLAUDE.md</code>, subagents, commands,
-            settings) and MCP. Your pasted config is validated server-side and never
-            stored.
+            settings) and MCP. Your pasted config is validated entirely in your
+            browser and never leaves the page.
           </p>
           <nav aria-label="Footer" className="mt-4 flex flex-wrap gap-4 text-sm text-zinc-400">
             <Link href="/" className="hover:text-white">
@@ -79,7 +79,18 @@ export function Footer() {
             by, or sponsored by Anthropic.</strong> &quot;Claude&quot; and
             &quot;Claude Code&quot; are trademarks of their respective owners.
           </p>
-          <p>MIT-licensed &amp; open source · © {YEAR} agentlint</p>
+          <p>
+            MIT-licensed &amp; open source · Built by{' '}
+            <a
+              href="https://bacnguyenne.id.vn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-400 underline-offset-2 hover:text-white hover:underline"
+            >
+              Bac Nguyen
+            </a>{' '}
+            · © {YEAR} agentlint
+          </p>
         </div>
       </div>
     </footer>

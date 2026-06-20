@@ -1,6 +1,6 @@
 {
   "name": "agentlint-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lint & security-check your AI coding agent configuration (Claude Code & MCP). CI-friendly, --fix, JSON output. Commands: agentlint, agentlint-mcp.",
   "license": "MIT",
   "publishConfig": {

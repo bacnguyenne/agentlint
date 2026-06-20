@@ -1,6 +1,6 @@
 {
   "name": "agentlint-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Validation & security engine for AI coding-agent configuration (Claude Code & MCP).",
   "license": "MIT",
   "author": "bacnguyenne (https://github.com/bacnguyenne)",

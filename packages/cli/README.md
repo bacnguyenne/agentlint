@@ -7,6 +7,8 @@
 
 > Unofficial — not affiliated with Anthropic. The npm package is **`agentlint-cli`**; it installs the `agentlint` and `agentlint-mcp` commands.
 
+**▶ Try the live validator (no install):** **https://bacnguyenne.id.vn/agentlint/** — paste a config and lint it in your browser.
+
 ## Quick start
 
 ```bash

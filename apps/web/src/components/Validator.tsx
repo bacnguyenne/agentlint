@@ -270,8 +270,12 @@ export function Validator() {
         </div>
       </form>
 
-      {/* Results panel */}
+      {/* Results panel — the header row mirrors the input's controls row height so
+          the results box top-aligns with the textarea (otherwise it sits ~1 row high). */}
       <div ref={resultsRef} className="scroll-mt-20 lg:sticky lg:top-20 lg:self-start">
+        <div className="mb-4 flex min-h-[34px] flex-wrap items-center gap-3">
+          <span className="text-sm font-medium text-zinc-300">Results</span>
+        </div>
         <ResultsPanel status={status} />
       </div>
     </div>

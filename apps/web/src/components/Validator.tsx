@@ -126,33 +126,20 @@ export function Validator() {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
       try {
-        const res = await fetch('/api/lint', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            files: [{ path: pathForKind(effectiveKind), content, kind: effectiveKind }],
-          }),
-          signal: controller.signal,
-        });
-        if (res.status === 413) {
+        // Lint entirely in the browser — agentlint-core is pure JS, so nothing is
+        // sent to a server and the app can ship as a fully static site. Lazy-loaded
+        // so the engine isn't in the initial bundle.
+        const { lintClientSide } = await import('@/lib/lint-client');
+        const result = lintClientSide([
+          { path: pathForKind(effectiveKind), content, kind: effectiveKind },
+        ]);
+        setStatus({ kind: 'done', result });
+      } catch (err) {
+        if (err instanceof Error && err.name === 'InputTooLargeError') {
           setStatus({ kind: 'error', message: 'Input too large.' });
           return;
         }
-        if (res.status === 429) {
-          setStatus({ kind: 'error', message: 'Rate limit reached. Try again shortly.' });
-          return;
-        }
-        if (!res.ok) {
-          const data = (await res.json().catch(() => ({}))) as { error?: string };
-          setStatus({ kind: 'error', message: data.error ?? 'Validation failed.' });
-          return;
-        }
-        const data = (await res.json()) as { result: LintResult };
-        setStatus({ kind: 'done', result: data.result });
-      } catch (err) {
-        // An aborted request is expected (newer submission or unmount); ignore it.
-        if (err instanceof DOMException && err.name === 'AbortError') return;
-        setStatus({ kind: 'error', message: 'Network error. Please try again.' });
+        setStatus({ kind: 'error', message: 'Could not validate the input.' });
       }
     },
     [content, effectiveKind, overLimit],

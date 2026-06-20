@@ -58,11 +58,20 @@ const securityHeaders = [
   { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
 ];
 
+// Static export (GitHub Pages) when NEXT_EXPORT=1; otherwise a standalone server
+// bundle (Docker/Vercel). NEXT_PUBLIC_BASE_PATH lets project Pages serve under
+// /<repo> (e.g. /agentlint).
+const isExport = process.env.NEXT_EXPORT === '1';
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  // Emit a self-contained server bundle for a small, non-root Docker image.
-  output: 'standalone',
+  // 'export' = fully static (no server); 'standalone' = self-contained server bundle.
+  output: isExport ? 'export' : 'standalone',
+  ...(basePath ? { basePath, assetPrefix: basePath } : {}),
+  // GitHub Pages has no image-optimization server; export requires this.
+  images: { unoptimized: true },
   // Build output directory. Defaults to `.next`, but `npm run dev` sets
   // NEXT_DIST_DIR=.next-dev so the dev server has its OWN build dir — a
   // production `next build`/`next start` (CI, e2e, verification) can then never
@@ -75,6 +84,26 @@ const nextConfig: NextConfig = {
   // The core package is an ESM workspace package shipping compiled JS; tell Next
   // to transpile it so it works inside the app's build pipeline.
   transpilePackages: ['agentlint-core'],
+  webpack: (config, { isServer, webpack }) => {
+    if (!isServer) {
+      // agentlint-core's index top-level-imports a filesystem `discover`
+      // (node:fs/node:path) that the browser never calls — we only use the pure
+      // `lintFiles`. Strip the `node:` URI scheme so webpack can apply fallbacks,
+      // then stub the builtins to empty modules for the client bundle.
+      config.plugins.push(
+        new webpack.NormalModuleReplacementPlugin(/^node:/, (resource: { request: string }) => {
+          resource.request = resource.request.replace(/^node:/, '');
+        }),
+      );
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        url: false,
+      };
+    }
+    return config;
+  },
   async headers() {
     return [
       {

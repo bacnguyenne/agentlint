@@ -1,17 +1,31 @@
 import type { Metadata, Viewport } from 'next';
-import { headers } from 'next/headers';
 import './globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 /**
- * Force dynamic rendering app-wide. This is required for the nonce-based CSP in
- * middleware.ts to work: Next only stamps its inline/bootstrap <script> tags
- * with the request nonce when a route is rendered per-request. Statically
- * prerendered HTML would carry no nonce and the browser would refuse Next's
- * scripts under `script-src 'self' 'nonce-…' 'strict-dynamic'`.
+ * Content-Security-Policy for the static site. GitHub Pages can't set response
+ * headers, so we ship the CSP as a <meta> tag. `script-src` needs 'unsafe-inline'
+ * because Next's static bootstrap scripts carry no per-request nonce without a
+ * server — an acceptable trade-off here: the app has no backend, stores nothing,
+ * and never renders pasted input as HTML (results are React-escaped text), so the
+ * residual XSS surface is minimal. (The server/Docker build keeps the stricter
+ * nonce'd CSP via next.config headers.)
  */
-export const dynamic = 'force-dynamic';
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  // Note: frame-ancestors / X-Frame-Options only work as response headers, which
+  // static GitHub Pages can't set — omitted here (the app has no sensitive
+  // state to clickjack). The server/Docker build still sets them via headers.
+  "form-action 'self'",
+].join('; ');
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://agentlint.dev'),
@@ -35,20 +49,12 @@ export const viewport: Viewport = {
   themeColor: '#0a0a0b',
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // Read the per-request nonce set by middleware.ts. Reading the nonce here is
-  // what makes Next propagate it to its own inline bootstrap/streaming <script>
-  // tags, so `script-src 'self' 'nonce-…' 'strict-dynamic'` actually protects
-  // them instead of being decorative. Any future next/script <Script> must be
-  // passed this nonce too (e.g. <Script nonce={nonce} … />).
-  const nonce = (await headers()).get('x-nonce') ?? '';
-  // Reference the nonce so it is unmistakably part of the dynamic render and so
-  // future <Script nonce={nonce}> additions have it in scope. Next stamps this
-  // same nonce onto its framework bootstrap scripts automatically.
-  void nonce;
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <meta httpEquiv="Content-Security-Policy" content={CSP} />
+      </head>
       <body className="font-sans">
         <a
           href="#main"

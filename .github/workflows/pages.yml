@@ -1,0 +1,63 @@
+name: Deploy web to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/web/**'
+      - 'packages/core/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+# Least-privilege token: only what Pages deployment needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; let an in-progress run finish (don't cancel a live deploy).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # The web app imports the compiled engine.
+      - name: Build engine
+        run: npm run build -w agentlint-core
+
+      - name: Build static site
+        run: npm run build -w @agentlint/web
+        env:
+          NEXT_EXPORT: '1'
+          # Project pages live under /<repo>; served at bacnguyenne.github.io/agentlint.
+          NEXT_PUBLIC_BASE_PATH: /agentlint
+
+      # GitHub Pages serves with Jekyll by default, which ignores _next/*.
+      # .nojekyll disables that so the Next assets load.
+      - run: touch apps/web/out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -9,7 +9,15 @@ interface NavItem {
 }
 
 /** Mobile-only hamburger menu (the desktop nav is shown inline at sm+). */
-export function MobileNav({ items, githubUrl }: { items: NavItem[]; githubUrl: string }) {
+export function MobileNav({
+  items,
+  githubUrl,
+  blogUrl,
+}: {
+  items: NavItem[];
+  githubUrl: string;
+  blogUrl: string;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -61,6 +69,13 @@ export function MobileNav({ items, githubUrl }: { items: NavItem[]; githubUrl: s
                 {item.label}
               </Link>
             ))}
+            <a
+              href={blogUrl}
+              onClick={() => setOpen(false)}
+              className="block rounded-md px-3 py-2.5 text-sm text-zinc-200 transition hover:bg-white/5 hover:text-white"
+            >
+              Blog
+            </a>
             <a
               href={githubUrl}
               target="_blank"

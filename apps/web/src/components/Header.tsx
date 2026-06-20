@@ -10,6 +10,9 @@ const NAV = [
   { href: '/templates', label: 'Templates' },
 ];
 
+// The author's blog — this app is hosted under that domain (bacnguyenne.id.vn/agentlint/).
+const BLOG_URL = 'https://bacnguyenne.id.vn';
+
 /** Top navigation. Server component (no interactivity needed). */
 export function Header() {
   return (
@@ -37,6 +40,13 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          {/* Link back to the author's blog (this app is hosted under it). */}
+          <a
+            href={BLOG_URL}
+            className="rounded-md px-3 py-1.5 text-zinc-300 transition hover:bg-white/5 hover:text-white"
+          >
+            Blog
+          </a>
           <a
             href={GITHUB_URL}
             target="_blank"
@@ -48,7 +58,7 @@ export function Header() {
         </nav>
 
         {/* Mobile nav — hamburger menu. */}
-        <MobileNav items={NAV} githubUrl={GITHUB_URL} />
+        <MobileNav items={NAV} githubUrl={GITHUB_URL} blogUrl={BLOG_URL} />
       </div>
     </header>
   );

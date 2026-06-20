@@ -149,9 +149,9 @@ export function Validator() {
     <div className="grid gap-6 lg:grid-cols-2">
       {/* Input panel */}
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <label htmlFor="kind" className="text-sm font-medium text-zinc-300">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2">
+            <label htmlFor="kind" className="shrink-0 text-sm font-medium text-zinc-300">
               File kind
             </label>
             <select
@@ -162,7 +162,7 @@ export function Validator() {
                 setKind(e.target.value as SelectableKind);
                 setStatus({ kind: 'idle' });
               }}
-              className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white"
+              className="min-w-0 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white"
             >
               {SELECTABLE_KINDS.map((k) => (
                 <option key={k} value={k} className="bg-ink-soft">
@@ -170,7 +170,7 @@ export function Validator() {
                 </option>
               ))}
             </select>
-            <label className="flex items-center gap-1.5 text-xs text-zinc-400">
+            <label className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-xs text-zinc-400">
               <input
                 type="checkbox"
                 checked={autoKind}
@@ -273,7 +273,7 @@ export function Validator() {
       {/* Results panel — the header row mirrors the input's controls row height so
           the results box top-aligns with the textarea (otherwise it sits ~1 row high). */}
       <div ref={resultsRef} className="scroll-mt-20 lg:sticky lg:top-20 lg:self-start">
-        <div className="mb-4 flex min-h-[34px] flex-wrap items-center gap-3">
+        <div className="mb-4 flex min-h-[54px] flex-wrap items-center gap-3">
           <span className="text-sm font-medium text-zinc-300">Results</span>
         </div>
         <ResultsPanel status={status} />

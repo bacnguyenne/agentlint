@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem@1.0.0", "/data"],
+      "env": { "LOG_LEVEL": "info" }
+    },
+    "api": {
+      "type": "http",
+      "url": "https://mcp.example.com",
+      "headers": { "Authorization": "${MCP_TOKEN}" }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+name: sync-skills
+
+# Automatically refresh the curated Agent Skills catalog and the generated rule
+# docs, then open a pull request for review. Skills are pulled from the curated
+# allowlist in scripts/sync-skills.mjs and each is validated by agentlint — only
+# skills that pass with zero errors are added. Nothing is auto-merged.
+
+on:
+  schedule:
+    # Weekly, Mondays at 04:17 UTC (offset so it doesn't collide with the hour).
+    - cron: '17 4 * * 1'
+  workflow_dispatch: {}
+
+# Least privilege: only what create-pull-request needs.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-skills
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The sync + doc generators import the built engine.
+      - name: Build agentlint-core
+        run: npm run build -w agentlint-core
+
+      - name: Refresh catalog + regenerate docs
+        run: |
+          npm run sync:skills
+          npm run sync:tools
+          npm run sync:mcp
+          npm run gen:catalog
+          npm run gen:rules
+          npm run gen:rules-content
+
+      # Guard: the committed catalog must still lint clean before we open a PR.
+      - name: Verify the catalog lints clean
+        run: npm run test -w @agentlint/web -- run skill-catalog
+
+      - name: Open a pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/sync-skills
+          delete-branch: true
+          commit-message: 'chore: sync curated skills + regenerate docs'
+          title: 'chore: weekly skill catalog + docs refresh'
+          labels: |
+            automated
+            skills
+          body: |
+            Automated weekly refresh.
+
+            - Re-synced the curated Agent Skills catalog from the upstream allowlist
+              in `scripts/sync-skills.mjs`. Each upstream `SKILL.md` is fetched and
+              **validated by agentlint** — only skills with **0 errors** are kept.
+            - Regenerated `docs/RULES.md` and the web rules-content from the engine.
+
+            See `docs/SKILL-SOURCES.md` for the per-source sync status.
+
+            Review the diff before merging — this PR is never auto-merged.

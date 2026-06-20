@@ -1,0 +1,11 @@
+/.next/
+/.next-dev/
+/.next-prod/
+/out/
+/node_modules
+/coverage
+/playwright-report
+/test-results
+/.turbo
+*.tsbuildinfo
+next-env.d.ts

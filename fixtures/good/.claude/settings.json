@@ -1,0 +1,21 @@
+{
+  "model": "sonnet",
+  "permissions": {
+    "allow": ["Read", "Bash(git status:*)", "Bash(npm test:*)"],
+    "deny": ["Bash(rm:*)"]
+  },
+  "env": {
+    "NODE_ENV": "test",
+    "API_TOKEN": "${API_TOKEN}"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [{ "type": "command", "command": "echo running", "timeout": 30 }]
+      }
+    ]
+  },
+  "includeCoAuthoredBy": true,
+  "cleanupPeriodDays": 30
+}

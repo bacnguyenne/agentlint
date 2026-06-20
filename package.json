@@ -1,0 +1,28 @@
+{
+  "name": "agentlint-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "agentlint — lint & security-check your AI coding agent configuration (Claude Code & MCP)",
+  "license": "MIT",
+  "workspaces": ["packages/*", "apps/*"],
+  "engines": { "node": ">=20" },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.15"
+    },
+    "@eslint/plugin-kit": ">=0.3.4"
+  },
+  "scripts": {
+    "build": "npm run build --workspace agentlint-core && npm run build --workspace agentlint-cli",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspace agentlint-core && npm run test --workspace agentlint-cli",
+    "lint:self": "node packages/cli/dist/index.js .",
+    "gen:rules": "node scripts/gen-rules.mjs",
+    "gen:rules-content": "node scripts/gen-rules-content.mjs",
+    "sync:skills": "node scripts/sync-skills.mjs",
+    "sync:tools": "node scripts/sync-tools.mjs",
+    "sync:mcp": "node scripts/sync-mcp.mjs",
+    "gen:catalog": "node scripts/gen-catalog.mjs",
+    "release": "npm run build && npm publish --workspace agentlint-core && npm publish --workspace agentlint-cli"
+  }
+}

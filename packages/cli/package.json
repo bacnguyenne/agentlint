@@ -1,0 +1,58 @@
+{
+  "name": "agentlint-cli",
+  "version": "1.0.0",
+  "description": "Lint & security-check your AI coding agent configuration (Claude Code & MCP). CI-friendly, --fix, JSON output. Commands: agentlint, agentlint-mcp.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "bacnguyenne (https://github.com/bacnguyenne)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bacnguyenne/agentlint.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/bacnguyenne/agentlint#readme",
+  "bugs": "https://github.com/bacnguyenne/agentlint/issues",
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "module",
+  "bin": {
+    "agentlint": "dist/index.js",
+    "agentlint-mcp": "dist/mcp.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "claude-code",
+    "claude",
+    "mcp",
+    "lint",
+    "linter",
+    "cli",
+    "ai",
+    "agent",
+    "security",
+    "model-context-protocol"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "agentlint-core": "^1.0.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.9",
+    "@types/node": "^22.10.2",
+    "execa": "^9.5.2"
+  }
+}

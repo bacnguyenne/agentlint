@@ -1,0 +1,45 @@
+{
+  "name": "agentlint-vscode",
+  "displayName": "agentlint",
+  "description": "Lint & security-check your AI coding-agent config (Claude Code, MCP, Cursor, Copilot, AGENTS.md) right in the editor.",
+  "version": "0.1.0",
+  "publisher": "bacnguyenne",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Linters"],
+  "repository": { "type": "git", "url": "git+https://github.com/bacnguyenne/agentlint.git", "directory": "editors/vscode" },
+  "main": "./dist/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "commands": [
+      { "command": "agentlint.lintWorkspace", "title": "agentlint: Lint workspace" }
+    ],
+    "configuration": {
+      "title": "agentlint",
+      "properties": {
+        "agentlint.command": {
+          "type": "string",
+          "default": "npx",
+          "description": "How to invoke agentlint. 'npx' runs `npx -y agentlint`; otherwise give a path to the agentlint binary."
+        },
+        "agentlint.runOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Re-lint the workspace whenever a file is saved."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --format=cjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,48 @@
+name: 'agentlint'
+description: 'Lint & security-check your AI coding-agent config (Claude Code, MCP, Cursor, Copilot, AGENTS.md, Windsurf, Cline).'
+author: 'bacnguyenne'
+branding:
+  icon: 'shield'
+  color: 'purple'
+
+inputs:
+  paths:
+    description: 'Space-separated directories to lint.'
+    required: false
+    default: '.'
+  max-warnings:
+    description: 'Fail the build if warnings exceed this number. Leave empty to ignore warning counts.'
+    required: false
+    default: ''
+  format:
+    description: 'Output format: "stylish" or "json".'
+    required: false
+    default: 'stylish'
+  quiet:
+    description: 'Report errors only (suppress warnings/infos). Set to "true" to enable.'
+    required: false
+    default: 'false'
+  version:
+    description: 'agentlint version or npm dist-tag to run (e.g. "1.0.0" or "latest").'
+    required: false
+    default: 'latest'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run agentlint
+      shell: bash
+      env:
+        AL_PATHS: ${{ inputs.paths }}
+        AL_MAXW: ${{ inputs.max-warnings }}
+        AL_FORMAT: ${{ inputs.format }}
+        AL_QUIET: ${{ inputs.quiet }}
+        AL_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        args=()
+        [ -n "$AL_FORMAT" ] && args+=(--format "$AL_FORMAT")
+        [ -n "$AL_MAXW" ] && args+=(--max-warnings "$AL_MAXW")
+        [ "$AL_QUIET" = "true" ] && args+=(--quiet)
+        # shellcheck disable=SC2086
+        npx --yes "agentlint@${AL_VERSION}" "${args[@]}" $AL_PATHS

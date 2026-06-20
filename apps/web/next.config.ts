@@ -70,6 +70,10 @@ const nextConfig: NextConfig = {
   // 'export' = fully static (no server); 'standalone' = self-contained server bundle.
   output: isExport ? 'export' : 'standalone',
   ...(basePath ? { basePath, assetPrefix: basePath } : {}),
+  // Trailing slashes make every route a directory (foo/index.html), which aligns
+  // the static RSC-prefetch paths under a basePath — removes the harmless
+  // `/<base>.txt?_rsc=` 404 the home-link prefetch otherwise produces on Pages.
+  ...(isExport ? { trailingSlash: true } : {}),
   // GitHub Pages has no image-optimization server; export requires this.
   images: { unoptimized: true },
   // Build output directory. Defaults to `.next`, but `npm run dev` sets

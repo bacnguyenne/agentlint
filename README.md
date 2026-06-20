@@ -1,13 +1,8 @@
 # agentlint
 
-**Lint and security-check your AI coding-agent configuration — Claude Code (`CLAUDE.md`, `.claude/agents`, `.claude/commands`, `.claude/skills/**/SKILL.md`, `settings.json`) and MCP (`.mcp.json`).**
+**Lint and security-check your AI coding-agent configuration — Claude Code (**`CLAUDE.md`**,** `.claude/agents`**,** `.claude/commands`**,** `.claude/skills/**/SKILL.md`**,** `settings.json`**) and MCP (**`.mcp.json`**).**
 
-[![CI](https://github.com/bacnguyenne/agentlint/actions/workflows/ci.yml/badge.svg)](https://github.com/bacnguyenne/agentlint/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/agentlint-cli.svg)](https://www.npmjs.com/package/agentlint-cli)
-[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![node >=20](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
-
-agentlint is a fast, dependency-light linter that catches the real misconfigurations people make in their AI coding-agent setup — including **security** problems like hardcoded secrets, dangerous hook commands, and `curl | sh` remote-code-execution patterns. It never executes, imports, or fetches your files; it only parses them.
+![CI](https://github.com/bacnguyenne/agentlint/actions/workflows/ci.yml/badge.svg)![npm version](https://img.shields.io/npm/v/agentlint-cli.svg)![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)![node >=20](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)agentlint is a fast, dependency-light linter that catches the real misconfigurations people make in their AI coding-agent setup — including **security** problems like hardcoded secrets, dangerous hook commands, and `curl | sh` remote-code-execution patterns. It never executes, imports, or fetches your files; it only parses them.
 
 > **Unofficial.** agentlint is a community project and is **not affiliated with, endorsed by, or sponsored by Anthropic.** "Claude" and "Claude Code" are trademarks of Anthropic.
 
@@ -74,10 +69,10 @@ CLAUDE.md
 
 ## What it checks
 
-agentlint ships **58 rules** across eight groups. A few examples — the full catalog with severity, fixability, and a description per rule is in **[docs/RULES.md](./docs/RULES.md)**.
+agentlint ships **58 rules** across eight groups. A few examples — the full catalog with severity, fixability, and a description per rule is in [**docs/RULES.md**](./docs/RULES.md).
 
 | Group | What it covers | Example rule ids |
-|---|---|---|
+| --- | --- | --- |
 | **Agent** (`.claude/agents/*.md`) | frontmatter shape, `name`/`description`, tools, model | `agent/invalid-name`, `agent/missing-description`, `agent/invalid-model` |
 | **Command** (`.claude/commands/**/*.md`) | frontmatter keys, body, model | `command/unknown-key`, `command/empty-body`, `command/invalid-model` |
 | **Skill** (`.claude/skills/<name>/SKILL.md`) | the case-sensitive `SKILL.md` filename, `name`↔directory, `description` discovery quality, `allowed-tools`, model | `skill/filename-not-canonical`, `skill/name-dir-mismatch`, `skill/description-missing-trigger`, `skill/broad-allowed-tools` |
@@ -90,8 +85,8 @@ agentlint ships **58 rules** across eight groups. A few examples — the full ca
 [Agent Skills](https://code.claude.com/docs/en/skills) live in `.claude/skills/<name>/SKILL.md`. The most common ways they break are subtle and silent — agentlint catches them:
 
 - **Wrong filename case** — Claude Code only loads a case-sensitive `SKILL.md`; a `skill.md`/`Skill.md` is silently ignored (`skill/filename-not-canonical`).
-- **`name` ≠ directory**, or an invalid `name` (uppercase/spaces/underscores, > 64 chars) (`skill/name-dir-mismatch`, `skill/invalid-name`, fixable).
-- **A description that says what but not _when_** to use the skill, so Claude rarely loads it (`skill/description-missing-trigger`); or one over 1024 chars (`skill/description-too-long`).
+- `name` **≠ directory**, or an invalid `name` (uppercase/spaces/underscores, &gt; 64 chars) (`skill/name-dir-mismatch`, `skill/invalid-name`, fixable).
+- **A description that says what but not *when*** to use the skill, so Claude rarely loads it (`skill/description-missing-trigger`); or one over 1024 chars (`skill/description-too-long`).
 - **Typo'd / unknown frontmatter keys** like `allowed_tools` (`skill/unknown-key`), an invalid `model`, or an `allowed-tools` entry that's unknown or over-broad (`skill/broad-allowed-tools`).
 - Plus the cross-cutting **security** rules: hardcoded secrets and `curl | sh` patterns inside a `SKILL.md` body.
 
@@ -142,7 +137,7 @@ MCP servers are **merged** into an existing `.mcp.json` (never clobbered); exist
 ### Exit codes
 
 | Code | Meaning |
-|---|---|
+| --- | --- |
 | `0` | No errors (warnings within `--max-warnings`). |
 | `1` | Errors found, or warnings exceeded `--max-warnings`. |
 | `2` | Usage error, IO error, or invalid configuration. |
@@ -167,7 +162,7 @@ agentlint reads `.agentlintrc.json` from the current directory **upward** (neare
 
 ## Library usage
 
-The validation engine ships as **`agentlint-core`** (pure TypeScript, only one runtime dependency: `yaml`). `lintFiles` is pure — no filesystem, network, or code execution — so you can lint in-memory content anywhere:
+The validation engine ships as `agentlint-core` (pure TypeScript, only one runtime dependency: `yaml`). `lintFiles` is pure — no filesystem, network, or code execution — so you can lint in-memory content anywhere:
 
 ```ts
 import { lintFiles, lintDirectory, rules } from 'agentlint-core';
@@ -216,7 +211,7 @@ Nothing is stored — the server lints in memory and returns JSON. Inputs are si
 
 ### Self-host
 
-Self-host with Docker (non-root image + healthcheck) — see **[docs/DEPLOY.md](./docs/DEPLOY.md)**.
+Self-host with Docker (non-root image + healthcheck) — see [**docs/DEPLOY.md**](./docs/DEPLOY.md).
 
 ## Use it from your agent (MCP)
 
@@ -272,18 +267,18 @@ Inputs: `paths`, `max-warnings`, `format` (`stylish`|`json`), `quiet`, `version`
 
 agentlint is built to be safe to run on untrusted config (it only parses), and is verified end-to-end:
 
-- **`agentlint-core`** — 238 unit tests (every rule has triggering + clean fixtures; security rules tested for false positives; ReDoS-pathological inputs; autofix idempotency).
-- **`agentlint` CLI** — 47 integration tests running the built binary over fixtures and asserting exit codes + JSON output.
-- **`@agentlint/web`** — 45 unit tests + 13 Playwright end-to-end tests (real Chromium) covering the validator and security-header assertions.
-- **`npm audit --omit=dev`** — 0 production vulnerabilities (2 low-severity advisories remain dev-only, in the ESLint toolchain).
+- `agentlint-core` — 238 unit tests (every rule has triggering + clean fixtures; security rules tested for false positives; ReDoS-pathological inputs; autofix idempotency).
+- `agentlint` **CLI** — 47 integration tests running the built binary over fixtures and asserting exit codes + JSON output.
+- `@agentlint/web` — 45 unit tests + 13 Playwright end-to-end tests (real Chromium) covering the validator and security-header assertions.
+- `npm audit --omit=dev` — 0 production vulnerabilities (2 low-severity advisories remain dev-only, in the ESLint toolchain).
 - **Security-audited**, including a fixed prototype-pollution bug in the JSON parser. All regexes are ReDoS-safe and all inputs are size-capped.
 - **Docker** image builds, runs as a **non-root** user, and serves with a healthcheck.
 
 ## Contributing
 
-Contributions are welcome — especially new rules for misconfigurations you've hit in the wild. See **[CONTRIBUTING.md](./CONTRIBUTING.md)** for dev setup, how to add a rule, and PR expectations, and **[CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)**.
+Contributions are welcome — especially new rules for misconfigurations you've hit in the wild. See [**CONTRIBUTING.md**](./CONTRIBUTING.md) for dev setup, how to add a rule, and PR expectations, and [**CODE_OF_CONDUCT.md**](./CODE_OF_CONDUCT.md).
 
-To report a security issue, see **[SECURITY.md](./SECURITY.md)**.
+To report a security issue, see [**SECURITY.md**](./SECURITY.md).
 
 ## License
 
@@ -291,14 +286,9 @@ To report a security issue, see **[SECURITY.md](./SECURITY.md)**.
 
 ## ☕ Support — buy me a coffee
 
-agentlint is a free, non-profit project maintained in spare time. Support is
-entirely **optional** — the tool is and always will be free, with no accounts,
-paywall, or telemetry. If it saved you a debugging session, you can scan the
-VietQR below to send a coffee via bank transfer:
+agentlint is a free, non-profit project maintained in spare time. Support is entirely **optional** — the tool is and always will be free, with no accounts, paywall, or telemetry. If it saved you a debugging session, you can scan the VietQR below to send a coffee via bank transfer:
 
-<img src="https://raw.githubusercontent.com/bacnguyenne/agentlint/main/apps/web/public/support-qr.jpg" alt="Buy me a coffee — VietQR" width="220" />
-
-**NGUYEN DINH NGUYEN BAC · VietinBank · 109875964393**
+<img src="https://raw.githubusercontent.com/bacnguyenne/agentlint/main/apps/web/public/support-qr.jpg" alt="Buy me a coffee — VietQR" width="220" />**NGUYEN DINH NGUYEN BAC · VietinBank · 109875964393**
 
 Prefer something free? A ⭐ on the repo helps just as much: https://github.com/bacnguyenne/agentlint
 

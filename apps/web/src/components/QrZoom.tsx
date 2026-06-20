@@ -3,6 +3,10 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
+// next/image with `unoptimized` doesn't prefix basePath for a local public asset,
+// so reference it explicitly (NEXT_PUBLIC_BASE_PATH is inlined at build time).
+const SUPPORT_QR = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/support-qr.jpg`;
+
 /**
  * The support QR: click to zoom into a centered overlay (big enough to scan),
  * click anywhere outside it (or press Escape) to shrink back.
@@ -35,7 +39,7 @@ export function QrZoom() {
         className="group block shrink-0 cursor-zoom-in rounded-lg"
       >
         <Image
-          src="/support-qr.jpg"
+          src={SUPPORT_QR}
           alt="Buy me a coffee — VietQR (VietinBank, NGUYEN DINH NGUYEN BAC)"
           width={112}
           height={112}
@@ -53,7 +57,7 @@ export function QrZoom() {
         >
           <div className="relative w-[min(85vw,360px)]" onClick={(e) => e.stopPropagation()}>
             <Image
-              src="/support-qr.jpg"
+              src={SUPPORT_QR}
               alt="Buy me a coffee — VietQR (VietinBank, NGUYEN DINH NGUYEN BAC)"
               width={360}
               height={360}

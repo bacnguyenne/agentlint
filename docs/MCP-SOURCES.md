@@ -17,11 +17,11 @@ Each generated `.mcp.json` is validated by agentlint; only 0-error servers are k
 | `playwright` | synced @0.0.76 |
 | `puppeteer` | synced @0.7.2 |
 | `postgres` | synced @1.0.1 |
-| `notion` | synced @2.4.0 |
+| `notion` | synced @2.4.1 |
 | `exa` | synced @3.2.1 |
-| `firecrawl` | synced @3.21.0 |
+| `firecrawl` | synced @3.22.1 |
 | `tavily` | synced @0.2.20 |
-| `context7` | synced @3.2.1 |
+| `context7` | synced @3.2.2 |
 | `supabase` | synced @0.8.2 |
 | `mongodb` | synced @1.13.0 |
 | `stripe` | synced @0.3.3 |

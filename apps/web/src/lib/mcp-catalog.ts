@@ -40,8 +40,8 @@ export const MCP_ITEMS = [
       "reference"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"context7\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@upstash/context7-mcp@3.2.1\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add context7 -- npx -y @upstash/context7-mcp@3.2.1",
+    "content": "{\n  \"mcpServers\": {\n    \"context7\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@upstash/context7-mcp@3.2.2\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add context7 -- npx -y @upstash/context7-mcp@3.2.2",
     "envVars": []
   },
   {
@@ -139,8 +139,8 @@ export const MCP_ITEMS = [
       "api"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"firecrawl\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"firecrawl-mcp@3.21.0\"\n      ],\n      \"env\": {\n        \"FIRECRAWL_API_KEY\": \"${FIRECRAWL_API_KEY}\"\n      }\n    }\n  }\n}\n",
-    "install": "claude mcp add firecrawl -e FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY} -- npx -y firecrawl-mcp@3.21.0",
+    "content": "{\n  \"mcpServers\": {\n    \"firecrawl\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"firecrawl-mcp@3.22.1\"\n      ],\n      \"env\": {\n        \"FIRECRAWL_API_KEY\": \"${FIRECRAWL_API_KEY}\"\n      }\n    }\n  }\n}\n",
+    "install": "claude mcp add firecrawl -e FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY} -- npx -y firecrawl-mcp@3.22.1",
     "envVars": [
       "FIRECRAWL_API_KEY"
     ]
@@ -259,8 +259,8 @@ export const MCP_ITEMS = [
       "api"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"notion\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@notionhq/notion-mcp-server@2.4.0\"\n      ],\n      \"env\": {\n        \"NOTION_TOKEN\": \"${NOTION_TOKEN}\"\n      }\n    }\n  }\n}\n",
-    "install": "claude mcp add notion -e NOTION_TOKEN=${NOTION_TOKEN} -- npx -y @notionhq/notion-mcp-server@2.4.0",
+    "content": "{\n  \"mcpServers\": {\n    \"notion\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@notionhq/notion-mcp-server@2.4.1\"\n      ],\n      \"env\": {\n        \"NOTION_TOKEN\": \"${NOTION_TOKEN}\"\n      }\n    }\n  }\n}\n",
+    "install": "claude mcp add notion -e NOTION_TOKEN=${NOTION_TOKEN} -- npx -y @notionhq/notion-mcp-server@2.4.1",
     "envVars": [
       "NOTION_TOKEN"
     ]

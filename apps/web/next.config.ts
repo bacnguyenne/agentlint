@@ -28,7 +28,9 @@ const FALLBACK_CSP = [
   `style-src 'self' 'unsafe-inline'`,
   `img-src 'self' data:`,
   `font-src 'self'`,
-  `connect-src 'self'`,
+  // api.github.com: the /collections page refreshes repo star counts live
+  // (read-only, unauthenticated GET; nothing is sent).
+  `connect-src 'self' https://api.github.com`,
   `manifest-src 'self'`,
   `worker-src 'self' blob:`,
   `frame-src 'none'`,

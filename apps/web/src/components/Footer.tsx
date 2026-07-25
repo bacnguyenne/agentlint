@@ -31,6 +31,15 @@ export function Footer() {
             <Link href="/" className="hover:text-white">
               Validator
             </Link>
+            <Link href="/catalog" className="hover:text-white">
+              Catalog
+            </Link>
+            <Link href="/collections" className="hover:text-white">
+              Collections
+            </Link>
+            <Link href="/guide" className="hover:text-white">
+              Guide
+            </Link>
             <Link href="/rules" className="hover:text-white">
               Rules
             </Link>

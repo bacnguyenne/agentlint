@@ -13,12 +13,16 @@ export function MobileNav({
   items,
   githubUrl,
   blogUrl,
+  activePath = '/',
 }: {
   items: NavItem[];
   githubUrl: string;
   blogUrl: string;
+  /** Current pathname, so the open menu marks the page you are on. */
+  activePath?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const path = activePath.replace(/\/+$/, '') || '/';
 
   return (
     <div className="sm:hidden">
@@ -59,16 +63,25 @@ export function MobileNav({
             aria-label="Mobile"
             className="absolute left-0 right-0 top-full z-40 border-b border-white/10 bg-ink/95 px-4 py-2 shadow-lg backdrop-blur"
           >
-            {items.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="block rounded-md px-3 py-2.5 text-sm text-zinc-200 transition hover:bg-white/5 hover:text-white"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {items.map((item) => {
+              const active =
+                item.href === '/' ? path === '/' : path === item.href || path.startsWith(`${item.href}/`);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? 'page' : undefined}
+                  className={
+                    active
+                      ? 'block rounded-md bg-white/10 px-3 py-2.5 text-sm font-medium text-white'
+                      : 'block rounded-md px-3 py-2.5 text-sm text-zinc-200 transition hover:bg-white/5 hover:text-white'
+                  }
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
             <a
               href={blogUrl}
               onClick={() => setOpen(false)}

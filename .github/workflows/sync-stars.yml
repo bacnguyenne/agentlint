@@ -1,0 +1,68 @@
+name: sync-stars
+
+# Refresh the star counts and descriptions of the curated repo directory that
+# powers the /collections page, then open a pull request for review. The
+# directory itself (which repos, which collections) is hand-curated in
+# data/repo-directory.json — this job only updates the numbers. Nothing is
+# auto-merged.
+
+on:
+  schedule:
+    # Weekly, Mondays at 05:23 UTC (after sync-skills, offset off the hour).
+    - cron: '23 5 * * 1'
+  workflow_dispatch: {}
+
+# Least privilege: only what create-pull-request needs.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-stars
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh star counts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run sync:stars
+
+      # Guard: the generated module must still typecheck in the web app.
+      - name: Typecheck the web app
+        run: npm run typecheck -w @agentlint/web
+
+      - name: Open a pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/sync-stars
+          delete-branch: true
+          commit-message: 'chore: refresh repo directory star counts'
+          title: 'chore: weekly repo directory star refresh'
+          labels: |
+            automated
+            collections
+          body: |
+            Automated weekly refresh of the **Collections** directory.
+
+            - Re-fetched `stargazerCount` + description for every repo in
+              `data/repo-directory.json` via the GitHub GraphQL API.
+            - Regenerated `apps/web/src/lib/repo-directory.generated.ts`.
+
+            Which repos appear, and in which collections, stays hand-curated —
+            this PR only updates numbers and upstream descriptions.
+
+            Review the diff before merging — this PR is never auto-merged.

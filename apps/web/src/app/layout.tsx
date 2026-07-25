@@ -18,7 +18,9 @@ const CSP = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",
-  "connect-src 'self'",
+  // api.github.com: the /collections page refreshes repo star counts live
+  // (read-only, unauthenticated GET; no data is ever sent).
+  "connect-src 'self' https://api.github.com",
   "object-src 'none'",
   "base-uri 'self'",
   // Note: frame-ancestors / X-Frame-Options only work as response headers, which

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Validator } from '@/components/Validator';
 import { CATALOG } from '@/lib/catalog';
+import { DIRECTORY_COUNTS } from '@/lib/repo-directory';
 
 export const metadata: Metadata = {
   title: 'agentlint — validate your AI agent config',
@@ -36,18 +37,55 @@ export default function HomePage() {
           problem — that&apos;s the tool working. A valid config shows a green{' '}
           <span className="text-emerald-300">✓ No problems found</span>.
         </p>
-        <div className="mt-6">
-          <Link
-            href="/catalog"
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-white/10 hover:text-white"
-          >
-            Browse {CATALOG.length} vetted skills, MCP servers &amp; tools
-            <span aria-hidden>→</span>
-          </Link>
+        {/* Three things you can do here — the whole product, at a glance. */}
+        <div className="mt-8 grid gap-3 text-left sm:grid-cols-3">
+          {[
+            {
+              href: '#validate',
+              icon: '✓',
+              title: 'Validate a config',
+              body: 'Paste it below. Rules, secret scanning and permission checks, all in your browser.',
+              cta: 'Start below',
+            },
+            {
+              href: '/catalog',
+              icon: '📦',
+              title: 'Install building blocks',
+              body: `${CATALOG.length} vetted skills, MCP servers & tools — copy, download, or npx agentlint add.`,
+              cta: 'Open the catalog',
+            },
+            {
+              href: '/collections',
+              icon: '🧭',
+              title: 'Explore the ecosystem',
+              body: `${DIRECTORY_COUNTS.all} GitHub repos grouped into collections — coding, office, writing, research & more.`,
+              cta: 'Browse collections',
+            },
+          ].map((c) => (
+            <Link
+              key={c.href}
+              href={c.href}
+              className="group rounded-xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-brand-fg/30 hover:bg-white/[0.06]"
+            >
+              <span aria-hidden className="text-lg">
+                {c.icon}
+              </span>
+              <h2 className="mt-1.5 font-semibold text-white">{c.title}</h2>
+              <p className="mt-1 text-xs leading-relaxed text-zinc-400">{c.body}</p>
+              <span className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-brand-fg">
+                {c.cta}
+                <span aria-hidden className="transition group-hover:translate-x-0.5">
+                  →
+                </span>
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 
-      <Validator />
+      <div id="validate" className="scroll-mt-20">
+        <Validator />
+      </div>
     </div>
   );
 }

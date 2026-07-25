@@ -205,7 +205,8 @@ npm run dev -w @agentlint/web      # http://localhost:3100
 2. **Paste** your config (or **Upload file**). For a Skill, paste the contents of your `SKILL.md`.
 3. Press **Validate**. You get findings grouped by severity, each with `line:col`, the rule id (links to **/rules**), the message, and a **fixable** badge where a safe autofix exists.
 4. **/catalog** — find & download vetted **Skills, MCP servers, and Tools** (subagents & slash commands). Live search, filter by kind, copy a snippet, download one, or **download all**. Every item is validated by agentlint (zero errors) and uses `${ENV_VAR}` references, never secrets.
-5. **/rules** — browse every check with a bad → good example you can run in one click. **/templates** — copy known-good configs and the curated **Skills** catalog.
+5. **/collections** — a discovery directory of the wider ecosystem: 138 GitHub repos (Skills, MCP servers & SDKs, agent tools, awesome lists) grouped into 18 collections, with **live star counts**. Filter by kind, collection, or topic — coding, office, writing, marketing, research, creative, personal. Links to upstream; nothing is vendored. See [**docs/COLLECTIONS.md**](./docs/COLLECTIONS.md).
+6. **/rules** — browse every check with a bad → good example you can run in one click. **/templates** — copy known-good configs and the curated **Skills** catalog.
 
 Nothing is stored — the server lints in memory and returns JSON. Inputs are size-capped and rate-limited.
 

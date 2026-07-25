@@ -22,6 +22,7 @@
     "sync:skills": "node scripts/sync-skills.mjs",
     "sync:tools": "node scripts/sync-tools.mjs",
     "sync:mcp": "node scripts/sync-mcp.mjs",
+    "sync:stars": "node scripts/sync-stars.mjs",
     "gen:catalog": "node scripts/gen-catalog.mjs",
     "release": "npm run build && npm publish --workspace agentlint-core && npm publish --workspace agentlint-cli"
   }

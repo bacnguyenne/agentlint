@@ -149,7 +149,7 @@ export async function runAdd(cmd: AddCommand, io: Io): Promise<number> {
     if (code > worst) worst = code;
   }
   if (cmd.idsOrNames.length > 1 && !cmd.dryRun) {
-    io.stdout(`\nRestart Claude Code so it discovers the new items, then run 'npx agentcheck' to check them.\n`);
+    io.stdout(`\nRestart Claude Code so it discovers the new items, then run 'npx @bacnguyenne/agentcheck' to check them.\n`);
   }
   return worst;
 }

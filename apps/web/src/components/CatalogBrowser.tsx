@@ -78,7 +78,7 @@ function bundleReadme(items: CatalogItem[]): string {
     '1. Unzip into your project root: `unzip agentcheck-catalog.zip -d <your-project>`',
     '2. For MCP servers, set the referenced `${ENV_VAR}`s in your shell or `.env` before starting Claude Code.',
     '3. Restart Claude Code so it discovers the new skills / agents / commands / servers.',
-    '4. Validate everything: `npx agentcheck`.',
+    '4. Validate everything: `npx @bacnguyenne/agentcheck`.',
     '',
     '## Security',
     '',
@@ -336,7 +336,7 @@ function BundleDetail({
   items: CatalogItem[];
   fallbackLabel?: string;
 }) {
-  const install = bundle ? bundleInstallCommand(bundle, items) : `npx agentcheck add ${items.map((i) => i.id).join(' ')}`;
+  const install = bundle ? bundleInstallCommand(bundle, items) : `npx @bacnguyenne/agentcheck add ${items.map((i) => i.id).join(' ')}`;
   const n = (k: CatalogKind) => items.filter((i) => i.kind === k).length;
 
   return (

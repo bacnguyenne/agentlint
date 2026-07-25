@@ -35,7 +35,7 @@ async function exists(p: string): Promise<boolean> {
 
 beforeAll(async () => {
   await execa('npm', ['run', 'build', '-w', 'agentcheck-core'], { cwd: repoRoot });
-  await execa('npm', ['run', 'build', '-w', 'agentcheck'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', '@bacnguyenne/agentcheck'], { cwd: repoRoot });
 }, 180_000);
 
 afterAll(async () => {

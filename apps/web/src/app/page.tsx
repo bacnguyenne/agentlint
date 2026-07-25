@@ -51,7 +51,7 @@ export default function HomePage() {
               href: '/catalog',
               icon: '📦',
               title: 'Install building blocks',
-              body: `${CATALOG.length} vetted skills, MCP servers & tools — copy, download, or npx agentcheck add.`,
+              body: `${CATALOG.length} vetted skills, MCP servers & tools — copy, download, or npx @bacnguyenne/agentcheck add.`,
               cta: 'Open the catalog',
             },
             {

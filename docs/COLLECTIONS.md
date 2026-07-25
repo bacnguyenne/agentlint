@@ -25,7 +25,7 @@ Add an entry to `data/repo-directory.json` (any `stars` value — the sync overw
 `npm run sync:stars`. Inclusion criteria: it must be genuinely about agent skills, MCP, or tools
 for AI agents, and be a real, maintained project. Being listed here is **not** an endorsement or
 a security review — always read a third-party skill before installing it, and check anything you
-add with `npx agentcheck`.
+add with `npx @bacnguyenne/agentcheck`.
 
 ## The collections (stars as of 2026-07-25)
 

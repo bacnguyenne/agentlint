@@ -106,8 +106,8 @@ export default function GuidePage() {
           <p>
             From the command line, in your project:
           </p>
-          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`npx agentcheck          # lint the whole project
-npx agentcheck --fix    # apply safe autofixes`}</pre>
+          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`npx @bacnguyenne/agentcheck          # lint the whole project
+npx @bacnguyenne/agentcheck --fix    # apply safe autofixes`}</pre>
         </Section>
 
         <Section id="find" n="3" title="Find skills, MCP servers & tools (the Catalog)">
@@ -124,12 +124,12 @@ npx agentcheck --fix    # apply safe autofixes`}</pre>
             <span className="font-medium text-zinc-200">A) CLI (easiest)</span> — installs to the right path; MCP servers
             merge into your <Code>.mcp.json</Code> instead of overwriting it:
           </p>
-          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`npx agentcheck add --list           # browse every id
-npx agentcheck add code-reviewer    # a subagent
-npx agentcheck add ship-feature     # a workflow skill
-npx agentcheck add mcp-github       # merges into .mcp.json
-npx agentcheck add mcp-github --dry-run   # preview, write nothing
-npx agentcheck add docx pptx xlsx         # a whole bundle at once`}</pre>
+          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`npx @bacnguyenne/agentcheck add --list           # browse every id
+npx @bacnguyenne/agentcheck add code-reviewer    # a subagent
+npx @bacnguyenne/agentcheck add ship-feature     # a workflow skill
+npx @bacnguyenne/agentcheck add mcp-github       # merges into .mcp.json
+npx @bacnguyenne/agentcheck add mcp-github --dry-run   # preview, write nothing
+npx @bacnguyenne/agentcheck add docx pptx xlsx         # a whole bundle at once`}</pre>
           <p>
             <span className="font-medium text-zinc-200">B) Download .zip</span> — on the Catalog, click{' '}
             <span className="text-zinc-200">Download .zip</span>, then unzip into your project root. Files land in
@@ -161,7 +161,7 @@ npx agentcheck add docx pptx xlsx         # a whole bundle at once`}</pre>
             agentcheck with <span className="text-zinc-200">zero errors</span>: no hardcoded secrets, no
             remote-code-execution patterns, no over-broad tool/permission grants. Credentials are always{' '}
             <Code>${'{ENV_VAR}'}</Code> references — you set them yourself; nothing secret is shipped. Re-check
-            anything you add with <Code>npx agentcheck</Code>.
+            anything you add with <Code>npx @bacnguyenne/agentcheck</Code>.
           </p>
         </Section>
 

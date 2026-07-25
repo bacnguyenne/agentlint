@@ -35,7 +35,7 @@ export default function CatalogPage() {
             <ol className="mt-1.5 list-decimal space-y-1.5 pl-5">
               <li>
                 <span className="text-zinc-200">CLI (easiest)</span> — run{' '}
-                <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">npx agentcheck add &lt;id&gt;</code>{' '}
+                <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">npx @bacnguyenne/agentcheck add &lt;id&gt;</code>{' '}
                 in your project. It writes the file to the right path; MCP servers <span className="text-zinc-200">merge</span> into your <code className="font-mono text-xs">.mcp.json</code>.
               </li>
               <li>
@@ -65,7 +65,7 @@ export default function CatalogPage() {
             <p className="font-medium text-zinc-200">Security:</p>
             <p className="mt-1.5">
               Every item carries a <span className="text-emerald-300">✓ agentcheck</span> badge — it passed agentcheck with <span className="text-zinc-200">zero errors</span>: no hardcoded secrets, no remote-code-execution patterns, and no over-broad tool/permission grants. Credentials are always{' '}
-              <code className="font-mono text-xs">${'{ENV_VAR}'}</code> references — you set them yourself; nothing secret is shipped. Re-check anything you add with <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">npx agentcheck</code>.
+              <code className="font-mono text-xs">${'{ENV_VAR}'}</code> references — you set them yourself; nothing secret is shipped. Re-check anything you add with <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">npx @bacnguyenne/agentcheck</code>.
             </p>
           </div>
         </div>

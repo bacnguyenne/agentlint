@@ -13,9 +13,9 @@
     "@eslint/plugin-kit": ">=0.3.4"
   },
   "scripts": {
-    "build": "npm run build --workspace agentcheck-core && npm run build --workspace agentcheck",
+    "build": "npm run build --workspace agentcheck-core && npm run build --workspace @bacnguyenne/agentcheck",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "test": "npm run test --workspace agentcheck-core && npm run test --workspace agentcheck",
+    "test": "npm run test --workspace agentcheck-core && npm run test --workspace @bacnguyenne/agentcheck",
     "lint:self": "node packages/cli/dist/index.js .",
     "gen:rules": "node scripts/gen-rules.mjs",
     "gen:rules-content": "node scripts/gen-rules-content.mjs",
@@ -24,6 +24,6 @@
     "sync:mcp": "node scripts/sync-mcp.mjs",
     "sync:stars": "node scripts/sync-stars.mjs",
     "gen:catalog": "node scripts/gen-catalog.mjs",
-    "release": "npm run build && npm publish --workspace agentcheck-core && npm publish --workspace agentcheck"
+    "release": "npm run build && npm publish --workspace agentcheck-core && npm publish --workspace @bacnguyenne/agentcheck"
   }
 }

@@ -28,20 +28,20 @@ No install required:
 
 ```bash
 # Lint the current directory
-npx agentcheck
+npx @bacnguyenne/agentcheck
 
 # Apply safe autofixes and write them back
-npx agentcheck --fix
+npx @bacnguyenne/agentcheck --fix
 ```
 
-Prefer a global install? `npm install -g agentcheck` gives you the `agentcheck` and `agentcheck-mcp` commands. For the library, `npm install agentcheck-core`.
+Prefer a global install? `npm install -g @bacnguyenne/agentcheck` gives you the `agentcheck` and `agentcheck-mcp` commands. For the library, `npm install agentcheck-core`.
 
 ### Example output
 
 Running agentcheck on a project with a few mistakes (secrets are **redacted** in the output; some rows trimmed for brevity, but the summary footer reflects the full run):
 
 ```text
-$ npx agentcheck
+$ npx @bacnguyenne/agentcheck
 .claude/agents/Bad_Agent.md
   2:0  error    Subagent name "Bad_Agent" is invalid; it must match ^[a-z][a-z0-9-]*$. Suggested: "bad-agent".   agent/invalid-name (fixable)
   2:0  error    Subagent frontmatter is missing a non-empty `description`.                                       agent/missing-description
@@ -228,7 +228,7 @@ agentcheck ships an **MCP server** so an agent (e.g. Claude Code) can lint its *
 }
 ```
 
-The same server is also a subcommand of the main CLI — `agentcheck mcp`. After `npm install -g agentcheck` you can run it directly, or point `.mcp.json` at it:
+The same server is also a subcommand of the main CLI — `agentcheck mcp`. After `npm install -g @bacnguyenne/agentcheck` you can run it directly, or point `.mcp.json` at it:
 
 ```jsonc
 { "mcpServers": { "agentcheck": { "command": "agentcheck", "args": ["mcp"] } } }
@@ -262,7 +262,7 @@ Inputs: `paths`, `max-warnings`, `format` (`stylish`|`json`), `quiet`, `version`
         with:
           node-version: 20
       # Fail the build on any error; allow up to 5 warnings.
-      - run: npx agentcheck --max-warnings 5
+      - run: npx @bacnguyenne/agentcheck --max-warnings 5
 ```
 
 ## Quality & trust

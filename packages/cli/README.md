@@ -13,16 +13,16 @@
 
 ```bash
 # Lint the current directory (no install needed)
-npx agentcheck
+npx @bacnguyenne/agentcheck
 
 # Apply safe autofixes and write them back
-npx agentcheck --fix
+npx @bacnguyenne/agentcheck --fix
 ```
 
 Or install it globally:
 
 ```bash
-npm install -g agentcheck   # or: npm install -D agentcheck
+npm install -g @bacnguyenne/agentcheck   # or: npm install -D agentcheck
 ```
 
 After installing you get the `agentcheck` and `agentcheck-mcp` commands. Requires Node.js >= 20.
@@ -132,7 +132,7 @@ Let an agent lint its **own** config. `agentcheck mcp` (or the `agentcheck-mcp` 
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-- run: npx agentcheck --max-warnings 5
+- run: npx @bacnguyenne/agentcheck --max-warnings 5
 ```
 
 ## Rules

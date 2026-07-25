@@ -54,7 +54,7 @@ export default function CollectionsPage() {
           <Link href="/catalog" className="text-brand-fg hover:underline">
             Catalog
           </Link>
-          . Always review third-party skills before installing; <code className="font-mono">npx agentcheck</code> can
+          . Always review third-party skills before installing; <code className="font-mono">npx @bacnguyenne/agentcheck</code> can
           check anything you add.
         </p>
       </header>

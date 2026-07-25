@@ -35,7 +35,7 @@ jobs:
         run: npm run build -w agentcheck-core
 
       - name: Build agentcheck CLI
-        run: npm run build -w agentcheck
+        run: npm run build -w @bacnguyenne/agentcheck
 
       - name: Build @agentcheck/web
         run: npm run build -w @agentcheck/web
@@ -60,7 +60,7 @@ jobs:
         run: npm run test -w agentcheck-core
 
       - name: Test agentcheck CLI
-        run: npm run test -w agentcheck
+        run: npm run test -w @bacnguyenne/agentcheck
 
       - name: Test @agentcheck/web (unit)
         run: npm run test -w @agentcheck/web

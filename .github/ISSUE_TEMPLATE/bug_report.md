@@ -35,7 +35,7 @@ The smallest config that triggers it. **Redact any real secrets** before pasting
 Command run (if CLI):
 
 ```bash
-npx agentcheck ...
+npx @bacnguyenne/agentcheck ...
 ```
 
 ## Expected behavior
@@ -48,7 +48,7 @@ What it actually did. Paste the `--format json` output if relevant.
 
 ## Environment
 
-- agentcheck version: `npx agentcheck --version`
+- agentcheck version: `npx @bacnguyenne/agentcheck --version`
 - Node version: `node --version`
 - OS:
 

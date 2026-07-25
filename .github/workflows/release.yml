@@ -40,6 +40,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish agentcheck (CLI)
-        run: npm publish --workspace agentcheck --access public
+        run: npm publish --workspace @bacnguyenne/agentcheck --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

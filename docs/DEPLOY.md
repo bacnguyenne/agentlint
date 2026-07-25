@@ -1,6 +1,6 @@
 # Deploying agentcheck
 
-This guide covers deploying the **web app** (`@agentcheck/web`). The **CLI** (`agentcheck`) and **engine** (`agentcheck-core`) are published to npm — you don't deploy those, you just `npx agentcheck` or `npm install agentcheck-core`.
+This guide covers deploying the **web app** (`@agentcheck/web`). The **CLI** (`agentcheck`) and **engine** (`agentcheck-core`) are published to npm — you don't deploy those, you just `npx @bacnguyenne/agentcheck` or `npm install agentcheck-core`.
 
 > Unofficial — not affiliated with Anthropic.
 

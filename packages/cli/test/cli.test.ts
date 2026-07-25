@@ -46,7 +46,7 @@ async function makeTempDir(): Promise<string> {
 beforeAll(async () => {
   // Ensure the core is built (the CLI imports its dist), then build the CLI.
   await execa('npm', ['run', 'build', '-w', 'agentcheck-core'], { cwd: repoRoot });
-  await execa('npm', ['run', 'build', '-w', 'agentcheck'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', '@bacnguyenne/agentcheck'], { cwd: repoRoot });
 }, 120_000);
 
 afterAll(async () => {

@@ -361,7 +361,7 @@ function ResultsPanel({ status }: { status: Status }) {
 
 /**
  * Turns a one-off web check into the repeated value: a clean result points to
- * `npx agentcheck` / CI; a result with fixable findings points to `--fix`.
+ * `npx @bacnguyenne/agentcheck` / CI; a result with fixable findings points to `--fix`.
  */
 function NextStep({ clean, fixable }: { clean: boolean; fixable: number }) {
   const Code = ({ children }: { children: string }) => (
@@ -371,7 +371,7 @@ function NextStep({ clean, fixable }: { clean: boolean; fixable: number }) {
     <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-zinc-400">
       {clean ? (
         <p>
-          Want this enforced automatically? Run <Code>npx agentcheck</Code> in your repo, or add it
+          Want this enforced automatically? Run <Code>npx @bacnguyenne/agentcheck</Code> in your repo, or add it
           to CI so a bad config fails the build.
         </p>
       ) : (
@@ -379,10 +379,10 @@ function NextStep({ clean, fixable }: { clean: boolean; fixable: number }) {
           {fixable > 0 && (
             <>
               {fixable} of these {fixable === 1 ? 'is' : 'are'} auto-fixable — run{' '}
-              <Code>npx agentcheck --fix</Code>.{' '}
+              <Code>npx @bacnguyenne/agentcheck --fix</Code>.{' '}
             </>
           )}
-          Run <Code>npx agentcheck</Code> to check your whole repo, or add it to CI.
+          Run <Code>npx @bacnguyenne/agentcheck</Code> to check your whole repo, or add it to CI.
         </p>
       )}
     </div>

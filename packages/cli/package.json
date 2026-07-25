@@ -1,5 +1,5 @@
 {
-  "name": "agentcheck",
+  "name": "@bacnguyenne/agentcheck",
   "version": "1.0.1",
   "description": "Lint & security-check your AI coding agent configuration (Claude Code & MCP). CI-friendly, --fix, JSON output. Commands: agentcheck, agentcheck-mcp.",
   "license": "MIT",

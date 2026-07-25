@@ -2,7 +2,7 @@
  * Publishability test: pack the agentcheck-core + agentcheck tarballs exactly
  * as `npm publish` would, install them into a throwaway project, and run the
  * INSTALLED binary. This proves a real user can `npm install agentcheck` (or
- * `npx agentcheck`) and that the bundled catalog (`agentcheck add`) ships and runs.
+ * `npx @bacnguyenne/agentcheck`) and that the bundled catalog (`agentcheck add`) ships and runs.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { execa } from 'execa';
@@ -21,20 +21,20 @@ const cleanup: string[] = [];
 beforeAll(async () => {
   // Build both packages.
   await execa('npm', ['run', 'build', '-w', 'agentcheck-core'], { cwd: repoRoot });
-  await execa('npm', ['run', 'build', '-w', 'agentcheck'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', '@bacnguyenne/agentcheck'], { cwd: repoRoot });
 
   // Pack the tarballs into a temp dir.
   const packDir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-pack-'));
   cleanup.push(packDir);
   const core = (await execa('npm', ['pack', '-w', 'agentcheck-core', '--pack-destination', packDir], { cwd: repoRoot })).stdout.trim().split('\n').pop()!;
-  const cli = (await execa('npm', ['pack', '-w', 'agentcheck', '--pack-destination', packDir], { cwd: repoRoot })).stdout.trim().split('\n').pop()!;
+  const cli = (await execa('npm', ['pack', '-w', '@bacnguyenne/agentcheck', '--pack-destination', packDir], { cwd: repoRoot })).stdout.trim().split('\n').pop()!;
 
   // Install the tarballs into a fresh project, as a real consumer would.
   projectDir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-consumer-'));
   cleanup.push(projectDir);
   await execa('npm', ['init', '-y'], { cwd: projectDir });
   await execa('npm', ['install', path.join(packDir, core), path.join(packDir, cli)], { cwd: projectDir });
-  installedBin = path.join(projectDir, 'node_modules', 'agentcheck', 'dist', 'index.js');
+  installedBin = path.join(projectDir, 'node_modules', '@bacnguyenne/agentcheck', 'dist', 'index.js');
 }, 240_000);
 
 afterAll(async () => {

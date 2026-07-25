@@ -15,7 +15,7 @@ const mcpBin = path.join(cliRoot, 'dist', 'mcp.js');
 
 beforeAll(async () => {
   await execa('npm', ['run', 'build', '-w', 'agentcheck-core'], { cwd: repoRoot });
-  await execa('npm', ['run', 'build', '-w', 'agentcheck'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', '@bacnguyenne/agentcheck'], { cwd: repoRoot });
 }, 180_000);
 
 const initialize = '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}\n';

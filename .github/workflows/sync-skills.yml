@@ -2,7 +2,7 @@ name: sync-skills
 
 # Automatically refresh the curated Agent Skills catalog and the generated rule
 # docs, then open a pull request for review. Skills are pulled from the curated
-# allowlist in scripts/sync-skills.mjs and each is validated by agentlint — only
+# allowlist in scripts/sync-skills.mjs and each is validated by agentcheck — only
 # skills that pass with zero errors are added. Nothing is auto-merged.
 
 on:
@@ -36,8 +36,8 @@ jobs:
         run: npm ci
 
       # The sync + doc generators import the built engine.
-      - name: Build agentlint-core
-        run: npm run build -w agentlint-core
+      - name: Build agentcheck-core
+        run: npm run build -w agentcheck-core
 
       - name: Refresh catalog + regenerate docs
         run: |
@@ -50,7 +50,7 @@ jobs:
 
       # Guard: the committed catalog must still lint clean before we open a PR.
       - name: Verify the catalog lints clean
-        run: npm run test -w @agentlint/web -- run skill-catalog
+        run: npm run test -w @agentcheck/web -- run skill-catalog
 
       - name: Open a pull request
         uses: peter-evans/create-pull-request@v7
@@ -67,7 +67,7 @@ jobs:
 
             - Re-synced the curated Agent Skills catalog from the upstream allowlist
               in `scripts/sync-skills.mjs`. Each upstream `SKILL.md` is fetched and
-              **validated by agentlint** — only skills with **0 errors** are kept.
+              **validated by agentcheck** — only skills with **0 errors** are kept.
             - Regenerated `docs/RULES.md` and the web rules-content from the engine.
 
             See `docs/SKILL-SOURCES.md` for the per-source sync status.

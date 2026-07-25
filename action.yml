@@ -1,4 +1,4 @@
-name: 'agentlint'
+name: 'agentcheck'
 description: 'Lint & security-check your AI coding-agent config (Claude Code, MCP, Cursor, Copilot, AGENTS.md, Windsurf, Cline).'
 author: 'bacnguyenne'
 branding:
@@ -23,14 +23,14 @@ inputs:
     required: false
     default: 'false'
   version:
-    description: 'agentlint version or npm dist-tag to run (e.g. "1.0.0" or "latest").'
+    description: 'agentcheck version or npm dist-tag to run (e.g. "1.0.0" or "latest").'
     required: false
     default: 'latest'
 
 runs:
   using: 'composite'
   steps:
-    - name: Run agentlint
+    - name: Run agentcheck
       shell: bash
       env:
         AL_PATHS: ${{ inputs.paths }}
@@ -45,4 +45,4 @@ runs:
         [ -n "$AL_MAXW" ] && args+=(--max-warnings "$AL_MAXW")
         [ "$AL_QUIET" = "true" ] && args+=(--quiet)
         # shellcheck disable=SC2086
-        npx --yes "agentlint@${AL_VERSION}" "${args[@]}" $AL_PATHS
+        npx --yes "agentcheck@${AL_VERSION}" "${args[@]}" $AL_PATHS

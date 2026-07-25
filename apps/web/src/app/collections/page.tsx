@@ -49,12 +49,12 @@ export default function CollectionsPage() {
 
         <p className="mt-4 text-xs text-zinc-500">
           This is a <span className="text-zinc-300">discovery directory</span> — links to upstream repositories,
-          nothing is vendored here. For files you can copy or install directly (validated by agentlint with zero
+          nothing is vendored here. For files you can copy or install directly (validated by agentcheck with zero
           errors), see the{' '}
           <Link href="/catalog" className="text-brand-fg hover:underline">
             Catalog
           </Link>
-          . Always review third-party skills before installing; <code className="font-mono">npx agentlint</code> can
+          . Always review third-party skills before installing; <code className="font-mono">npx agentcheck</code> can
           check anything you add.
         </p>
       </header>

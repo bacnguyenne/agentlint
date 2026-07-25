@@ -35,14 +35,14 @@ jobs:
 
       # The web app imports the compiled engine.
       - name: Build engine
-        run: npm run build -w agentlint-core
+        run: npm run build -w agentcheck-core
 
       - name: Build static site
-        run: npm run build -w @agentlint/web
+        run: npm run build -w @agentcheck/web
         env:
           NEXT_EXPORT: '1'
-          # Project pages live under /<repo>; served at bacnguyenne.github.io/agentlint.
-          NEXT_PUBLIC_BASE_PATH: /agentlint
+          # Project pages live under /<repo>; served at bacnguyenne.github.io/agentcheck.
+          NEXT_PUBLIC_BASE_PATH: /agentcheck
 
       # GitHub Pages serves with Jekyll by default, which ignores _next/*.
       # .nojekyll disables that so the Next assets load.

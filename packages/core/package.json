@@ -1,16 +1,16 @@
 {
-  "name": "agentlint-core",
+  "name": "agentcheck-core",
   "version": "1.0.1",
   "description": "Validation & security engine for AI coding-agent configuration (Claude Code & MCP).",
   "license": "MIT",
   "author": "bacnguyenne (https://github.com/bacnguyenne)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bacnguyenne/agentlint.git",
+    "url": "git+https://github.com/bacnguyenne/agentcheck.git",
     "directory": "packages/core"
   },
-  "homepage": "https://github.com/bacnguyenne/agentlint#readme",
-  "bugs": "https://github.com/bacnguyenne/agentlint/issues",
+  "homepage": "https://github.com/bacnguyenne/agentcheck#readme",
+  "bugs": "https://github.com/bacnguyenne/agentcheck/issues",
   "publishConfig": {
     "access": "public"
   },

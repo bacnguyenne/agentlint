@@ -1,5 +1,5 @@
 /**
- * Integration tests for the agentlint CLI.
+ * Integration tests for the agentcheck CLI.
  *
  * These run the BUILT binary (`dist/index.js`) via execa, exactly as a user or
  * CI would. The CLI is built once in `beforeAll`. Filesystem-mutating tests
@@ -31,22 +31,22 @@ function runCli(args: string[], opts: { cwd?: string; env?: NodeJS.ProcessEnv } 
 const tempDirs: string[] = [];
 
 async function makeTempCopy(src: string): Promise<string> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-test-'));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-test-'));
   tempDirs.push(dir);
   await fs.cp(src, dir, { recursive: true });
   return dir;
 }
 
 async function makeTempDir(): Promise<string> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-test-'));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-test-'));
   tempDirs.push(dir);
   return dir;
 }
 
 beforeAll(async () => {
   // Ensure the core is built (the CLI imports its dist), then build the CLI.
-  await execa('npm', ['run', 'build', '-w', 'agentlint-core'], { cwd: repoRoot });
-  await execa('npm', ['run', 'build', '-w', 'agentlint-cli'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', 'agentcheck-core'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', 'agentcheck'], { cwd: repoRoot });
 }, 120_000);
 
 afterAll(async () => {
@@ -253,9 +253,9 @@ describe('usage / IO errors (exit 2)', () => {
     expect(res.stderr).toContain('Invalid --format');
   });
 
-  it('malformed .agentlintrc.json exits 2', async () => {
+  it('malformed .agentcheckrc.json exits 2', async () => {
     const dir = await makeTempCopy(goodFixture);
-    await fs.writeFile(path.join(dir, '.agentlintrc.json'), '{ not valid json ', 'utf8');
+    await fs.writeFile(path.join(dir, '.agentcheckrc.json'), '{ not valid json ', 'utf8');
     const res = await runCli([dir], { cwd: dir });
     expect(res.exitCode).toBe(2);
     expect(res.stderr).toContain('Invalid JSON');
@@ -263,10 +263,10 @@ describe('usage / IO errors (exit 2)', () => {
 });
 
 describe('configuration', () => {
-  it('honors rule severity overrides from .agentlintrc.json', async () => {
+  it('honors rule severity overrides from .agentcheckrc.json', async () => {
     const dir = await makeTempCopy(badFixture);
     await fs.writeFile(
-      path.join(dir, '.agentlintrc.json'),
+      path.join(dir, '.agentcheckrc.json'),
       JSON.stringify({ rules: { 'security/hardcoded-secret': 'off' } }, null, 2),
       'utf8',
     );
@@ -278,11 +278,11 @@ describe('configuration', () => {
 });
 
 describe('init subcommand', () => {
-  it('writes a starter .agentlintrc.json', async () => {
+  it('writes a starter .agentcheckrc.json', async () => {
     const dir = await makeTempDir();
     const res = await runCli(['init'], { cwd: dir });
     expect(res.exitCode).toBe(0);
-    const written = await fs.readFile(path.join(dir, '.agentlintrc.json'), 'utf8');
+    const written = await fs.readFile(path.join(dir, '.agentcheckrc.json'), 'utf8');
     const parsed = JSON.parse(written) as { rules: unknown; ignore: unknown };
     expect(parsed).toHaveProperty('rules');
     expect(parsed).toHaveProperty('ignore');
@@ -290,22 +290,22 @@ describe('init subcommand', () => {
 
   it('refuses to overwrite an existing config without --force', async () => {
     const dir = await makeTempDir();
-    await fs.writeFile(path.join(dir, '.agentlintrc.json'), '{"rules":{}}', 'utf8');
+    await fs.writeFile(path.join(dir, '.agentcheckrc.json'), '{"rules":{}}', 'utf8');
     const res = await runCli(['init'], { cwd: dir });
     expect(res.exitCode).toBe(2);
     expect(res.stderr).toContain('already exists');
     // Original content preserved.
-    expect(await fs.readFile(path.join(dir, '.agentlintrc.json'), 'utf8')).toBe(
+    expect(await fs.readFile(path.join(dir, '.agentcheckrc.json'), 'utf8')).toBe(
       '{"rules":{}}',
     );
   });
 
   it('overwrites with --force', async () => {
     const dir = await makeTempDir();
-    await fs.writeFile(path.join(dir, '.agentlintrc.json'), '{"rules":{}}', 'utf8');
+    await fs.writeFile(path.join(dir, '.agentcheckrc.json'), '{"rules":{}}', 'utf8');
     const res = await runCli(['init', '--force'], { cwd: dir });
     expect(res.exitCode).toBe(0);
-    const written = await fs.readFile(path.join(dir, '.agentlintrc.json'), 'utf8');
+    const written = await fs.readFile(path.join(dir, '.agentcheckrc.json'), 'utf8');
     expect(written).toContain('ignore');
   });
 });

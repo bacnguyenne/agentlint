@@ -8,12 +8,12 @@
  *  2. Otherwise inspect the content shape (JSON vs frontmatter vs markdown)
  *     and look for distinctive keys.
  */
-import type { FileKind } from 'agentlint-core';
+import type { FileKind } from 'agentcheck-core';
 
 /**
  * Local, pure copy of core's path classifier.
  *
- * We deliberately do NOT import `classifyPath` from `agentlint-core` here:
+ * We deliberately do NOT import `classifyPath` from `agentcheck-core` here:
  * that would pull core's index, which re-exports the filesystem-touching
  * `discover` module (`node:fs`/`node:path`) into the CLIENT bundle. This helper
  * runs in the browser, so it must stay free of Node built-ins. The logic mirrors

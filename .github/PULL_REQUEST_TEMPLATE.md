@@ -1,5 +1,5 @@
 <!--
-Thanks for contributing to agentlint! Please read CONTRIBUTING.md first.
+Thanks for contributing to agentcheck! Please read CONTRIBUTING.md first.
 Use a Conventional Commit title, e.g. "feat(core): add settings/hook-timeout rule".
 -->
 
@@ -29,10 +29,10 @@ What does this PR change and why?
 
 - [ ] `npm run build` succeeds
 - [ ] `npm run typecheck` passes
-- [ ] `npm run test -w agentlint-core` passes
-- [ ] `npm run test -w agentlint` passes
-- [ ] Web changes: `npm run test -w @agentlint/web` (+ e2e if relevant) pass
-- [ ] No new runtime deps added to `agentlint-core` / `agentlint` without discussion
+- [ ] `npm run test -w agentcheck-core` passes
+- [ ] `npm run test -w agentcheck` passes
+- [ ] Web changes: `npm run test -w @agentcheck/web` (+ e2e if relevant) pass
+- [ ] No new runtime deps added to `agentcheck-core` / `agentcheck` without discussion
 - [ ] No code path executes, imports, evals, or network-fetches user content
 - [ ] Docs updated (README / RULES / package READMEs) where behavior changed
 - [ ] Commits follow Conventional Commits

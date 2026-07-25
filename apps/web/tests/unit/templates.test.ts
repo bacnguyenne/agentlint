@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { lintFiles } from 'agentlint-core';
+import { lintFiles } from 'agentcheck-core';
 import { TEMPLATES } from '@/lib/templates';
 import { EXAMPLES } from '@/lib/examples';
 import { pathForKind } from '@/lib/detect-kind';

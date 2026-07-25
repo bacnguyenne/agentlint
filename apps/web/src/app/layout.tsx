@@ -30,17 +30,18 @@ const CSP = [
 ].join('; ');
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://agentlint.dev'),
+  // The site's real home (GitHub Pages, also served through the author's domain).
+  metadataBase: new URL('https://bacnguyenne.github.io/agentcheck'),
   title: {
-    default: 'agentlint — lint & secure your AI agent config',
-    template: '%s · agentlint',
+    default: 'agentcheck — lint & secure your AI agent config',
+    template: '%s · agentcheck',
   },
   description:
     'Paste your Claude Code or MCP configuration and get instant validation plus security checks. CLAUDE.md, subagents, slash commands, settings.json and .mcp.json.',
-  applicationName: 'agentlint',
+  applicationName: 'agentcheck',
   robots: { index: true, follow: true },
   openGraph: {
-    title: 'agentlint',
+    title: 'agentcheck',
     description:
       'Lint & security-check your AI coding-agent configuration (Claude Code & MCP).',
     type: 'website',

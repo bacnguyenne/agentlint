@@ -1,10 +1,10 @@
 # Rule catalog
 
-agentlint ships **58 rules** across the groups below. This catalog is generated from `agentlint-core`'s `rules` export by `scripts/gen-rules.mjs` (run `npm run gen:rules`), so it stays in lockstep with the engine.
+agentcheck ships **58 rules** across the groups below. This catalog is generated from `agentcheck-core`'s `rules` export by `scripts/gen-rules.mjs` (run `npm run gen:rules`), so it stays in lockstep with the engine.
 
 - Severities: **error** (causes CLI exit code 1), **warning**, **info**.
-- **Fix** = a safe autofix is available (apply with `agentlint --fix`).
-- Override any rule's severity in `.agentlintrc.json` via `{ "rules": { "<id>": "off|error|warning|info" } }`.
+- **Fix** = a safe autofix is available (apply with `agentcheck --fix`).
+- Override any rule's severity in `.agentcheckrc.json` via `{ "rules": { "<id>": "off|error|warning|info" } }`.
 
 Totals: 27 errors, 26 warnings, 5 infos · 10 fixable.
 
@@ -12,7 +12,7 @@ Totals: 27 errors, 26 warnings, 5 infos · 10 fixable.
 
 | Rule id | Severity | Fix | Applies to | Description |
 |---|---|:---:|---|---|
-| `core/file-too-large` | warning | — | agent, command, settings, mcp, claudemd, unknown | The file exceeds agentlint’s per-file size cap (1 MiB) and is skipped to avoid excessive memory use. Split or trim the file so it can be linted. |
+| `core/file-too-large` | warning | — | agent, command, settings, mcp, claudemd, unknown | The file exceeds agentcheck’s per-file size cap (1 MiB) and is skipped to avoid excessive memory use. Split or trim the file so it can be linted. |
 
 ## Agent — `.claude/agents/*.md`
 

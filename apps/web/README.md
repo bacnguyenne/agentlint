@@ -1,52 +1,52 @@
-# @agentlint/web
+# @agentcheck/web
 
-The **agentlint studio** — a small Next.js (App Router) web app that lets you paste an AI coding-agent config and get instant validation and security checks, browse the rules catalog, and copy vetted config templates.
+The **agentcheck studio** — a small Next.js (App Router) web app that lets you paste an AI coding-agent config and get instant validation and security checks, browse the rules catalog, and copy vetted config templates.
 
-It runs the same pure [`agentlint-core`](../../packages/core) engine on the server (via `lintFiles`), so it **never executes, imports, or fetches** your input — it only parses it. There is **no persistence**: nothing you paste is stored.
+It runs the same pure [`agentcheck-core`](../../packages/core) engine on the server (via `lintFiles`), so it **never executes, imports, or fetches** your input — it only parses it. There is **no persistence**: nothing you paste is stored.
 
 > Unofficial — not affiliated with Anthropic.
 
 ## Pages & API
 
 - **`/`** — Validator: paste or upload a config, pick (or auto-detect) the file kind, and see findings with severity, line:col, message, fix preview, and a docs link.
-- **`/rules`** — the rule catalog, generated from `agentlint-core`'s `rules`.
+- **`/rules`** — the rule catalog, generated from `agentcheck-core`'s `rules`.
 - **`/templates`** — a gallery of vetted configs, copy-to-clipboard.
 - **`POST /api/lint`** — runs `lintFiles` server-side. Strict input limits (256 KiB total body, max 20 files, max 1024-char paths), rate-limited, returns JSON findings. Returns `413` for oversized bodies.
 - **`POST /api/notify`** — optional "notify me" email capture (rate-limited).
 
 ## Run locally
 
-From the **monorepo root** (the web app depends on the built `agentlint-core`):
+From the **monorepo root** (the web app depends on the built `agentcheck-core`):
 
 ```bash
 npm ci
-npm run build -w agentlint-core   # build the engine the web app imports
-npm run dev -w @agentlint/web      # dev server on http://localhost:3100
+npm run build -w agentcheck-core   # build the engine the web app imports
+npm run dev -w @agentcheck/web      # dev server on http://localhost:3100
 ```
 
 ### Build & start (production)
 
 ```bash
-npm run build -w @agentlint/web    # Next.js standalone build
-npm run start -w @agentlint/web    # serve on http://localhost:3100
+npm run build -w @agentcheck/web    # Next.js standalone build
+npm run start -w @agentcheck/web    # serve on http://localhost:3100
 ```
 
 ### Tests
 
 ```bash
-npm run test -w @agentlint/web                 # vitest unit tests
+npm run test -w @agentcheck/web                 # vitest unit tests
 npx playwright install --with-deps chromium
-npm run test:e2e -w @agentlint/web             # Playwright E2E (real Chromium)
+npm run test:e2e -w @agentcheck/web             # Playwright E2E (real Chromium)
 ```
 
 ## Run with Docker
 
-The image is built from the **monorepo root** so the `agentlint-core` workspace dependency is available. It uses Next.js standalone output and runs as a **non-root** user with a built-in healthcheck.
+The image is built from the **monorepo root** so the `agentcheck-core` workspace dependency is available. It uses Next.js standalone output and runs as a **non-root** user with a built-in healthcheck.
 
 ```bash
 # From the repo root:
-docker build -f apps/web/Dockerfile -t agentlint-web .
-docker run --rm -p 3100:3100 -e TRUSTED_PROXY=1 agentlint-web
+docker build -f apps/web/Dockerfile -t agentcheck-web .
+docker run --rm -p 3100:3100 -e TRUSTED_PROXY=1 agentcheck-web
 ```
 
 Then open http://localhost:3100. See [docs/DEPLOY.md](../../docs/DEPLOY.md) for Vercel and production notes.
@@ -75,6 +75,6 @@ The E2E suite asserts these headers are present.
 
 ## License
 
-[MIT](../../LICENSE) © 2026 agentlint contributors.
+[MIT](../../LICENSE) © 2026 agentcheck contributors.
 
-☕ Support: scan the VietQR in the [main README](https://github.com/bacnguyenne/agentlint#-support--buy-me-a-coffee) · ⭐ Star: https://github.com/bacnguyenne/agentlint
+☕ Support: scan the VietQR in the [main README](https://github.com/bacnguyenne/agentcheck#-support--buy-me-a-coffee) · ⭐ Star: https://github.com/bacnguyenne/agentcheck

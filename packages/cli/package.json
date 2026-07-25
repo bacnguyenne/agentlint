@@ -1,7 +1,7 @@
 {
-  "name": "agentlint-cli",
+  "name": "agentcheck",
   "version": "1.0.1",
-  "description": "Lint & security-check your AI coding agent configuration (Claude Code & MCP). CI-friendly, --fix, JSON output. Commands: agentlint, agentlint-mcp.",
+  "description": "Lint & security-check your AI coding agent configuration (Claude Code & MCP). CI-friendly, --fix, JSON output. Commands: agentcheck, agentcheck-mcp.",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -9,18 +9,18 @@
   "author": "bacnguyenne (https://github.com/bacnguyenne)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bacnguyenne/agentlint.git",
+    "url": "git+https://github.com/bacnguyenne/agentcheck.git",
     "directory": "packages/cli"
   },
-  "homepage": "https://github.com/bacnguyenne/agentlint#readme",
-  "bugs": "https://github.com/bacnguyenne/agentlint/issues",
+  "homepage": "https://github.com/bacnguyenne/agentcheck#readme",
+  "bugs": "https://github.com/bacnguyenne/agentcheck/issues",
   "engines": {
     "node": ">=20"
   },
   "type": "module",
   "bin": {
-    "agentlint": "dist/index.js",
-    "agentlint-mcp": "dist/mcp.js"
+    "agentcheck": "dist/index.js",
+    "agentcheck-mcp": "dist/mcp.js"
   },
   "files": [
     "dist",
@@ -46,7 +46,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "agentlint-core": "^1.0.0",
+    "agentcheck-core": "^1.0.0",
     "picocolors": "^1.1.1"
   },
   "devDependencies": {

@@ -37,6 +37,6 @@ export default defineConfig({
     // The suite runs fully parallel from a single client IP; relax the API rate
     // limit for the test server so legitimate requests aren't 429'd (the
     // production default stays 30 req/60s — see src/lib/server.ts).
-    env: { AGENTLINT_RATE_LIMIT_MAX: '100000' },
+    env: { AGENTCHECK_RATE_LIMIT_MAX: '100000' },
   },
 });

@@ -64,7 +64,7 @@ function downloadBytes(filename: string, bytes: Uint8Array, mime: string): void 
 function bundleReadme(items: CatalogItem[]): string {
   const n = (k: CatalogKind) => items.filter((i) => i.kind === k).length;
   return [
-    '# agentlint catalog bundle',
+    '# agentcheck catalog bundle',
     '',
     'Extract this archive at the ROOT of your project — every file lands where Claude Code expects it:',
     '',
@@ -75,14 +75,14 @@ function bundleReadme(items: CatalogItem[]): string {
     '',
     '## How to use',
     '',
-    '1. Unzip into your project root: `unzip agentlint-catalog.zip -d <your-project>`',
+    '1. Unzip into your project root: `unzip agentcheck-catalog.zip -d <your-project>`',
     '2. For MCP servers, set the referenced `${ENV_VAR}`s in your shell or `.env` before starting Claude Code.',
     '3. Restart Claude Code so it discovers the new skills / agents / commands / servers.',
-    '4. Validate everything: `npx agentlint`.',
+    '4. Validate everything: `npx agentcheck`.',
     '',
     '## Security',
     '',
-    'Every item was validated by **agentlint** with zero errors: no hardcoded secrets, no',
+    'Every item was validated by **agentcheck** with zero errors: no hardcoded secrets, no',
     'remote-code-execution patterns, and no over-broad tool/permission grants. All credentials',
     'are `${ENV_VAR}` references — set them yourself; nothing secret is included here.',
     '',
@@ -160,8 +160,8 @@ export function CatalogBrowser({
     if (Object.keys(mcpServers).length > 0) {
       entries.push({ path: '.mcp.json', content: JSON.stringify({ mcpServers }, null, 2) + '\n' });
     }
-    entries.push({ path: 'AGENTLINT-README.md', content: bundleReadme(visible) });
-    downloadBytes('agentlint-catalog.zip', makeZip(entries), 'application/zip');
+    entries.push({ path: 'AGENTCHECK-README.md', content: bundleReadme(visible) });
+    downloadBytes('agentcheck-catalog.zip', makeZip(entries), 'application/zip');
   }
 
   const otherCount = useMemo(() => unbundledItems(items).length, [items]);
@@ -336,7 +336,7 @@ function BundleDetail({
   items: CatalogItem[];
   fallbackLabel?: string;
 }) {
-  const install = bundle ? bundleInstallCommand(bundle, items) : `npx agentlint add ${items.map((i) => i.id).join(' ')}`;
+  const install = bundle ? bundleInstallCommand(bundle, items) : `npx agentcheck add ${items.map((i) => i.id).join(' ')}`;
   const n = (k: CatalogKind) => items.filter((i) => i.kind === k).length;
 
   return (
@@ -383,10 +383,10 @@ function CatalogCard({ item, onTag }: { item: CatalogItem; onTag: (tag: string) 
             {KIND_LABEL[item.kind]}
           </span>
           <span
-            title="Validated by agentlint: no hardcoded secrets, no remote-code-execution patterns, no over-broad tool/permission grants."
+            title="Validated by agentcheck: no hardcoded secrets, no remote-code-execution patterns, no over-broad tool/permission grants."
             className="shrink-0 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-300"
           >
-            ✓ agentlint
+            ✓ agentcheck
           </span>
         </div>
         {item.license && (

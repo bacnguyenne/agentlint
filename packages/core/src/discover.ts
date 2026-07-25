@@ -1,7 +1,7 @@
 /**
  * Filesystem discovery of agent-config files.
  *
- * Walks a directory and finds the files agentlint understands, classifying
+ * Walks a directory and finds the files agentcheck understands, classifying
  * each into a {@link FileKind}. Security-critical constraints:
  *  - Never follows symlinks that point outside the root directory.
  *  - Skips `node_modules`, `.git`, and `dist`.
@@ -48,7 +48,7 @@ export function classifyPath(filePath: string): FileKind {
   // ReDoS-safe: anchored, fixed literal with a bounded class — no quantifier nesting.
   if (norm.includes('.claude/skills/') && /^skill\.md$/i.test(base)) return 'skill';
 
-  // Cross-tool agent instruction files (broadens agentlint beyond Claude Code):
+  // Cross-tool agent instruction files (broadens agentcheck beyond Claude Code):
   // AGENTS.md (the emerging cross-tool standard), Cursor, Copilot, Windsurf, Cline.
   if (base === 'AGENTS.md') return 'instructions';
   if (base === '.cursorrules' || base === '.windsurfrules' || base === '.clinerules') return 'instructions';
@@ -59,7 +59,7 @@ export function classifyPath(filePath: string): FileKind {
 }
 
 /**
- * Discover and read all agentlint-relevant files under `dir`.
+ * Discover and read all agentcheck-relevant files under `dir`.
  *
  * @param dir Root directory to scan (must be an existing directory).
  * @param ignore Optional gitignore-style patterns; matched paths are skipped.

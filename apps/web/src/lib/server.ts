@@ -13,12 +13,12 @@ import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, MAX_TOTAL_INPUT_BYTES } from './c
  */
 /**
  * Production default is the strict `RATE_LIMIT_MAX` (30 req / 60s). An optional
- * `AGENTLINT_RATE_LIMIT_MAX` env override lets a test environment relax the limit
+ * `AGENTCHECK_RATE_LIMIT_MAX` env override lets a test environment relax the limit
  * WITHOUT weakening production — the parallel Playwright e2e suite otherwise
  * trips the limit from a single client IP and flakes. Read here (a `server-only`
  * module) so it is a runtime value, never inlined into the client bundle.
  */
-const rateLimitMax = Number(process.env.AGENTLINT_RATE_LIMIT_MAX) || RATE_LIMIT_MAX;
+const rateLimitMax = Number(process.env.AGENTCHECK_RATE_LIMIT_MAX) || RATE_LIMIT_MAX;
 export const lintRateLimiter = new InMemoryRateLimiter(rateLimitMax, RATE_LIMIT_WINDOW_MS);
 
 /** Fixed key used when no trusted proxy is configured: the limit is global. */
@@ -55,7 +55,7 @@ export function clientKeyFromHeaders(headers: Headers): string {
     ) {
       warnedUntrustedProxy = true;
       console.warn(
-        '[agentlint] TRUSTED_PROXY is not set: X-Forwarded-For is NOT trusted ' +
+        '[agentcheck] TRUSTED_PROXY is not set: X-Forwarded-For is NOT trusted ' +
           '(it is attacker-spoofable without an upstream proxy). The rate limiter ' +
           'is applying a single GLOBAL limit to all clients until you place this ' +
           'app behind a proxy that sets X-Forwarded-For and set TRUSTED_PROXY=1.',

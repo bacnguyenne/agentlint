@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { CATALOG_COUNTS } from '@/lib/catalog';
 
 export const metadata: Metadata = {
-  title: 'Guide — how to use agentlint',
+  title: 'Guide — how to use agentcheck',
   description:
     'How to validate your Claude Code & MCP configuration, and how to find, install, and secure skills, MCP servers, and tools from the catalog.',
 };
@@ -15,7 +15,7 @@ function Code({ children }: { children: React.ReactNode }) {
 
 /** The steps, in order — also the table of contents, so every step is linkable. */
 const STEPS = [
-  { id: 'what', n: '1', title: 'What agentlint does' },
+  { id: 'what', n: '1', title: 'What agentcheck does' },
   { id: 'validate', n: '2', title: 'Validate your config' },
   { id: 'find', n: '3', title: 'Find skills, MCP servers & tools' },
   { id: 'install', n: '4', title: 'Install' },
@@ -52,7 +52,7 @@ export default function GuidePage() {
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-white">Guide</h1>
         <p className="mt-2 text-zinc-400">
-          Everything you need to use agentlint — validate your config, then find, install, and secure
+          Everything you need to use agentcheck — validate your config, then find, install, and secure
           skills, MCP servers, and tools for Claude Code.
         </p>
         <p className="mt-3 rounded-lg border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-400">
@@ -82,9 +82,9 @@ export default function GuidePage() {
       </nav>
 
       <div className="space-y-8">
-        <Section id="what" n="1" title="What agentlint does">
+        <Section id="what" n="1" title="What agentcheck does">
           <p>
-            agentlint <span className="text-zinc-200">lints and security-checks</span> AI coding-agent
+            agentcheck <span className="text-zinc-200">lints and security-checks</span> AI coding-agent
             configuration — Claude Code (<Code>CLAUDE.md</Code>, <Code>.claude/agents</Code>,{' '}
             <Code>.claude/commands</Code>, <Code>.claude/skills/**/SKILL.md</Code>,{' '}
             <Code>settings.json</Code>) and MCP (<Code>.mcp.json</Code>). It catches real
@@ -106,8 +106,8 @@ export default function GuidePage() {
           <p>
             From the command line, in your project:
           </p>
-          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`npx agentlint          # lint the whole project
-npx agentlint --fix    # apply safe autofixes`}</pre>
+          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`npx agentcheck          # lint the whole project
+npx agentcheck --fix    # apply safe autofixes`}</pre>
         </Section>
 
         <Section id="find" n="3" title="Find skills, MCP servers & tools (the Catalog)">
@@ -124,18 +124,18 @@ npx agentlint --fix    # apply safe autofixes`}</pre>
             <span className="font-medium text-zinc-200">A) CLI (easiest)</span> — installs to the right path; MCP servers
             merge into your <Code>.mcp.json</Code> instead of overwriting it:
           </p>
-          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`npx agentlint add --list           # browse every id
-npx agentlint add code-reviewer    # a subagent
-npx agentlint add ship-feature     # a workflow skill
-npx agentlint add mcp-github       # merges into .mcp.json
-npx agentlint add mcp-github --dry-run   # preview, write nothing
-npx agentlint add docx pptx xlsx         # a whole bundle at once`}</pre>
+          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`npx agentcheck add --list           # browse every id
+npx agentcheck add code-reviewer    # a subagent
+npx agentcheck add ship-feature     # a workflow skill
+npx agentcheck add mcp-github       # merges into .mcp.json
+npx agentcheck add mcp-github --dry-run   # preview, write nothing
+npx agentcheck add docx pptx xlsx         # a whole bundle at once`}</pre>
           <p>
             <span className="font-medium text-zinc-200">B) Download .zip</span> — on the Catalog, click{' '}
             <span className="text-zinc-200">Download .zip</span>, then unzip into your project root. Files land in
             the correct structure (with a merged <Code>.mcp.json</Code> and a README):
           </p>
-          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`unzip agentlint-catalog.zip -d your-project`}</pre>
+          <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`unzip agentcheck-catalog.zip -d your-project`}</pre>
           <p>
             <span className="font-medium text-zinc-200">C) Copy &amp; paste</span> — open Preview on a card, copy, and
             paste into the file at the path shown.
@@ -157,22 +157,22 @@ npx agentlint add docx pptx xlsx         # a whole bundle at once`}</pre>
 
         <Section id="security" n="6" title="Security">
           <p>
-            Every catalog item carries a <span className="text-emerald-300">✓ agentlint</span> badge — it passed
-            agentlint with <span className="text-zinc-200">zero errors</span>: no hardcoded secrets, no
+            Every catalog item carries a <span className="text-emerald-300">✓ agentcheck</span> badge — it passed
+            agentcheck with <span className="text-zinc-200">zero errors</span>: no hardcoded secrets, no
             remote-code-execution patterns, no over-broad tool/permission grants. Credentials are always{' '}
             <Code>${'{ENV_VAR}'}</Code> references — you set them yourself; nothing secret is shipped. Re-check
-            anything you add with <Code>npx agentlint</Code>.
+            anything you add with <Code>npx agentcheck</Code>.
           </p>
         </Section>
 
         <Section id="mcp" n="7" title="Use it from your agent (MCP)">
           <p>
-            agentlint ships an MCP server so an agent can lint its <span className="text-zinc-200">own</span> config.
-            Run it with <Code>agentlint mcp</Code> (or the <Code>agentlint-mcp</Code> bin), and point your{' '}
+            agentcheck ships an MCP server so an agent can lint its <span className="text-zinc-200">own</span> config.
+            Run it with <Code>agentcheck mcp</Code> (or the <Code>agentcheck-mcp</Code> bin), and point your{' '}
             <Code>.mcp.json</Code> at it:
           </p>
           <pre className="overflow-x-auto rounded-md border border-white/10 bg-black/40 p-3 font-mono text-xs text-zinc-200">{`// .mcp.json
-{ "mcpServers": { "agentlint": { "command": "agentlint", "args": ["mcp"] } } }`}</pre>
+{ "mcpServers": { "agentcheck": { "command": "agentcheck", "args": ["mcp"] } } }`}</pre>
         </Section>
       </div>
 

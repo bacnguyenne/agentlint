@@ -12,7 +12,7 @@
  *  - Rate limiting per client key (HTTP 429).
  *  - lintFiles is PURE: it never executes, imports, or fetches user content.
  */
-import { lintFiles, type LintResult, type FileKind } from 'agentlint-core';
+import { lintFiles, type LintResult, type FileKind } from 'agentcheck-core';
 import { z } from 'zod';
 import {
   MAX_FILES,

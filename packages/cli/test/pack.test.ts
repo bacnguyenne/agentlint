@@ -1,8 +1,8 @@
 /**
- * Publishability test: pack the agentlint-core + agentlint-cli tarballs exactly
+ * Publishability test: pack the agentcheck-core + agentcheck tarballs exactly
  * as `npm publish` would, install them into a throwaway project, and run the
- * INSTALLED binary. This proves a real user can `npm install agentlint-cli` (or
- * `npx agentlint-cli`) and that the bundled catalog (`agentlint add`) ships and runs.
+ * INSTALLED binary. This proves a real user can `npm install agentcheck` (or
+ * `npx agentcheck`) and that the bundled catalog (`agentcheck add`) ships and runs.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { execa } from 'execa';
@@ -20,21 +20,21 @@ const cleanup: string[] = [];
 
 beforeAll(async () => {
   // Build both packages.
-  await execa('npm', ['run', 'build', '-w', 'agentlint-core'], { cwd: repoRoot });
-  await execa('npm', ['run', 'build', '-w', 'agentlint-cli'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', 'agentcheck-core'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', 'agentcheck'], { cwd: repoRoot });
 
   // Pack the tarballs into a temp dir.
-  const packDir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-pack-'));
+  const packDir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-pack-'));
   cleanup.push(packDir);
-  const core = (await execa('npm', ['pack', '-w', 'agentlint-core', '--pack-destination', packDir], { cwd: repoRoot })).stdout.trim().split('\n').pop()!;
-  const cli = (await execa('npm', ['pack', '-w', 'agentlint-cli', '--pack-destination', packDir], { cwd: repoRoot })).stdout.trim().split('\n').pop()!;
+  const core = (await execa('npm', ['pack', '-w', 'agentcheck-core', '--pack-destination', packDir], { cwd: repoRoot })).stdout.trim().split('\n').pop()!;
+  const cli = (await execa('npm', ['pack', '-w', 'agentcheck', '--pack-destination', packDir], { cwd: repoRoot })).stdout.trim().split('\n').pop()!;
 
   // Install the tarballs into a fresh project, as a real consumer would.
-  projectDir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-consumer-'));
+  projectDir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-consumer-'));
   cleanup.push(projectDir);
   await execa('npm', ['init', '-y'], { cwd: projectDir });
   await execa('npm', ['install', path.join(packDir, core), path.join(packDir, cli)], { cwd: projectDir });
-  installedBin = path.join(projectDir, 'node_modules', 'agentlint-cli', 'dist', 'index.js');
+  installedBin = path.join(projectDir, 'node_modules', 'agentcheck', 'dist', 'index.js');
 }, 240_000);
 
 afterAll(async () => {
@@ -46,7 +46,7 @@ function runInstalled(args: string[], cwd: string) {
 }
 
 describe('installed package (npm pack -> install)', () => {
-  it('exposes the agentlint binary and reports its version', async () => {
+  it('exposes the agentcheck binary and reports its version', async () => {
     const res = await runInstalled(['--version'], projectDir);
     expect(res.exitCode).toBe(0);
     expect(res.stdout.trim()).toMatch(/^\d+\.\d+\.\d+$/);
@@ -60,7 +60,7 @@ describe('installed package (npm pack -> install)', () => {
   });
 
   it('installs a catalog item and the result lints clean', async () => {
-    const proj = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-target-'));
+    const proj = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-target-'));
     cleanup.push(proj);
     const add = await runInstalled(['add', 'pdf-extract'], proj);
     expect(add.exitCode).toBe(0);

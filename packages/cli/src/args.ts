@@ -1,5 +1,5 @@
 /**
- * Hand-rolled argv parser for the agentlint CLI (SPEC §5). No external deps.
+ * Hand-rolled argv parser for the agentcheck CLI (SPEC §5). No external deps.
  *
  * Supports the documented flags and the `init` subcommand. Parsing never throws
  * for malformed input within reach of the CLI contract: instead it returns an
@@ -12,7 +12,7 @@ export type Format = 'stylish' | 'json';
 /** A successfully parsed `init` invocation. */
 export interface InitCommand {
   kind: 'init';
-  /** Overwrite an existing `.agentlintrc.json`. */
+  /** Overwrite an existing `.agentcheckrc.json`. */
   force: boolean;
 }
 
@@ -40,7 +40,7 @@ export interface AddCommand {
   kind: 'add';
   /**
    * The catalog item ids or names to install — one, or a whole bundle at once
-   * (`agentlint add docx pptx xlsx`). Empty only when `--list`.
+   * (`agentcheck add docx pptx xlsx`). Empty only when `--list`.
    */
   idsOrNames: string[];
   /** Overwrite an existing target file. */
@@ -84,7 +84,7 @@ export function parseArgs(
   }
 
   // Subcommand: `init` is only the init command when it is the FIRST token.
-  // (Detecting it as merely the first NON-FLAG token mis-read `agentlint --fix
+  // (Detecting it as merely the first NON-FLAG token mis-read `agentcheck --fix
   // init` — where `init` is really a path — as the subcommand and then emitted a
   // confusing "Unknown option for 'init': --fix".)
   if (argv[0] === 'init') {
@@ -100,7 +100,7 @@ export function parseArgs(
     return { kind: 'init', force };
   }
 
-  // Subcommand: `mcp` runs the MCP stdio server (same as the agentlint-mcp bin).
+  // Subcommand: `mcp` runs the MCP stdio server (same as the agentcheck-mcp bin).
   if (argv[0] === 'mcp') return { kind: 'mcp' };
 
   // Subcommand: `add <id>` installs a catalog item. Only when it is the FIRST
@@ -119,7 +119,7 @@ export function parseArgs(
       }
     }
     if (!add.list && add.idsOrNames.length === 0) {
-      return { kind: 'error', message: `add requires an item id, or use 'agentlint add --list'.` };
+      return { kind: 'error', message: `add requires an item id, or use 'agentcheck add --list'.` };
     }
     return add;
   }

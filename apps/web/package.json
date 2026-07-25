@@ -1,8 +1,8 @@
 {
-  "name": "@agentlint/web",
+  "name": "@agentcheck/web",
   "version": "1.0.0",
   "private": true,
-  "description": "agentlint studio — a free, open-source web UI to validate & security-check your AI coding-agent config.",
+  "description": "agentcheck studio — a free, open-source web UI to validate & security-check your AI coding-agent config.",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -16,7 +16,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "agentlint-core": "1.0.0",
+    "agentcheck-core": "1.0.0",
     "next": "15.5.19",
     "react": "19.1.1",
     "react-dom": "19.1.1",

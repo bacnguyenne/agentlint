@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report incorrect behavior in agentlint (wrong finding, missed finding, crash, bad fix)
+about: Report incorrect behavior in agentcheck (wrong finding, missed finding, crash, bad fix)
 title: "[bug] "
 labels: bug
 assignees: ''
@@ -16,9 +16,9 @@ A clear description of the bug.
 
 ## Which part
 
-- [ ] `agentlint-core` (engine / a rule)
-- [ ] `agentlint` CLI
-- [ ] `@agentlint/web` (validator)
+- [ ] `agentcheck-core` (engine / a rule)
+- [ ] `agentcheck` CLI
+- [ ] `@agentcheck/web` (validator)
 
 ## Rule id (if applicable)
 
@@ -35,12 +35,12 @@ The smallest config that triggers it. **Redact any real secrets** before pasting
 Command run (if CLI):
 
 ```bash
-npx agentlint ...
+npx agentcheck ...
 ```
 
 ## Expected behavior
 
-What you expected agentlint to report (or not report).
+What you expected agentcheck to report (or not report).
 
 ## Actual behavior
 
@@ -48,7 +48,7 @@ What it actually did. Paste the `--format json` output if relevant.
 
 ## Environment
 
-- agentlint version: `npx agentlint --version`
+- agentcheck version: `npx agentcheck --version`
 - Node version: `node --version`
 - OS:
 

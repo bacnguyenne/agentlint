@@ -5,7 +5,7 @@ import { CATALOG } from '@/lib/catalog';
 import { DIRECTORY_COUNTS } from '@/lib/repo-directory';
 
 export const metadata: Metadata = {
-  title: 'agentlint — validate your AI agent config',
+  title: 'agentcheck — validate your AI agent config',
   description:
     'Paste a CLAUDE.md, subagent, slash command, settings.json or .mcp.json and get instant validation plus security checks. Nothing is stored.',
 };
@@ -27,13 +27,13 @@ export default function HomePage() {
         <p className="mx-auto mt-4 max-w-2xl text-pretty text-base text-zinc-400 sm:text-lg">
           Paste a <code className="text-zinc-300">CLAUDE.md</code>, subagent, slash
           command, <code className="text-zinc-300">settings.json</code> or{' '}
-          <code className="text-zinc-300">.mcp.json</code> — agentlint catches the
+          <code className="text-zinc-300">.mcp.json</code> — agentcheck catches the
           real-world misconfigurations and security problems before they bite.
           Also scans cross-tool instruction files: <code className="text-zinc-300">AGENTS.md</code>,
           Cursor, Copilot, Windsurf &amp; Cline.
         </p>
         <p className="mx-auto mt-3 max-w-2xl text-pretty text-sm text-zinc-500">
-          Every <span className="text-rose-300">red finding</span> means agentlint caught a real
+          Every <span className="text-rose-300">red finding</span> means agentcheck caught a real
           problem — that&apos;s the tool working. A valid config shows a green{' '}
           <span className="text-emerald-300">✓ No problems found</span>.
         </p>
@@ -51,7 +51,7 @@ export default function HomePage() {
               href: '/catalog',
               icon: '📦',
               title: 'Install building blocks',
-              body: `${CATALOG.length} vetted skills, MCP servers & tools — copy, download, or npx agentlint add.`,
+              body: `${CATALOG.length} vetted skills, MCP servers & tools — copy, download, or npx agentcheck add.`,
               cta: 'Open the catalog',
             },
             {

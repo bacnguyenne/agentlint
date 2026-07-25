@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { lintFiles } from 'agentlint-core';
+import { lintFiles } from 'agentcheck-core';
 import { SKILL_CATALOG } from '@/lib/skill-catalog';
 
 /**
  * The curated catalog is produced by `scripts/sync-skills.mjs`, which only keeps
- * skills agentlint passes with zero errors. This test is the CI guard that the
+ * skills agentcheck passes with zero errors. This test is the CI guard that the
  * invariant holds for whatever is committed (so a bad sync can never ship).
  */
 describe('curated skill catalog', () => {

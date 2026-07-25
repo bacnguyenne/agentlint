@@ -1,9 +1,9 @@
-# agentlint — Engineering Spec (source of truth)
+# agentcheck — Engineering Spec (source of truth)
 
-`agentlint` lints and **security-checks** AI coding-agent configuration: Claude Code (`CLAUDE.md`, `.claude/agents/*.md`, `.claude/commands/*.md`, `.claude/settings.json` / `settings.local.json`) and MCP (`.mcp.json`). It ships as an open-core product:
+`agentcheck` lints and **security-checks** AI coding-agent configuration: Claude Code (`CLAUDE.md`, `.claude/agents/*.md`, `.claude/commands/*.md`, `.claude/settings.json` / `settings.local.json`) and MCP (`.mcp.json`). It ships as an open-core product:
 
-- `agentlint-core` — the validation engine (pure TS, dependency-light).
-- `agentlint` — the CLI (CI-friendly, `--fix`, JSON output).
+- `agentcheck-core` — the validation engine (pure TS, dependency-light).
+- `agentcheck` — the CLI (CI-friendly, `--fix`, JSON output).
 - `apps/web` — a Next.js studio: paste config → instant validation + fixes, a rules catalog, and a template gallery.
 
 Brand value: it catches the exact real-world misconfigurations developers make (including the ones our own first drafts made), and flags **security** problems. MIT-licensed core/CLI for adoption; hosted/Pro web features for monetization.
@@ -151,7 +151,7 @@ Each rule MUST have: stable id, message (with the offending value redacted for s
 
 ---
 
-## 4. Core API (`agentlint-core`)
+## 4. Core API (`agentcheck-core`)
 
 ```ts
 export interface Finding {
@@ -172,10 +172,10 @@ export const rules: Rule[]; // catalog, for docs/web
 - Deps: `yaml` (frontmatter), tolerant JSON parsing with line/col (hand-rolled or `jsonc-parser`). Keep deps minimal & audited.
 - All regexes must be **ReDoS-safe** (bounded, no catastrophic backtracking). Inputs size-capped.
 
-## 5. CLI (`agentlint`)
-- `agentlint [paths…]` (default `.`): lint; pretty "stylish" output grouped by file; summary; exit `0` (no errors), `1` (errors found), `2` (usage/IO error).
-- `--fix` apply safe fixes · `--format json|stylish` · `--quiet` (errors only) · `--max-warnings <n>` · `--no-color` · `agentlint init` (writes `.agentlintrc.json`) · `--version`/`--help`.
-- Config: `.agentlintrc.json` (`rules`, `ignore`). Reads from cwd upward.
+## 5. CLI (`agentcheck`)
+- `agentcheck [paths…]` (default `.`): lint; pretty "stylish" output grouped by file; summary; exit `0` (no errors), `1` (errors found), `2` (usage/IO error).
+- `--fix` apply safe fixes · `--format json|stylish` · `--quiet` (errors only) · `--max-warnings <n>` · `--no-color` · `agentcheck init` (writes `.agentcheckrc.json`) · `--version`/`--help`.
+- Config: `.agentcheckrc.json` (`rules`, `ignore`). Reads from cwd upward.
 - Tested by running the built CLI against fixtures with `execa`, asserting exit codes + output.
 
 ## 6. Web app (`apps/web`, Next.js App Router + TS + Tailwind)
@@ -192,8 +192,8 @@ export const rules: Rule[]; // catalog, for docs/web
 - Secrets in findings are **redacted** in messages.
 
 ## 8. Test strategy (must be RUN, not just written)
-- `agentlint-core`: vitest unit tests; every rule has ≥1 triggering fixture + ≥1 clean fixture; security rules tested for false positives; ReDoS tests; autofix idempotency tests. Target ≥90% coverage.
-- `agentlint` CLI: integration tests running the built binary over `fixtures/` asserting exit codes + JSON.
+- `agentcheck-core`: vitest unit tests; every rule has ≥1 triggering fixture + ≥1 clean fixture; security rules tested for false positives; ReDoS tests; autofix idempotency tests. Target ≥90% coverage.
+- `agentcheck` CLI: integration tests running the built binary over `fixtures/` asserting exit codes + JSON.
 - `apps/web`: API route unit tests (vitest) + Playwright E2E (real Chromium — installable here) for the validator happy/error paths + security-header assertions.
 - CI (GitHub Actions): install → typecheck → lint → unit → build → e2e → `npm audit`. Docker image builds and a container smoke test passes.
 

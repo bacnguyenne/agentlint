@@ -5,9 +5,9 @@
  * The DATA lives in `catalog.generated.ts`, produced by `scripts/gen-catalog.mjs`
  * (run `npm run gen:catalog`). The same generated module is emitted into the CLI
  * (`packages/cli/src/catalog.generated.ts`) so the web `/catalog` page and the
- * `agentlint add` command share a single source of truth.
+ * `agentcheck add` command share a single source of truth.
  *
- * EVERY item is validated by agentlint (zero errors) in `catalog.test.ts`, so
+ * EVERY item is validated by agentcheck (zero errors) in `catalog.test.ts`, so
  * what users copy/download/install is known-good. Secrets are always
  * `${ENV_VAR}` references, never literals.
  */
@@ -15,7 +15,7 @@ import { CATALOG_ITEMS } from './catalog.generated';
 
 /** Top-level UI category. */
 export type CatalogKind = 'skill' | 'mcp' | 'tool';
-/** How agentlint validates the item's `content`. */
+/** How agentcheck validates the item's `content`. */
 export type ConfigKind = 'skill' | 'mcp' | 'agent' | 'command';
 
 export interface CatalogItem {

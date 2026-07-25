@@ -11,7 +11,7 @@ afterAll(async () => {
 });
 
 async function writeZip(bytes: Uint8Array): Promise<string> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-zip-'));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-zip-'));
   tmp.push(dir);
   const file = path.join(dir, 'out.zip');
   await fs.writeFile(file, bytes);

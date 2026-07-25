@@ -4,7 +4,7 @@ The **/collections** page is a discovery directory of the wider agent ecosystem:
 **138 GitHub repositories** — Agent Skills, MCP servers & SDKs, agent tools and
 awesome lists — grouped into **18 collections**. It links to upstream repos;
 nothing is vendored here. (For files you can copy or install directly, all validated by
-agentlint with zero errors, see the **/catalog** page instead.)
+agentcheck with zero errors, see the **/catalog** page instead.)
 
 ## How it works
 
@@ -25,7 +25,7 @@ Add an entry to `data/repo-directory.json` (any `stars` value — the sync overw
 `npm run sync:stars`. Inclusion criteria: it must be genuinely about agent skills, MCP, or tools
 for AI agents, and be a real, maintained project. Being listed here is **not** an endorsement or
 a security review — always read a third-party skill before installing it, and check anything you
-add with `npx agentlint`.
+add with `npx agentcheck`.
 
 ## The collections (stars as of 2026-07-25)
 

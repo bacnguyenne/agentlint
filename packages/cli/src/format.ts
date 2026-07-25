@@ -1,5 +1,5 @@
 /**
- * Reporters for the agentlint CLI (SPEC §5).
+ * Reporters for the agentcheck CLI (SPEC §5).
  *
  * - `stylish`: human-readable, grouped by file, colorized, with a summary
  *   footer like "✖ 3 errors, 2 warnings (1 fixable)".
@@ -8,7 +8,7 @@
  * Color is controlled by the caller (it honors `--no-color` and `NO_COLOR`),
  * which constructs the picocolors instance and passes it in.
  */
-import type { Finding, LintResult } from 'agentlint-core';
+import type { Finding, LintResult } from 'agentcheck-core';
 import pc from 'picocolors';
 
 /** A picocolors-compatible color API (subset we use). */

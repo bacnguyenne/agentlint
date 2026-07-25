@@ -1,13 +1,13 @@
 /**
  * Client-side linting.
  *
- * agentlint-core's `lintFiles` is pure JS with no `node:` APIs, so the validator
+ * agentcheck-core's `lintFiles` is pure JS with no `node:` APIs, so the validator
  * runs entirely in the browser — your config never leaves the page. This replaces
  * the old POST /api/lint server path and lets the app deploy as a fully static
  * site (e.g. GitHub Pages). Mirrors the size guards from the old handler (minus
  * server-only rate limiting, which is meaningless client-side).
  */
-import { lintFiles, type FileKind, type LintResult } from 'agentlint-core';
+import { lintFiles, type FileKind, type LintResult } from 'agentcheck-core';
 import { MAX_FILES, MAX_PATH_LENGTH, MAX_TOTAL_INPUT_BYTES, byteLength } from './config';
 
 export interface ClientFile {

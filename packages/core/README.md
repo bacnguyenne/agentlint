@@ -1,9 +1,9 @@
-# agentlint-core
+# agentcheck-core
 
-[![npm version](https://img.shields.io/npm/v/agentlint-core.svg)](https://www.npmjs.com/package/agentlint-core)
+[![npm version](https://img.shields.io/npm/v/agentcheck-core.svg)](https://www.npmjs.com/package/agentcheck-core)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-The validation & security engine behind [**agentlint**](https://github.com/bacnguyenne/agentlint) — it lints AI coding-agent configuration for Claude Code (`CLAUDE.md`, `.claude/agents`, `.claude/commands`, `settings.json`) and MCP (`.mcp.json`), and flags security issues like hardcoded secrets and dangerous hook commands.
+The validation & security engine behind [**agentcheck**](https://github.com/bacnguyenne/agentcheck) — it lints AI coding-agent configuration for Claude Code (`CLAUDE.md`, `.claude/agents`, `.claude/commands`, `settings.json`) and MCP (`.mcp.json`), and flags security issues like hardcoded secrets and dangerous hook commands.
 
 Pure TypeScript, dependency-light (only `yaml` at runtime). **Never executes, imports, evals, or network-fetches user content — it only parses.**
 
@@ -12,7 +12,7 @@ Pure TypeScript, dependency-light (only `yaml` at runtime). **Never executes, im
 ## Install
 
 ```bash
-npm install agentlint-core
+npm install agentcheck-core
 ```
 
 Requires Node.js >= 20. ESM-only.
@@ -24,7 +24,7 @@ Requires Node.js >= 20. ESM-only.
 `lintFiles` performs no filesystem, network, or code-execution side effects — ideal for validating pasted/uploaded content (it's exactly what the web app uses):
 
 ```ts
-import { lintFiles } from 'agentlint-core';
+import { lintFiles } from 'agentcheck-core';
 
 const result = lintFiles([
   { path: '.mcp.json', content: '{"mcpServers": []}' },
@@ -44,7 +44,7 @@ Each file's `kind` is auto-detected from its `path` when omitted; pass `kind` ex
 ### Lint a directory (filesystem)
 
 ```ts
-import { lintDirectory } from 'agentlint-core';
+import { lintDirectory } from 'agentcheck-core';
 
 const result = await lintDirectory(process.cwd(), {
   ignore: ['node_modules', 'dist'],
@@ -57,7 +57,7 @@ const result = await lintDirectory(process.cwd(), {
 ### Apply autofixes
 
 ```ts
-import { lintFilesWithFixes, lintDirectoryWithFixes } from 'agentlint-core';
+import { lintFilesWithFixes, lintDirectoryWithFixes } from 'agentcheck-core';
 
 const { result, fixedFiles } = lintFilesWithFixes(
   [{ path: '.mcp.json', content: '{"mcpServers": []}' }],
@@ -69,7 +69,7 @@ const { result, fixedFiles } = lintFilesWithFixes(
 ### The rule catalog
 
 ```ts
-import { rules } from 'agentlint-core';
+import { rules } from 'agentcheck-core';
 
 console.log(rules.length); // 42
 for (const r of rules) {
@@ -77,7 +77,7 @@ for (const r of rules) {
 }
 ```
 
-See the full catalog in [docs/RULES.md](https://github.com/bacnguyenne/agentlint/blob/main/docs/RULES.md).
+See the full catalog in [docs/RULES.md](https://github.com/bacnguyenne/agentcheck/blob/main/docs/RULES.md).
 
 ## API
 
@@ -144,6 +144,6 @@ Also exported: `Rule`, `RuleContext`, `RuleMeta`, `FileKind`, `Severity`, `Parse
 
 ## License
 
-[MIT](./LICENSE) © 2026 agentlint contributors.
+[MIT](./LICENSE) © 2026 agentcheck contributors.
 
-☕ Support: scan the VietQR in the [main README](https://github.com/bacnguyenne/agentlint#-support--buy-me-a-coffee) · ⭐ Star: https://github.com/bacnguyenne/agentlint
+☕ Support: scan the VietQR in the [main README](https://github.com/bacnguyenne/agentcheck#-support--buy-me-a-coffee) · ⭐ Star: https://github.com/bacnguyenne/agentcheck

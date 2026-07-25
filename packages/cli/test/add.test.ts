@@ -1,5 +1,5 @@
 /**
- * Integration tests for `agentlint add` — installing catalog items (skills,
+ * Integration tests for `agentcheck add` — installing catalog items (skills,
  * MCP servers, tools) into a project. Runs the BUILT binary via execa.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -20,7 +20,7 @@ function runCli(args: string[], cwd: string) {
 
 const tempDirs: string[] = [];
 async function makeTempDir(): Promise<string> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-add-'));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-add-'));
   tempDirs.push(dir);
   return dir;
 }
@@ -34,15 +34,15 @@ async function exists(p: string): Promise<boolean> {
 }
 
 beforeAll(async () => {
-  await execa('npm', ['run', 'build', '-w', 'agentlint-core'], { cwd: repoRoot });
-  await execa('npm', ['run', 'build', '-w', 'agentlint-cli'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', 'agentcheck-core'], { cwd: repoRoot });
+  await execa('npm', ['run', 'build', '-w', 'agentcheck'], { cwd: repoRoot });
 }, 180_000);
 
 afterAll(async () => {
   await Promise.all(tempDirs.map((d) => fs.rm(d, { recursive: true, force: true }).catch(() => {})));
 });
 
-describe('agentlint add', () => {
+describe('agentcheck add', () => {
   it('add --list shows skills, mcp, and tools', async () => {
     const dir = await makeTempDir();
     const res = await runCli(['add', '--list'], dir);

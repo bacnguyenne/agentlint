@@ -27,7 +27,7 @@ describe('public API re-exports', () => {
 describe('lintDirectory + lintDirectoryWithFixes', () => {
   let dir: string;
   beforeAll(async () => {
-    dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-api-'));
+    dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-api-'));
     await fs.mkdir(path.join(dir, '.claude/agents'), { recursive: true });
     await fs.writeFile(path.join(dir, '.claude/agents/Bad_Name.md'), '---\nname: Bad_Name\ndescription: d\nmodel: gpt-4o\n---\nbody');
   });

@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * agentlint MCP server — stdio, newline-delimited JSON-RPC 2.0.
+ * agentcheck MCP server — stdio, newline-delimited JSON-RPC 2.0.
  *
- * Exposes agentlint as MCP tools so an agent (e.g. Claude Code) can lint its OWN
+ * Exposes agentcheck as MCP tools so an agent (e.g. Claude Code) can lint its OWN
  * configuration. Dependency-free: speaks the MCP stdio protocol directly rather
- * than pulling an SDK, matching agentlint's zero-runtime-dep ethos. Like the rest
- * of agentlint it only PARSES content — it never executes, imports, or fetches.
+ * than pulling an SDK, matching agentcheck's zero-runtime-dep ethos. Like the rest
+ * of agentcheck it only PARSES content — it never executes, imports, or fetches.
  *
  * Configure in `.mcp.json`:
- *   { "mcpServers": { "agentlint": { "command": "npx", "args": ["-y", "agentlint-mcp"] } } }
+ *   { "mcpServers": { "agentcheck": { "command": "npx", "args": ["-y", "agentcheck-mcp"] } } }
  */
 import * as readline from 'node:readline';
 import { pathToFileURL } from 'node:url';
@@ -18,7 +18,7 @@ import {
   rules,
   type FileKind,
   type LintResult,
-} from 'agentlint-core';
+} from 'agentcheck-core';
 
 const PROTOCOL_VERSION = '2024-11-05';
 
@@ -70,7 +70,7 @@ const TOOLS = [
   },
   {
     name: 'list_rules',
-    description: 'List all agentlint rules (id, severity, fixable, title).',
+    description: 'List all agentcheck rules (id, severity, fixable, title).',
     inputSchema: { type: 'object', properties: {} },
   },
 ];
@@ -101,7 +101,7 @@ async function handle(req: JsonRpc): Promise<void> {
       ok(id, {
         protocolVersion: PROTOCOL_VERSION,
         capabilities: { tools: {} },
-        serverInfo: { name: 'agentlint', version: '1.0.0' },
+        serverInfo: { name: 'agentcheck', version: '1.0.0' },
       });
       return;
     case 'notifications/initialized':
@@ -139,7 +139,7 @@ async function handle(req: JsonRpc): Promise<void> {
         }
         fail(id, -32602, `Unknown tool: ${String(name)}`);
       } catch (e) {
-        toolText(id, `agentlint error: ${e instanceof Error ? e.message : String(e)}`, true);
+        toolText(id, `agentcheck error: ${e instanceof Error ? e.message : String(e)}`, true);
       }
       return;
     }
@@ -150,8 +150,8 @@ async function handle(req: JsonRpc): Promise<void> {
 
 /**
  * Start the MCP stdio server: read newline-delimited JSON-RPC from stdin and
- * dispatch each request. Used by BOTH the standalone `agentlint-mcp` bin and the
- * `agentlint mcp` subcommand. Runs until stdin closes.
+ * dispatch each request. Used by BOTH the standalone `agentcheck-mcp` bin and the
+ * `agentcheck mcp` subcommand. Runs until stdin closes.
  */
 export function startMcpServer(): void {
   const rl = readline.createInterface({ input: process.stdin });
@@ -168,8 +168,8 @@ export function startMcpServer(): void {
   });
 }
 
-// Auto-start ONLY when run directly as the `agentlint-mcp` bin — not when the
-// main CLI imports this module for the `agentlint mcp` subcommand.
+// Auto-start ONLY when run directly as the `agentcheck-mcp` bin — not when the
+// main CLI imports this module for the `agentcheck mcp` subcommand.
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   startMcpServer();
 }

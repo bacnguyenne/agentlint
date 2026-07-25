@@ -16,7 +16,7 @@ export default function TemplatesPage() {
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-white">Templates</h1>
         <p className="mt-2 text-zinc-400">
-          Correct, copy-paste starting points. Every snippet here passes agentlint
+          Correct, copy-paste starting points. Every snippet here passes agentcheck
           with zero findings — use them as a known-good baseline.
         </p>
       </header>
@@ -59,7 +59,7 @@ export default function TemplatesPage() {
             </h2>
             <p className="mt-2 text-sm text-zinc-400">
               Agent Skills (<code className="font-mono text-xs">SKILL.md</code>) synced from upstream
-              repositories and <span className="text-zinc-200">validated by agentlint</span> — every
+              repositories and <span className="text-zinc-200">validated by agentcheck</span> — every
               one passes with zero errors. Refreshed automatically each week.
             </p>
           </header>

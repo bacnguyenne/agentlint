@@ -13,7 +13,7 @@ export interface RuleContent {
 
 export const RULE_CONTENT: Record<string, RuleContent> = {
   "core/file-too-large": {
-    "whyItMatters": "agentlint skips any file over its 1 MiB per-file cap to avoid excessive memory use, so an oversized config file is never linted at all — every other rule silently stops checking it, letting real misconfigurations and secrets slip through unreviewed.",
+    "whyItMatters": "agentcheck skips any file over its 1 MiB per-file cap to avoid excessive memory use, so an oversized config file is never linted at all — every other rule silently stops checking it, letting real misconfigurations and secrets slip through unreviewed.",
     "tip": "Split or trim the file so it stays under the 1 MiB per-file size cap.",
     "demoable": false
   },
@@ -405,7 +405,7 @@ export const RULE_CONTENT: Record<string, RuleContent> = {
     "demoable": false
   },
   "security/hardcoded-secret": {
-    "whyItMatters": "A literal API key/token committed to a config file is exposed to anyone with repo access and lives forever in git history, enabling account takeover and data exfiltration. agentlint scans MCP/settings JSON string leaves and CLAUDE.md/command/agent markdown bodies against known provider patterns (OpenAI sk-, GitHub ghp_/github_pat_, AWS AKIA/ASIA, Google AIza, Slack xox, GitLab glpat-, PEM headers, and `Bearer <literal>`).",
+    "whyItMatters": "A literal API key/token committed to a config file is exposed to anyone with repo access and lives forever in git history, enabling account takeover and data exfiltration. agentcheck scans MCP/settings JSON string leaves and CLAUDE.md/command/agent markdown bodies against known provider patterns (OpenAI sk-, GitHub ghp_/github_pat_, AWS AKIA/ASIA, Google AIza, Slack xox, GitLab glpat-, PEM headers, and `Bearer <literal>`).",
     "tip": "Replace the literal with a ${ENV_VAR} reference and load the secret from the environment.",
     "demoable": true,
     "bad": {

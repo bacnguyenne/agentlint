@@ -1,9 +1,9 @@
 /**
- * `agentlint add <id>` — install a catalog item (Skill, MCP server, or Tool)
+ * `agentcheck add <id>` — install a catalog item (Skill, MCP server, or Tool)
  * into the current project from the bundled catalog.
  *
  * Safety:
- *  - The item's content is re-validated with agentlint before anything is
+ *  - The item's content is re-validated with agentcheck before anything is
  *    written; an item with lint errors is refused.
  *  - MCP servers are MERGED into an existing `.mcp.json` (never clobbered).
  *  - Existing target files are not overwritten without `--force`.
@@ -11,7 +11,7 @@
  */
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { lintFiles, type FileKind } from 'agentlint-core';
+import { lintFiles, type FileKind } from 'agentcheck-core';
 import type { AddCommand } from './args.js';
 import { CATALOG_ITEMS } from './catalog.generated.js';
 // Type-only import (erased at runtime, so no import cycle with index.ts).
@@ -35,12 +35,12 @@ function listCatalog(io: Io): number {
       io.stdout(`  ${i.id.padEnd(34)} ${i.description}\n`);
     }
   }
-  io.stdout(`\nInstall one with: agentlint add <id>\n`);
-  io.stdout(`Or a whole set at once: agentlint add <id> <id> <id>\n`);
+  io.stdout(`\nInstall one with: agentcheck add <id>\n`);
+  io.stdout(`Or a whole set at once: agentcheck add <id> <id> <id>\n`);
   return 0;
 }
 
-/** Validate an item's content with agentlint; return error findings. */
+/** Validate an item's content with agentcheck; return error findings. */
 function lintErrors(item: Item): string[] {
   const result = lintFiles([{ path: item.targetPath, content: item.content, kind: item.configKind as FileKind }]);
   return result.findings.filter((f) => f.severity === 'error').map((f) => `${f.ruleId}: ${f.message}`);
@@ -53,13 +53,13 @@ async function addMcpServer(item: Item, cmd: AddCommand, io: Io): Promise<number
   try {
     incoming = JSON.parse(item.content);
   } catch {
-    io.stderr(`agentlint: catalog item "${item.id}" has invalid JSON content.\n`);
+    io.stderr(`agentcheck: catalog item "${item.id}" has invalid JSON content.\n`);
     return 2;
   }
   const servers = (incoming as { mcpServers?: Record<string, unknown> }).mcpServers ?? {};
   const name = Object.keys(servers)[0];
   if (!name) {
-    io.stderr(`agentlint: catalog item "${item.id}" has no server definition.\n`);
+    io.stderr(`agentcheck: catalog item "${item.id}" has no server definition.\n`);
     return 2;
   }
 
@@ -78,7 +78,7 @@ async function addMcpServer(item: Item, cmd: AddCommand, io: Io): Promise<number
   }
 
   if (doc.mcpServers[name] !== undefined && !cmd.force) {
-    io.stderr(`agentlint: MCP server "${name}" already exists in .mcp.json. Use --force to overwrite.\n`);
+    io.stderr(`agentcheck: MCP server "${name}" already exists in .mcp.json. Use --force to overwrite.\n`);
     return 2;
   }
   doc.mcpServers[name] = servers[name];
@@ -103,7 +103,7 @@ async function addFileItem(item: Item, cmd: AddCommand, io: Io): Promise<number>
     // Does not exist: fine.
   }
   if (exists && !cmd.force) {
-    io.stderr(`agentlint: ${item.targetPath} already exists. Use --force to overwrite.\n`);
+    io.stderr(`agentcheck: ${item.targetPath} already exists. Use --force to overwrite.\n`);
     return 2;
   }
   if (cmd.dryRun) {
@@ -120,14 +120,14 @@ async function addFileItem(item: Item, cmd: AddCommand, io: Io): Promise<number>
 async function addOne(idOrName: string, cmd: AddCommand, io: Io): Promise<number> {
   const item = findItem(idOrName);
   if (!item) {
-    io.stderr(`agentlint: no catalog item "${idOrName}". Run 'agentlint add --list' to see all ids.\n`);
+    io.stderr(`agentcheck: no catalog item "${idOrName}". Run 'agentcheck add --list' to see all ids.\n`);
     return 2;
   }
 
-  // Defense in depth: never install content that does not pass agentlint.
+  // Defense in depth: never install content that does not pass agentcheck.
   const errors = lintErrors(item);
   if (errors.length > 0) {
-    io.stderr(`agentlint: refusing to add "${item.id}" — it has lint errors:\n`);
+    io.stderr(`agentcheck: refusing to add "${item.id}" — it has lint errors:\n`);
     for (const e of errors) io.stderr(`  ${e}\n`);
     return 2;
   }
@@ -136,7 +136,7 @@ async function addOne(idOrName: string, cmd: AddCommand, io: Io): Promise<number
 }
 
 /**
- * Implements `agentlint add`. Accepts several ids so a whole bundle installs in
+ * Implements `agentcheck add`. Accepts several ids so a whole bundle installs in
  * one command; every item is attempted and the worst exit code is returned, so
  * one bad id never silently skips the rest.
  */
@@ -149,7 +149,7 @@ export async function runAdd(cmd: AddCommand, io: Io): Promise<number> {
     if (code > worst) worst = code;
   }
   if (cmd.idsOrNames.length > 1 && !cmd.dryRun) {
-    io.stdout(`\nRestart Claude Code so it discovers the new items, then run 'npx agentlint' to check them.\n`);
+    io.stdout(`\nRestart Claude Code so it discovers the new items, then run 'npx agentcheck' to check them.\n`);
   }
   return worst;
 }

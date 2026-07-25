@@ -1,8 +1,8 @@
 name: Release
 
-# Publish agentlint-core then the agentlint CLI to npm when a version tag is
+# Publish agentcheck-core then the agentcheck CLI to npm when a version tag is
 # pushed (e.g. `git tag v1.1.0 && git push --tags`). Core is published FIRST so
-# the CLI's `agentlint-core` dependency resolves for fresh installs. Requires an
+# the CLI's `agentcheck-core` dependency resolves for fresh installs. Requires an
 # `NPM_TOKEN` repository secret with publish rights.
 on:
   push:
@@ -34,12 +34,12 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Publish agentlint-core
-        run: npm publish --workspace agentlint-core --access public
+      - name: Publish agentcheck-core
+        run: npm publish --workspace agentcheck-core --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish agentlint (CLI)
-        run: npm publish --workspace agentlint-cli --access public
+      - name: Publish agentcheck (CLI)
+        run: npm publish --workspace agentcheck --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

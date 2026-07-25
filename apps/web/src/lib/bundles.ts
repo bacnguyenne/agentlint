@@ -210,5 +210,5 @@ export function unbundledItems(items: CatalogItem[] = CATALOG): CatalogItem[] {
 /** One command that installs a whole bundle (the CLI accepts several ids). */
 export function bundleInstallCommand(bundle: Bundle, items: CatalogItem[] = CATALOG): string {
   const ids = bundleItems(bundle, items).map((i) => i.id);
-  return ids.length > 0 ? `npx agentlint add ${ids.join(' ')}` : '';
+  return ids.length > 0 ? `npx agentcheck add ${ids.join(' ')}` : '';
 }

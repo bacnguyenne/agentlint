@@ -1,17 +1,17 @@
 /**
- * `.agentlintrc.json` discovery and loading (SPEC §5).
+ * `.agentcheckrc.json` discovery and loading (SPEC §5).
  *
  * Walks from a starting directory upward to the filesystem root, looking for a
- * `.agentlintrc.json`. The nearest one wins (we stop at the first match — this
+ * `.agentcheckrc.json`. The nearest one wins (we stop at the first match — this
  * is the conventional "closest config" behavior). The file is parsed as strict
  * JSON; malformed config is a usage/config error (CLI exit code 2).
  */
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import type { LintOptions, Severity } from 'agentlint-core';
+import type { LintOptions, Severity } from 'agentcheck-core';
 
-/** The on-disk shape of `.agentlintrc.json`. */
-export interface AgentlintConfig {
+/** The on-disk shape of `.agentcheckrc.json`. */
+export interface AgentcheckConfig {
   /** Per-rule severity overrides. */
   rules?: Record<string, 'off' | Severity>;
   /** Gitignore-style ignore patterns. */
@@ -20,13 +20,13 @@ export interface AgentlintConfig {
 
 /** Result of loading config: the parsed config plus the file it came from. */
 export interface LoadedConfig {
-  config: AgentlintConfig;
+  config: AgentcheckConfig;
   /** Absolute path of the config file used, or `null` if none was found. */
   path: string | null;
 }
 
-/** The config filename agentlint looks for. */
-export const CONFIG_FILENAME = '.agentlintrc.json';
+/** The config filename agentcheck looks for. */
+export const CONFIG_FILENAME = '.agentcheckrc.json';
 
 /** A user-facing config error (bad JSON or wrong shape). Caller exits 2. */
 export class ConfigError extends Error {
@@ -36,7 +36,7 @@ export class ConfigError extends Error {
 const VALID_SEVERITIES = new Set(['off', 'error', 'warning', 'info']);
 
 /**
- * Find and load the nearest `.agentlintrc.json` at or above `startDir`.
+ * Find and load the nearest `.agentcheckrc.json` at or above `startDir`.
  *
  * @throws {ConfigError} if a config file is found but is not valid JSON or has
  *   the wrong shape.
@@ -63,7 +63,7 @@ export async function loadConfig(startDir: string): Promise<LoadedConfig> {
 }
 
 /** Parse and validate raw config text. */
-export function parseConfig(raw: string, sourcePath: string): AgentlintConfig {
+export function parseConfig(raw: string, sourcePath: string): AgentcheckConfig {
   let data: unknown;
   try {
     data = JSON.parse(raw);
@@ -76,7 +76,7 @@ export function parseConfig(raw: string, sourcePath: string): AgentlintConfig {
   }
 
   const obj = data as Record<string, unknown>;
-  const config: AgentlintConfig = {};
+  const config: AgentcheckConfig = {};
 
   if (obj.rules !== undefined) {
     if (
@@ -115,14 +115,14 @@ export function parseConfig(raw: string, sourcePath: string): AgentlintConfig {
  * Merge a loaded config into the {@link LintOptions} passed to core. CLI flags
  * (e.g. `--fix`) are layered on top by the caller.
  */
-export function toLintOptions(config: AgentlintConfig): LintOptions {
+export function toLintOptions(config: AgentcheckConfig): LintOptions {
   const opts: LintOptions = {};
   if (config.rules) opts.rules = config.rules;
   if (config.ignore) opts.ignore = config.ignore;
   return opts;
 }
 
-/** The starter config written by `agentlint init`. */
+/** The starter config written by `agentcheck init`. */
 export const STARTER_CONFIG = `${JSON.stringify(
   {
     // No `$schema` is emitted: the hosted JSON Schema is not published yet, and

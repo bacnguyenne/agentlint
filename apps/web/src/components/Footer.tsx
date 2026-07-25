@@ -52,7 +52,7 @@ export function Footer() {
         <div>
           <h2 className="text-sm font-semibold text-white">Free &amp; open source</h2>
           <p className="mt-2 text-sm text-zinc-400">
-            agentlint is a free, MIT-licensed tool — no accounts, no paywall, nothing
+            agentcheck is a free, MIT-licensed tool — no accounts, no paywall, nothing
             to buy. If it saved you some trouble, a star or a coffee is a kind way to
             say thanks. Both are entirely optional.
           </p>
@@ -98,7 +98,7 @@ export function Footer() {
             >
               Bac Nguyen
             </a>{' '}
-            · © {YEAR} agentlint
+            · © {YEAR} agentcheck
           </p>
         </div>
       </div>

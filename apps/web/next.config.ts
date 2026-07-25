@@ -68,7 +68,7 @@ const securityHeaders = [
 
 // Static export (GitHub Pages) when NEXT_EXPORT=1; otherwise a standalone server
 // bundle (Docker/Vercel). NEXT_PUBLIC_BASE_PATH lets project Pages serve under
-// /<repo> (e.g. /agentlint).
+// /<repo> (e.g. /agentcheck).
 const isExport = process.env.NEXT_EXPORT === '1';
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
@@ -95,10 +95,10 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, '..', '..'),
   // The core package is an ESM workspace package shipping compiled JS; tell Next
   // to transpile it so it works inside the app's build pipeline.
-  transpilePackages: ['agentlint-core'],
+  transpilePackages: ['agentcheck-core'],
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
-      // agentlint-core's index top-level-imports a filesystem `discover`
+      // agentcheck-core's index top-level-imports a filesystem `discover`
       // (node:fs/node:path) that the browser never calls — we only use the pure
       // `lintFiles`. Strip the `node:` URI scheme so webpack can apply fallbacks,
       // then stub the builtins to empty modules for the client bundle.

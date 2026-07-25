@@ -1,11 +1,11 @@
-# Production image for @agentlint/web.
+# Production image for @agentcheck/web.
 #
 # Multi-stage build using Next.js standalone output. Runs as a NON-ROOT user
-# (SPEC §7). Build context MUST be the monorepo root so the agentlint-core
+# (SPEC §7). Build context MUST be the monorepo root so the agentcheck-core
 # workspace dependency is available:
 #
-#   docker build -f apps/web/Dockerfile -t agentlint-web .
-#   docker run --rm -p 3100:3100 agentlint-web
+#   docker build -f apps/web/Dockerfile -t agentcheck-web .
+#   docker run --rm -p 3100:3100 agentcheck-web
 #
 # syntax=docker/dockerfile:1
 
@@ -26,8 +26,8 @@ WORKDIR /repo
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /repo/node_modules ./node_modules
 COPY . .
-RUN npm run build -w agentlint-core \
-  && npm run build -w @agentlint/web
+RUN npm run build -w agentcheck-core \
+  && npm run build -w @agentcheck/web
 
 # ---- runner: minimal non-root runtime ----
 FROM node:${NODE_VERSION} AS runner

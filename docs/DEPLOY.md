@@ -1,26 +1,26 @@
-# Deploying agentlint
+# Deploying agentcheck
 
-This guide covers deploying the **web app** (`@agentlint/web`). The **CLI** (`agentlint`) and **engine** (`agentlint-core`) are published to npm — you don't deploy those, you just `npx agentlint` or `npm install agentlint-core`.
+This guide covers deploying the **web app** (`@agentcheck/web`). The **CLI** (`agentcheck`) and **engine** (`agentcheck-core`) are published to npm — you don't deploy those, you just `npx agentcheck` or `npm install agentcheck-core`.
 
 > Unofficial — not affiliated with Anthropic.
 
 ## What you're deploying
 
-`@agentlint/web` is a Next.js (App Router) app that runs the pure [`agentlint-core`](../packages/core) engine server-side. It stores nothing, makes no outbound calls, and ships strict security headers. It's a normal Next.js deploy with two monorepo wrinkles:
+`@agentcheck/web` is a Next.js (App Router) app that runs the pure [`agentcheck-core`](../packages/core) engine server-side. It stores nothing, makes no outbound calls, and ships strict security headers. It's a normal Next.js deploy with two monorepo wrinkles:
 
-- The app imports the workspace package `agentlint-core`, so the build must have access to the monorepo (or to a built copy of core). `next.config.ts` already sets `transpilePackages: ['agentlint-core']` and pins `outputFileTracingRoot` to the repo root.
+- The app imports the workspace package `agentcheck-core`, so the build must have access to the monorepo (or to a built copy of core). `next.config.ts` already sets `transpilePackages: ['agentcheck-core']` and pins `outputFileTracingRoot` to the repo root.
 - `output: 'standalone'` is enabled for a small, self-contained server bundle (used by the Docker image).
 
 ## Option A — Docker (self-host)
 
-The Dockerfile uses Next.js standalone output, runs as a **non-root** user, and has a built-in **healthcheck**. The build context **must be the monorepo root** so the `agentlint-core` workspace dependency resolves.
+The Dockerfile uses Next.js standalone output, runs as a **non-root** user, and has a built-in **healthcheck**. The build context **must be the monorepo root** so the `agentcheck-core` workspace dependency resolves.
 
 ```bash
 # From the repository root:
-docker build -f apps/web/Dockerfile -t agentlint-web .
+docker build -f apps/web/Dockerfile -t agentcheck-web .
 
 # Run it (port 3100):
-docker run --rm -p 3100:3100 -e TRUSTED_PROXY=1 agentlint-web
+docker run --rm -p 3100:3100 -e TRUSTED_PROXY=1 agentcheck-web
 ```
 
 Open http://localhost:3100.
@@ -53,11 +53,11 @@ For multi-instance deployments, the in-memory rate limiter is per-instance; swap
 
 Vercel builds the monorepo natively. Recommended settings:
 
-- **Root Directory:** the repository root (not `apps/web`) — the app needs the workspace to resolve `agentlint-core`. Vercel auto-detects the Next.js app in `apps/web`.
+- **Root Directory:** the repository root (not `apps/web`) — the app needs the workspace to resolve `agentcheck-core`. Vercel auto-detects the Next.js app in `apps/web`.
 - **Framework preset:** Next.js.
 - **Install command:** `npm ci`.
 - **Build command:** build the engine first, then the app:
-  `npm run build -w agentlint-core && npm run build -w @agentlint/web`
+  `npm run build -w agentcheck-core && npm run build -w @agentcheck/web`
 - **Output:** leave to Next.js defaults. (`output: 'standalone'` is harmless on Vercel; `transpilePackages` ensures the ESM core package is bundled correctly.)
 - **Environment variables:** Vercel's platform sets a correct, trusted `X-Forwarded-For`, so set `TRUSTED_PROXY=1` to get per-client rate limiting. Set `NEXT_TELEMETRY_DISABLED=1` if desired.
 
@@ -69,9 +69,9 @@ Any host that can run a Next.js standalone server works:
 
 ```bash
 npm ci
-npm run build -w agentlint-core
-npm run build -w @agentlint/web
-npm run start -w @agentlint/web   # serves on PORT (default 3100)
+npm run build -w agentcheck-core
+npm run build -w @agentcheck/web
+npm run start -w @agentcheck/web   # serves on PORT (default 3100)
 ```
 
 Put it behind TLS and a reverse proxy, and set `TRUSTED_PROXY=1` when that proxy controls `X-Forwarded-For`.

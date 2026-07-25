@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * `agentlint` — the CLI entry point (SPEC §5).
+ * `agentcheck` — the CLI entry point (SPEC §5).
  *
  * Responsibilities:
  *  - Parse argv (see {@link parseArgs}).
- *  - Load `.agentlintrc.json` from cwd upward and merge into core options.
+ *  - Load `.agentcheckrc.json` from cwd upward and merge into core options.
  *  - Run `lintDirectory` over each path and merge findings.
  *  - With `--fix`, apply safe fixes via core and write patched files back.
  *  - Report via the stylish or json reporter.
@@ -18,8 +18,8 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { Finding, LintOptions, LintResult } from 'agentlint-core';
-import { lintDirectory, lintDirectoryWithFixes } from 'agentlint-core';
+import type { Finding, LintOptions, LintResult } from 'agentcheck-core';
+import { lintDirectory, lintDirectoryWithFixes } from 'agentcheck-core';
 import { parseArgs, type LintCommand } from './args.js';
 import { runAdd } from './add.js';
 import { startMcpServer } from './mcp.js';
@@ -62,7 +62,7 @@ export async function run(argv: string[], io: Io = defaultIo): Promise<number> {
     return await runInner(argv, io);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    io.stderr(`agentlint: ${msg}\n`);
+    io.stderr(`agentcheck: ${msg}\n`);
     return 2;
   }
 }
@@ -72,8 +72,8 @@ async function runInner(argv: string[], io: Io): Promise<number> {
 
   switch (parsed.kind) {
     case 'error':
-      io.stderr(`agentlint: ${parsed.message}\n`);
-      io.stderr(`Run 'agentlint --help' for usage.\n`);
+      io.stderr(`agentcheck: ${parsed.message}\n`);
+      io.stderr(`Run 'agentcheck --help' for usage.\n`);
       return 2;
     case 'help':
       io.stdout(helpText());
@@ -95,14 +95,14 @@ async function runInner(argv: string[], io: Io): Promise<number> {
   }
 }
 
-/** Implements `agentlint init`. */
+/** Implements `agentcheck init`. */
 async function runInit(force: boolean, io: Io): Promise<number> {
   const target = path.join(io.cwd(), CONFIG_FILENAME);
   if (!force) {
     try {
       await fs.access(target);
       io.stderr(
-        `agentlint: ${CONFIG_FILENAME} already exists. Use --force to overwrite.\n`,
+        `agentcheck: ${CONFIG_FILENAME} already exists. Use --force to overwrite.\n`,
       );
       return 2;
     } catch {
@@ -113,7 +113,7 @@ async function runInit(force: boolean, io: Io): Promise<number> {
     await fs.writeFile(target, STARTER_CONFIG, 'utf8');
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    io.stderr(`agentlint: failed to write ${CONFIG_FILENAME}: ${msg}\n`);
+    io.stderr(`agentcheck: failed to write ${CONFIG_FILENAME}: ${msg}\n`);
     return 2;
   }
   io.stdout(`Created ${CONFIG_FILENAME}\n`);
@@ -129,7 +129,7 @@ async function runLint(cmd: LintCommand, io: Io): Promise<number> {
     lintOptions = toLintOptions(loaded.config);
   } catch (err) {
     if (err instanceof ConfigError) {
-      io.stderr(`agentlint: ${err.message}\n`);
+      io.stderr(`agentcheck: ${err.message}\n`);
       return 2;
     }
     throw err;
@@ -143,11 +143,11 @@ async function runLint(cmd: LintCommand, io: Io): Promise<number> {
     try {
       stat = await fs.stat(abs);
     } catch {
-      io.stderr(`agentlint: no such file or directory: ${p}\n`);
+      io.stderr(`agentcheck: no such file or directory: ${p}\n`);
       return 2;
     }
     if (!stat.isDirectory()) {
-      io.stderr(`agentlint: not a directory: ${p}\n`);
+      io.stderr(`agentcheck: not a directory: ${p}\n`);
       return 2;
     }
   }
@@ -157,7 +157,7 @@ async function runLint(cmd: LintCommand, io: Io): Promise<number> {
   let filesChecked = 0;
   let fixedCount = 0;
 
-  // Dedupe overlapping/duplicate roots (e.g. `agentlint . .`) so the same files
+  // Dedupe overlapping/duplicate roots (e.g. `agentcheck . .`) so the same files
   // aren't linted — and counted — twice.
   const seenRoots = new Set<string>();
   const uniquePaths = cmd.paths.filter((p) => {
@@ -182,13 +182,13 @@ async function runLint(cmd: LintCommand, io: Io): Promise<number> {
           // Atomic write: write a sibling temp file, then rename over the target
           // (atomic on POSIX). An interrupt mid-write can't corrupt the user's
           // CLAUDE.md / settings.json — the original stays intact until rename.
-          const tmp = `${fileAbs}.agentlint-${process.pid}.tmp`;
+          const tmp = `${fileAbs}.agentcheck-${process.pid}.tmp`;
           await fs.writeFile(tmp, content, 'utf8');
           await fs.rename(tmp, fileAbs);
           fixedCount++;
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err);
-          io.stderr(`agentlint: failed to write fix to ${relPath}: ${msg}\n`);
+          io.stderr(`agentcheck: failed to write fix to ${relPath}: ${msg}\n`);
           return 2;
         }
       }
@@ -299,14 +299,14 @@ async function readVersion(): Promise<string> {
 
 /** The `--help` text. */
 function helpText(): string {
-  return `agentlint — lint & security-check your AI coding-agent configuration
+  return `agentcheck — lint & security-check your AI coding-agent configuration
 
 Usage:
-  agentlint [options] [paths...]
-  agentlint init [--force]
-  agentlint add <id> [--force] [--dry-run]
-  agentlint add --list
-  agentlint mcp
+  agentcheck [options] [paths...]
+  agentcheck init [--force]
+  agentcheck add <id> [--force] [--dry-run]
+  agentcheck add --list
+  agentcheck mcp
 
 Arguments:
   paths                One or more directories to lint (default: ".").
@@ -322,18 +322,18 @@ Options:
   -h, --help           Show this help and exit.
 
 Commands:
-  init                 Write a starter .agentlintrc.json (refuses to overwrite
+  init                 Write a starter .agentcheckrc.json (refuses to overwrite
                        without --force).
   add <id>             Install a catalog item (skill / MCP server / tool) into
                        the current project. MCP servers merge into .mcp.json;
                        files are not overwritten without --force. Use
-                       "agentlint add --list" to see all ids, "--dry-run" to
+                       "agentcheck add --list" to see all ids, "--dry-run" to
                        preview.
-  mcp                  Run the agentlint MCP server (stdio) so an agent can lint
-                       its own config. Same as the "agentlint-mcp" binary.
+  mcp                  Run the agentcheck MCP server (stdio) so an agent can lint
+                       its own config. Same as the "agentcheck-mcp" binary.
 
 Configuration:
-  .agentlintrc.json    Loaded from the current directory upward. Supports
+  .agentcheckrc.json    Loaded from the current directory upward. Supports
                        { "rules": { "<id>": "off|error|warning|info" },
                          "ignore": ["glob", ...] }.
 
@@ -357,7 +357,7 @@ if (invokedDirectly) {
     (err: unknown) => {
       // Defensive: run() should never reject, but never let it crash silently.
       const msg = err instanceof Error ? err.message : String(err);
-      process.stderr.write(`agentlint: fatal: ${msg}\n`);
+      process.stderr.write(`agentcheck: fatal: ${msg}\n`);
       process.exitCode = 2;
     },
   );

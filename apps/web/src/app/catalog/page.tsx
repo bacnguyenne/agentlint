@@ -6,7 +6,7 @@ import { CatalogBrowser } from '@/components/CatalogBrowser';
 export const metadata: Metadata = {
   title: 'Catalog — skills, MCP servers & tools',
   description:
-    'Find and download vetted Claude Code Agent Skills, MCP servers, and tools (subagents & slash commands). Every item is validated by agentlint with zero errors. Search, filter, copy, or download all.',
+    'Find and download vetted Claude Code Agent Skills, MCP servers, and tools (subagents & slash commands). Every item is validated by agentcheck with zero errors. Search, filter, copy, or download all.',
 };
 
 export default function CatalogPage() {
@@ -19,7 +19,7 @@ export default function CatalogPage() {
           <span className="text-zinc-200">skills</span> (how to do a task),{' '}
           <span className="text-zinc-200">MCP servers</span> (access to outside systems), and{' '}
           <span className="text-zinc-200">tools</span> (subagents &amp; slash commands). Every item is
-          validated by agentlint with zero errors, and credentials are always{' '}
+          validated by agentcheck with zero errors, and credentials are always{' '}
           <code className="font-mono text-xs">${'{ENV_VAR}'}</code> references — never real secrets.
         </p>
       </header>
@@ -35,12 +35,12 @@ export default function CatalogPage() {
             <ol className="mt-1.5 list-decimal space-y-1.5 pl-5">
               <li>
                 <span className="text-zinc-200">CLI (easiest)</span> — run{' '}
-                <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">npx agentlint add &lt;id&gt;</code>{' '}
+                <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">npx agentcheck add &lt;id&gt;</code>{' '}
                 in your project. It writes the file to the right path; MCP servers <span className="text-zinc-200">merge</span> into your <code className="font-mono text-xs">.mcp.json</code>.
               </li>
               <li>
                 <span className="text-zinc-200">Download .zip</span> — grab the archive, then{' '}
-                <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">unzip agentlint-catalog.zip -d your-project</code>. Files land in the correct <code className="font-mono text-xs">.claude/…</code> structure with a merged <code className="font-mono text-xs">.mcp.json</code> and a README.
+                <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">unzip agentcheck-catalog.zip -d your-project</code>. Files land in the correct <code className="font-mono text-xs">.claude/…</code> structure with a merged <code className="font-mono text-xs">.mcp.json</code> and a README.
               </li>
               <li>
                 <span className="text-zinc-200">Copy &amp; paste</span> — open <span className="text-zinc-200">Preview</span>, copy, and paste into the file at the path shown on the card.
@@ -64,8 +64,8 @@ export default function CatalogPage() {
           <div>
             <p className="font-medium text-zinc-200">Security:</p>
             <p className="mt-1.5">
-              Every item carries a <span className="text-emerald-300">✓ agentlint</span> badge — it passed agentlint with <span className="text-zinc-200">zero errors</span>: no hardcoded secrets, no remote-code-execution patterns, and no over-broad tool/permission grants. Credentials are always{' '}
-              <code className="font-mono text-xs">${'{ENV_VAR}'}</code> references — you set them yourself; nothing secret is shipped. Re-check anything you add with <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">npx agentlint</code>.
+              Every item carries a <span className="text-emerald-300">✓ agentcheck</span> badge — it passed agentcheck with <span className="text-zinc-200">zero errors</span>: no hardcoded secrets, no remote-code-execution patterns, and no over-broad tool/permission grants. Credentials are always{' '}
+              <code className="font-mono text-xs">${'{ENV_VAR}'}</code> references — you set them yourself; nothing secret is shipped. Re-check anything you add with <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-xs text-zinc-200">npx agentcheck</code>.
             </p>
           </div>
         </div>

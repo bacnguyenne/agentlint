@@ -54,7 +54,7 @@ describe('discoverFiles (temp dir)', () => {
   let dir: string;
 
   beforeAll(async () => {
-    dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-'));
+    dir = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-'));
     await fs.mkdir(path.join(dir, '.claude/agents'), { recursive: true });
     await fs.mkdir(path.join(dir, '.claude/commands/ns'), { recursive: true });
     await fs.mkdir(path.join(dir, '.claude/skills/pdf'), { recursive: true });
@@ -127,7 +127,7 @@ describe('discoverFiles (temp dir)', () => {
 
 describe('discoverFiles oversized + in-root symlinks', () => {
   it('skips a file larger than the size cap', async () => {
-    const base = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-big-'));
+    const base = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-big-'));
     // 1 MiB + 1 byte exceeds MAX_FILE_BYTES.
     await fs.writeFile(path.join(base, 'CLAUDE.md'), 'x'.repeat(1024 * 1024 + 1));
     const files = await discoverFiles(base);
@@ -136,7 +136,7 @@ describe('discoverFiles oversized + in-root symlinks', () => {
   });
 
   it('follows a symlink to a file that stays inside the root', async () => {
-    const base = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-insym-'));
+    const base = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-insym-'));
     await fs.writeFile(path.join(base, 'real.md'), '# real');
     try {
       // Link name classifies as CLAUDE.md so discovery picks it up.
@@ -151,7 +151,7 @@ describe('discoverFiles oversized + in-root symlinks', () => {
   });
 
   it('follows a symlinked directory that stays inside the root', async () => {
-    const base = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-indir-'));
+    const base = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-indir-'));
     await fs.mkdir(path.join(base, 'inner'), { recursive: true });
     await fs.writeFile(path.join(base, 'inner/CLAUDE.md'), '# inner');
     try {
@@ -168,7 +168,7 @@ describe('discoverFiles oversized + in-root symlinks', () => {
 
 describe('discoverFiles symlink safety', () => {
   it('does not follow a symlink pointing outside the root', async () => {
-    const base = await fs.mkdtemp(path.join(os.tmpdir(), 'agentlint-sym-'));
+    const base = await fs.mkdtemp(path.join(os.tmpdir(), 'agentcheck-sym-'));
     const root = path.join(base, 'root');
     const outside = path.join(base, 'outside');
     await fs.mkdir(root, { recursive: true });

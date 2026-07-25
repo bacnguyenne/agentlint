@@ -43,7 +43,7 @@ jobs:
 
       # Guard: the generated module must still typecheck in the web app.
       - name: Typecheck the web app
-        run: npm run typecheck -w @agentlint/web
+        run: npm run typecheck -w @agentcheck/web
 
       - name: Open a pull request
         uses: peter-evans/create-pull-request@v7

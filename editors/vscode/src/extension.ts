@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { execFile } from 'node:child_process';
 import * as path from 'node:path';
 
-/** Shape of a finding in `agentlint --format json` output (see agentlint-core). */
+/** Shape of a finding in `agentcheck --format json` output (see agentcheck-core). */
 interface Finding {
   ruleId: string;
   severity: 'error' | 'warning' | 'info';
@@ -18,12 +18,12 @@ interface LintResult {
 let collection: vscode.DiagnosticCollection;
 
 export function activate(context: vscode.ExtensionContext): void {
-  collection = vscode.languages.createDiagnosticCollection('agentlint');
+  collection = vscode.languages.createDiagnosticCollection('agentcheck');
   context.subscriptions.push(collection);
   context.subscriptions.push(
-    vscode.commands.registerCommand('agentlint.lintWorkspace', () => lintAll()),
+    vscode.commands.registerCommand('agentcheck.lintWorkspace', () => lintAll()),
     vscode.workspace.onDidSaveTextDocument(() => {
-      const cfg = vscode.workspace.getConfiguration('agentlint');
+      const cfg = vscode.workspace.getConfiguration('agentcheck');
       if (cfg.get<boolean>('runOnSave', true)) lintAll();
     }),
   );
@@ -43,21 +43,21 @@ function severityOf(s: Finding['severity']): vscode.DiagnosticSeverity {
 }
 
 function runLint(root: string): void {
-  const cfg = vscode.workspace.getConfiguration('agentlint');
+  const cfg = vscode.workspace.getConfiguration('agentcheck');
   const command = cfg.get<string>('command', 'npx');
   const args =
     command === 'npx'
-      ? ['-y', 'agentlint', '--format', 'json', '.']
+      ? ['-y', 'agentcheck', '--format', 'json', '.']
       : ['--format', 'json', '.'];
 
-  // agentlint exits 1 when it finds errors — that is a normal result on stdout,
+  // agentcheck exits 1 when it finds errors — that is a normal result on stdout,
   // not a spawn failure, so we parse stdout regardless of the exit code.
   execFile(command, args, { cwd: root, maxBuffer: 16 * 1024 * 1024 }, (_err, stdout) => {
     let result: LintResult;
     try {
       result = JSON.parse(stdout) as LintResult;
     } catch {
-      return; // no parseable output (e.g. agentlint not installed) — leave diagnostics as-is
+      return; // no parseable output (e.g. agentcheck not installed) — leave diagnostics as-is
     }
     const byFile = new Map<string, vscode.Diagnostic[]>();
     for (const f of result.findings ?? []) {
@@ -66,7 +66,7 @@ function runLint(root: string): void {
       const col = Math.max(0, (f.column ?? 1) - 1);
       const range = new vscode.Range(ln, col, ln, col + 1);
       const diag = new vscode.Diagnostic(range, f.message, severityOf(f.severity));
-      diag.source = 'agentlint';
+      diag.source = 'agentcheck';
       diag.code = f.ruleId;
       const list = byFile.get(abs) ?? [];
       list.push(diag);

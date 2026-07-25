@@ -1,12 +1,12 @@
 ---
 name: Feature request / new rule
-about: Suggest a new rule or an improvement to agentlint
+about: Suggest a new rule or an improvement to agentcheck
 title: "[feat] "
 labels: enhancement
 assignees: ''
 ---
 
-## What would you like agentlint to do?
+## What would you like agentcheck to do?
 
 A clear description of the feature or the new rule.
 

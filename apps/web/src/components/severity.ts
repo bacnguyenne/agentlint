@@ -1,4 +1,4 @@
-import type { Severity } from 'agentlint-core';
+import type { Severity } from 'agentcheck-core';
 
 /** Sort order for severities: errors first, then warnings, then infos. */
 export const SEVERITY_ORDER: Record<Severity, number> = {

@@ -9,7 +9,7 @@
  *
  * Outputs (identical content):
  *   - apps/web/src/lib/catalog.generated.ts   (the web `/catalog` page)
- *   - packages/cli/src/catalog.generated.ts   (the `agentlint add` command)
+ *   - packages/cli/src/catalog.generated.ts   (the `agentcheck add` command)
  *
  * Run: `npm run gen:catalog`.
  */
@@ -371,7 +371,7 @@ Make the smallest changes that satisfy the plan. Follow the surrounding code's s
 - **Tests**: cover the happy path, edge cases, and a regression for any bug.
 - **Run it**: build and exercise the real path, not just unit tests.
 - **Self-review**: re-read the full \`git diff\` for correctness, security, and missing tests.
-- **Lint/format**: run the project's linters and \`npx agentlint\` if it touches agent config.
+- **Lint/format**: run the project's linters and \`npx agentcheck\` if it touches agent config.
 
 ## 4. Harden for production
 Error handling on every fallible call · input validation at trust boundaries · logging/observability for the new path · config via env · performance acceptable under realistic load · a rollback/feature-flag plan.

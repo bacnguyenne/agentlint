@@ -20,7 +20,7 @@ export const coreRules: Rule[] = [
     meta: {
       title: 'File is too large to lint',
       description:
-        'The file exceeds agentlint’s per-file size cap (1 MiB) and is skipped to avoid excessive memory use. Split or trim the file so it can be linted.',
+        'The file exceeds agentcheck’s per-file size cap (1 MiB) and is skipped to avoid excessive memory use. Split or trim the file so it can be linted.',
     },
     // The engine emits this finding directly during discovery/size-check; the
     // catalog entry exists for docs and the web rules page. No per-file check.

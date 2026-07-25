@@ -1,38 +1,38 @@
-# agentlint
+# agentcheck
 
-[![npm version](https://img.shields.io/npm/v/agentlint-cli.svg)](https://www.npmjs.com/package/agentlint-cli)
+[![npm version](https://img.shields.io/npm/v/agentcheck.svg)](https://www.npmjs.com/package/agentcheck)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 **Lint & security-check your AI coding-agent configuration** — Claude Code (`CLAUDE.md`, `.claude/agents`, `.claude/commands`, `.claude/skills/**/SKILL.md`, `settings.json` / `settings.local.json`) and MCP (`.mcp.json`). CI-friendly, `--fix`, JSON output. It only parses your files — it never executes, imports, or fetches them.
 
-> Unofficial — not affiliated with Anthropic. The npm package is **`agentlint-cli`**; it installs the `agentlint` and `agentlint-mcp` commands.
+> Unofficial — not affiliated with Anthropic. The npm package is **`agentcheck`**; it installs the `agentcheck` and `agentcheck-mcp` commands.
 
-**▶ Try the live validator (no install):** **https://bacnguyenne.id.vn/agentlint/** — paste a config and lint it in your browser.
+**▶ Try the live validator (no install):** **https://bacnguyenne.id.vn/agentcheck/** — paste a config and lint it in your browser.
 
 ## Quick start
 
 ```bash
 # Lint the current directory (no install needed)
-npx -p agentlint-cli agentlint
+npx agentcheck
 
 # Apply safe autofixes and write them back
-npx -p agentlint-cli agentlint --fix
+npx agentcheck --fix
 ```
 
 Or install it globally:
 
 ```bash
-npm install -g agentlint-cli   # or: npm install -D agentlint-cli
+npm install -g agentcheck   # or: npm install -D agentcheck
 ```
 
-After installing you get the `agentlint` and `agentlint-mcp` commands. Requires Node.js >= 20.
+After installing you get the `agentcheck` and `agentcheck-mcp` commands. Requires Node.js >= 20.
 
 ## Example output
 
 Secrets are **redacted** in the output:
 
 ```text
-$ agentlint
+$ agentcheck
 .claude/settings.json
    4:15  warning  Overly broad permission "*" in permissions.allow; scope it.        security/broad-permissions
    7:23  error    Hardcoded OpenAI API key detected (sk-proj-***). Use ${ENV_VAR}.    security/hardcoded-secret
@@ -49,11 +49,11 @@ $ agentlint
 
 ```text
 Usage:
-  agentlint [options] [paths...]
-  agentlint init [--force]
-  agentlint add <id> [--force] [--dry-run]
-  agentlint add --list
-  agentlint mcp
+  agentcheck [options] [paths...]
+  agentcheck init [--force]
+  agentcheck add <id> [--force] [--dry-run]
+  agentcheck add --list
+  agentcheck mcp
 
 Arguments:
   paths                One or more directories to lint (default: ".").
@@ -68,12 +68,12 @@ Options:
   -h, --help           Show this help and exit.
 
 Commands:
-  init                 Write a starter .agentlintrc.json (refuses to overwrite
+  init                 Write a starter .agentcheckrc.json (refuses to overwrite
                        without --force).
   add <id>             Install a catalog item (skill / MCP server / tool) into
-                       the project. Use "agentlint add --list" to see all ids.
-  mcp                  Run the agentlint MCP server (stdio) so an agent can lint
-                       its own config. Same as the "agentlint-mcp" binary.
+                       the project. Use "agentcheck add --list" to see all ids.
+  mcp                  Run the agentcheck MCP server (stdio) so an agent can lint
+                       its own config. Same as the "agentcheck-mcp" binary.
 ```
 
 `--format json` emits a stable, machine-readable object: `{ findings: [...], summary: { errors, warnings, infos, filesChecked } }` (plus `fixed` when `--fix` is used).
@@ -88,11 +88,11 @@ Commands:
 
 ## Configuration
 
-agentlint loads `.agentlintrc.json` from the current directory **upward** (nearest wins). Scaffold one with `agentlint init`:
+agentcheck loads `.agentcheckrc.json` from the current directory **upward** (nearest wins). Scaffold one with `agentcheck init`:
 
 ```json
 {
-  "$schema": "https://agentlint.dev/schema/agentlintrc.json",
+  "$schema": "https://agentcheck.dev/schema/agentcheckrc.json",
   "rules": {
     "settings/unknown-key": "off",
     "security/unpinned-mcp-package": "error"
@@ -104,26 +104,26 @@ agentlint loads `.agentlintrc.json` from the current directory **upward** (neare
 - `rules` — per-rule severity override: `"off" | "error" | "warning" | "info"`.
 - `ignore` — gitignore-style patterns applied during discovery.
 
-## Install from the catalog (`agentlint add`)
+## Install from the catalog (`agentcheck add`)
 
-agentlint bundles a **catalog of 198 vetted items** — 104 Skills, 24 MCP servers, and 70 Tools (subagents & slash commands), each validated by agentlint with zero errors. Install any of them straight into your project:
+agentcheck bundles a **catalog of 198 vetted items** — 104 Skills, 24 MCP servers, and 70 Tools (subagents & slash commands), each validated by agentcheck with zero errors. Install any of them straight into your project:
 
 ```bash
-agentlint add --list                 # list every skill / MCP server / tool
-agentlint add pdf-extract            # → .claude/skills/pdf-extract/SKILL.md
-agentlint add plan-to-production     # a coding-workflow skill
-agentlint add mcp-filesystem         # merged into ./.mcp.json
+agentcheck add --list                 # list every skill / MCP server / tool
+agentcheck add pdf-extract            # → .claude/skills/pdf-extract/SKILL.md
+agentcheck add plan-to-production     # a coding-workflow skill
+agentcheck add mcp-filesystem         # merged into ./.mcp.json
 ```
 
 MCP servers are **merged** into an existing `.mcp.json` (never clobbered); existing files aren't overwritten without `--force`. Every item uses `${ENV_VAR}` references, so no secrets are ever written.
 
-## MCP server (`agentlint mcp`)
+## MCP server (`agentcheck mcp`)
 
-Let an agent lint its **own** config. `agentlint mcp` (or the `agentlint-mcp` bin) speaks the MCP stdio protocol directly and exposes `lint_config`, `lint_directory`, and `list_rules`:
+Let an agent lint its **own** config. `agentcheck mcp` (or the `agentcheck-mcp` bin) speaks the MCP stdio protocol directly and exposes `lint_config`, `lint_directory`, and `list_rules`:
 
 ```jsonc
 // .mcp.json
-{ "mcpServers": { "agentlint": { "command": "agentlint", "args": ["mcp"] } } }
+{ "mcpServers": { "agentcheck": { "command": "agentcheck", "args": ["mcp"] } } }
 ```
 
 ## In CI (GitHub Actions)
@@ -132,15 +132,15 @@ Let an agent lint its **own** config. `agentlint mcp` (or the `agentlint-mcp` bi
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-- run: npx -p agentlint-cli agentlint --max-warnings 5
+- run: npx agentcheck --max-warnings 5
 ```
 
 ## Rules
 
-agentlint ships **58 rules** across eight groups — core / agent / command / skill / settings / mcp / claudemd / security. See the full catalog with severity, fixability, and descriptions in [docs/RULES.md](https://github.com/bacnguyenne/agentlint/blob/main/docs/RULES.md).
+agentcheck ships **58 rules** across eight groups — core / agent / command / skill / settings / mcp / claudemd / security. See the full catalog with severity, fixability, and descriptions in [docs/RULES.md](https://github.com/bacnguyenne/agentcheck/blob/main/docs/RULES.md).
 
 ## License
 
-[MIT](./LICENSE) © 2026 agentlint contributors.
+[MIT](./LICENSE) © 2026 agentcheck contributors.
 
-☕ Support: scan the VietQR in the [main README](https://github.com/bacnguyenne/agentlint#-support--buy-me-a-coffee) · ⭐ Star: https://github.com/bacnguyenne/agentlint
+☕ Support: scan the VietQR in the [main README](https://github.com/bacnguyenne/agentcheck#-support--buy-me-a-coffee) · ⭐ Star: https://github.com/bacnguyenne/agentcheck

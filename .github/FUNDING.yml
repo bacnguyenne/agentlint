@@ -1,11 +1,11 @@
-# Funding configuration for agentlint.
+# Funding configuration for agentcheck.
 #
-# agentlint is a free, MIT-licensed, non-profit project. If it's useful to you,
+# agentcheck is a free, MIT-licensed, non-profit project. If it's useful to you,
 # a coffee keeps it maintained.
 #
 # The PRIMARY support method is the "buy me a coffee" VietQR (VietinBank bank
 # transfer) shown in the main README:
-#   https://github.com/bacnguyenne/agentlint#-support--buy-me-a-coffee
+#   https://github.com/bacnguyenne/agentcheck#-support--buy-me-a-coffee
 # FUNDING.yml can't embed an image, so it isn't listed here.
 
 # GitHub Sponsors usernames. Uncomment / adjust once Sponsors is enabled for the

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { lintFiles } from 'agentlint-core';
+import { lintFiles } from 'agentcheck-core';
 import { RULE_CONTENT } from '@/lib/rules-content';
 import { pathForKind, type SelectableKind } from '@/lib/detect-kind';
 
@@ -23,7 +23,7 @@ describe('rules-content examples are accurate (CI guard)', () => {
   }
 
   it('covers every rule in the catalog', async () => {
-    const { rules } = await import('agentlint-core');
+    const { rules } = await import('agentcheck-core');
     for (const r of rules) {
       expect(RULE_CONTENT[r.id], `RULE_CONTENT missing entry for ${r.id}`).toBeDefined();
     }

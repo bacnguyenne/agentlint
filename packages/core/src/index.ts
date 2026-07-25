@@ -1,5 +1,5 @@
 /**
- * `agentlint-core` — public entry point.
+ * `agentcheck-core` — public entry point.
  *
  * Exports the two lint functions (SPEC §4), the rule catalog, and all public
  * types. `lintFiles` is PURE (no I/O) and is what the web app calls on pasted

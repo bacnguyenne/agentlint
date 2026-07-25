@@ -2,7 +2,7 @@ import type { SelectableKind } from './detect-kind';
 
 /**
  * Vetted, CORRECT config snippets for the templates gallery. These must pass
- * agentlint cleanly (no errors/warnings) — verified in templates.test.ts by
+ * agentcheck cleanly (no errors/warnings) — verified in templates.test.ts by
  * running lintFiles over each one.
  */
 export interface Template {

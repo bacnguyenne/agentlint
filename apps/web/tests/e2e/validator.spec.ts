@@ -18,7 +18,7 @@ const GOOD_CLAUDEMD = `# My project
 - Write tests for new code.
 `;
 
-test.describe('agentlint web', () => {
+test.describe('agentcheck web', () => {
   test('home loads with the validator', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toContainText(/AI agent config/i);
@@ -78,7 +78,7 @@ test.describe('agentlint web', () => {
 
   test('rules page renders the catalog', async ({ page }) => {
     await page.goto('/rules');
-    await expect(page.getByRole('heading', { name: 'What agentlint checks' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'What agentcheck checks' })).toBeVisible();
     // Anchor target for a known rule exists.
     await expect(page.locator('#security\\/hardcoded-secret')).toHaveCount(1);
   });

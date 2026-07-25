@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate docs/RULES.md from agentlint-core's `rules` export so the published
+ * Generate docs/RULES.md from agentcheck-core's `rules` export so the published
  * catalog never drifts from the engine (rule count, severities, fixability and
  * descriptions all come straight from the code).
  *
@@ -44,13 +44,13 @@ for (const r of rules) {
 const lines = [];
 lines.push('# Rule catalog', '');
 lines.push(
-  `agentlint ships **${rules.length} rules** across the groups below. This catalog is generated from \`agentlint-core\`'s \`rules\` export by \`scripts/gen-rules.mjs\` (run \`npm run gen:rules\`), so it stays in lockstep with the engine.`,
+  `agentcheck ships **${rules.length} rules** across the groups below. This catalog is generated from \`agentcheck-core\`'s \`rules\` export by \`scripts/gen-rules.mjs\` (run \`npm run gen:rules\`), so it stays in lockstep with the engine.`,
   '',
 );
 lines.push('- Severities: **error** (causes CLI exit code 1), **warning**, **info**.');
-lines.push('- **Fix** = a safe autofix is available (apply with `agentlint --fix`).');
+lines.push('- **Fix** = a safe autofix is available (apply with `agentcheck --fix`).');
 lines.push(
-  "- Override any rule's severity in `.agentlintrc.json` via `{ \"rules\": { \"<id>\": \"off|error|warning|info\" } }`.",
+  "- Override any rule's severity in `.agentcheckrc.json` via `{ \"rules\": { \"<id>\": \"off|error|warning|info\" } }`.",
   '',
 );
 lines.push(`Totals: ${errors} errors, ${warnings} warnings, ${infos} infos · ${fixable} fixable.`, '');

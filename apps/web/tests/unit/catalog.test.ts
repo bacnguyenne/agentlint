@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { lintFiles } from 'agentlint-core';
+import { lintFiles } from 'agentcheck-core';
 import { CATALOG, CATALOG_COUNTS, MCP_CATALOG, TOOL_CATALOG } from '@/lib/catalog';
 
 /**
  * The unified discovery catalog (skills + MCP servers + tools) must be safe to
- * copy/download: every item is validated by agentlint and must have ZERO errors.
+ * copy/download: every item is validated by agentcheck and must have ZERO errors.
  */
 describe('discovery catalog', () => {
   it('is non-empty and counts add up', () => {

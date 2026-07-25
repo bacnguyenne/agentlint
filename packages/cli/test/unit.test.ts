@@ -4,7 +4,7 @@
  * binary runs.
  */
 import { describe, expect, it } from 'vitest';
-import type { LintResult } from 'agentlint-core';
+import type { LintResult } from 'agentcheck-core';
 import { parseArgs } from '../dist/args.js';
 import { parseConfig, toLintOptions } from '../dist/config.js';
 import { formatJson, formatStylish, makeColors } from '../dist/format.js';

@@ -1,5 +1,5 @@
 /**
- * Core public types for `agentlint-core`.
+ * Core public types for `agentcheck-core`.
  *
  * These mirror SPEC §4 exactly. Anything exported here is part of the public
  * API consumed by the CLI and the web app, so it must stay stable.

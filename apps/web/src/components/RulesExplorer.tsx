@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { Severity } from 'agentlint-core';
+import type { Severity } from 'agentcheck-core';
 import { SEVERITY_STYLES } from './severity';
 import type { RuleContent } from '@/lib/rules-content';
 
@@ -62,7 +62,7 @@ export function RulesExplorer({ entries }: { entries: RuleEntry[] }) {
     <div>
       {/* Reframe banner: these are CHECKS, not errors in your file. */}
       <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-zinc-300">
-        These are the <strong className="text-white">{entries.length} checks</strong> agentlint runs on your
+        These are the <strong className="text-white">{entries.length} checks</strong> agentcheck runs on your
         config. The colored tag on each is that check&apos;s <em>severity</em> — not an error in your file. Click any
         check to see a real <span className="text-rose-300">bad</span> →{' '}
         <span className="text-emerald-300">good</span> example and try it live.

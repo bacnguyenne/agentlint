@@ -14,7 +14,7 @@ const NAV = [
   { href: '/templates', label: 'Templates' },
 ];
 
-// The author's blog — this app is hosted under that domain (bacnguyenne.id.vn/agentlint/).
+// The author's blog — this app is hosted under that domain (bacnguyenne.id.vn/agentcheck/).
 const BLOG_URL = 'https://bacnguyenne.id.vn';
 
 /** True when `href` is the page currently being viewed (trailing slash tolerant). */

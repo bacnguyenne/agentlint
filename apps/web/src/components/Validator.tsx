@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { Finding, LintResult } from 'agentlint-core';
+import type { Finding, LintResult } from 'agentcheck-core';
 import {
   KIND_META,
   SELECTABLE_KINDS,
@@ -126,7 +126,7 @@ export function Validator() {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
       try {
-        // Lint entirely in the browser — agentlint-core is pure JS, so nothing is
+        // Lint entirely in the browser — agentcheck-core is pure JS, so nothing is
         // sent to a server and the app can ship as a fully static site. Lazy-loaded
         // so the engine isn't in the initial bundle.
         const { lintClientSide } = await import('@/lib/lint-client');
@@ -265,7 +265,7 @@ export function Validator() {
             ))}
           </div>
           <p className="text-xs text-zinc-500">
-            The broken examples are intentional — each red finding is agentlint catching a real problem.
+            The broken examples are intentional — each red finding is agentcheck catching a real problem.
           </p>
         </div>
       </form>
@@ -340,7 +340,7 @@ function ResultsPanel({ status }: { status: Status }) {
           </span>
           <p className="text-base font-semibold text-emerald-200">No problems found</p>
           <p className="text-sm text-emerald-300/80">
-            This configuration passes every agentlint rule.
+            This configuration passes every agentcheck rule.
           </p>
         </div>
       ) : (
@@ -361,7 +361,7 @@ function ResultsPanel({ status }: { status: Status }) {
 
 /**
  * Turns a one-off web check into the repeated value: a clean result points to
- * `npx agentlint` / CI; a result with fixable findings points to `--fix`.
+ * `npx agentcheck` / CI; a result with fixable findings points to `--fix`.
  */
 function NextStep({ clean, fixable }: { clean: boolean; fixable: number }) {
   const Code = ({ children }: { children: string }) => (
@@ -371,7 +371,7 @@ function NextStep({ clean, fixable }: { clean: boolean; fixable: number }) {
     <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-zinc-400">
       {clean ? (
         <p>
-          Want this enforced automatically? Run <Code>npx agentlint</Code> in your repo, or add it
+          Want this enforced automatically? Run <Code>npx agentcheck</Code> in your repo, or add it
           to CI so a bad config fails the build.
         </p>
       ) : (
@@ -379,10 +379,10 @@ function NextStep({ clean, fixable }: { clean: boolean; fixable: number }) {
           {fixable > 0 && (
             <>
               {fixable} of these {fixable === 1 ? 'is' : 'are'} auto-fixable — run{' '}
-              <Code>npx agentlint --fix</Code>.{' '}
+              <Code>npx agentcheck --fix</Code>.{' '}
             </>
           )}
-          Run <Code>npx agentlint</Code> to check your whole repo, or add it to CI.
+          Run <Code>npx agentcheck</Code> to check your whole repo, or add it to CI.
         </p>
       )}
     </div>

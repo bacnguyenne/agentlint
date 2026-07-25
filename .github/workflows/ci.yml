@@ -31,14 +31,14 @@ jobs:
         run: npm ci
 
       # Build the engine first (the CLI and web app depend on its dist output).
-      - name: Build agentlint-core
-        run: npm run build -w agentlint-core
+      - name: Build agentcheck-core
+        run: npm run build -w agentcheck-core
 
-      - name: Build agentlint CLI
-        run: npm run build -w agentlint-cli
+      - name: Build agentcheck CLI
+        run: npm run build -w agentcheck
 
-      - name: Build @agentlint/web
-        run: npm run build -w @agentlint/web
+      - name: Build @agentcheck/web
+        run: npm run build -w @agentcheck/web
 
       - name: Type-check
         run: npm run typecheck
@@ -56,23 +56,23 @@ jobs:
             apps/web/src/lib/catalog.generated.ts \
             packages/cli/src/catalog.generated.ts
 
-      - name: Test agentlint-core
-        run: npm run test -w agentlint-core
+      - name: Test agentcheck-core
+        run: npm run test -w agentcheck-core
 
-      - name: Test agentlint CLI
-        run: npm run test -w agentlint-cli
+      - name: Test agentcheck CLI
+        run: npm run test -w agentcheck
 
-      - name: Test @agentlint/web (unit)
-        run: npm run test -w @agentlint/web
+      - name: Test @agentcheck/web (unit)
+        run: npm run test -w @agentcheck/web
 
-      - name: Lint @agentlint/web
-        run: npm run lint -w @agentlint/web
+      - name: Lint @agentcheck/web
+        run: npm run lint -w @agentcheck/web
 
       - name: Install Playwright (Chromium)
         run: npx playwright install --with-deps chromium
 
-      - name: Test @agentlint/web (e2e)
-        run: npm run test:e2e -w @agentlint/web
+      - name: Test @agentcheck/web (e2e)
+        run: npm run test:e2e -w @agentcheck/web
 
   # Dependency audit runs as a SEPARATE, non-blocking job so a freshly disclosed
   # advisory never red-bars an otherwise-passing PR. Production deps only.

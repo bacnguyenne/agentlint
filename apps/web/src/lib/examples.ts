@@ -2,7 +2,7 @@ import type { SelectableKind } from './detect-kind';
 
 /**
  * Deliberately-broken sample configs for the "try an example" buttons. Each is
- * crafted to trip specific rules so users immediately see agentlint working.
+ * crafted to trip specific rules so users immediately see agentcheck working.
  */
 export interface Example {
   id: string;
@@ -18,7 +18,7 @@ export const EXAMPLES: Example[] = [
   {
     id: 'clean-settings',
     label: 'Clean settings.json (passes ✓)',
-    description: 'A valid, secure settings.json — agentlint reports zero problems.',
+    description: 'A valid, secure settings.json — agentcheck reports zero problems.',
     kind: 'settings',
     clean: true,
     content: `{

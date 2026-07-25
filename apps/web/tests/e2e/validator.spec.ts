@@ -97,9 +97,11 @@ test.describe('agentlint web', () => {
     await page.goto('/guide');
     await expect(page.getByRole('heading', { name: 'Guide', exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: /Install — three ways/ })).toBeVisible();
-    // Reachable from the nav.
+    // Reachable from the primary nav (the footer links there too, so scope it).
     await page.goto('/');
-    await expect(page.getByRole('link', { name: 'Guide' })).toBeVisible();
+    await expect(
+      page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Guide' }),
+    ).toBeVisible();
   });
 
   test('templates page renders snippets with copy buttons', async ({ page }) => {

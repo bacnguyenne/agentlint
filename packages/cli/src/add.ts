@@ -36,6 +36,7 @@ function listCatalog(io: Io): number {
     }
   }
   io.stdout(`\nInstall one with: agentlint add <id>\n`);
+  io.stdout(`Or a whole set at once: agentlint add <id> <id> <id>\n`);
   return 0;
 }
 
@@ -115,14 +116,11 @@ async function addFileItem(item: Item, cmd: AddCommand, io: Io): Promise<number>
   return 0;
 }
 
-/** Implements `agentlint add`. */
-export async function runAdd(cmd: AddCommand, io: Io): Promise<number> {
-  if (cmd.list) return listCatalog(io);
-
-  const id = cmd.idOrName as string;
-  const item = findItem(id);
+/** Install one item: resolve, re-lint, then write. */
+async function addOne(idOrName: string, cmd: AddCommand, io: Io): Promise<number> {
+  const item = findItem(idOrName);
   if (!item) {
-    io.stderr(`agentlint: no catalog item "${id}". Run 'agentlint add --list' to see all ids.\n`);
+    io.stderr(`agentlint: no catalog item "${idOrName}". Run 'agentlint add --list' to see all ids.\n`);
     return 2;
   }
 
@@ -135,4 +133,23 @@ export async function runAdd(cmd: AddCommand, io: Io): Promise<number> {
   }
 
   return item.configKind === 'mcp' ? addMcpServer(item, cmd, io) : addFileItem(item, cmd, io);
+}
+
+/**
+ * Implements `agentlint add`. Accepts several ids so a whole bundle installs in
+ * one command; every item is attempted and the worst exit code is returned, so
+ * one bad id never silently skips the rest.
+ */
+export async function runAdd(cmd: AddCommand, io: Io): Promise<number> {
+  if (cmd.list) return listCatalog(io);
+
+  let worst = 0;
+  for (const idOrName of cmd.idsOrNames) {
+    const code = await addOne(idOrName, cmd, io);
+    if (code > worst) worst = code;
+  }
+  if (cmd.idsOrNames.length > 1 && !cmd.dryRun) {
+    io.stdout(`\nRestart Claude Code so it discovers the new items, then run 'npx agentlint' to check them.\n`);
+  }
+  return worst;
 }

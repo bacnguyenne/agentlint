@@ -70,19 +70,24 @@ export function RulesExplorer({ entries }: { entries: RuleEntry[] }) {
 
       {/* Controls */}
       <div className="sticky top-16 z-10 -mx-4 mb-6 flex flex-wrap items-center gap-2 bg-ink/80 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:border sm:border-white/10 sm:px-4">
+        <label htmlFor="rules-search" className="sr-only">
+          Search the checks
+        </label>
         <input
+          id="rules-search"
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search checks…"
-          className="min-w-[12rem] flex-1 rounded-lg border border-white/10 bg-black/40 px-3 py-1.5 text-sm text-zinc-100 placeholder:text-zinc-600"
+          className="min-w-[12rem] flex-1 rounded-lg border border-white/10 bg-black/40 px-3 py-1.5 text-sm text-zinc-100 placeholder:text-zinc-500"
         />
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5" role="group" aria-label="Filter checks by group">
           {(['all', 'security', 'correctness'] as const).map((g) => (
             <button
               key={g}
               type="button"
               onClick={() => setGroup(g)}
+              aria-pressed={group === g}
               className={`rounded-full border px-3 py-1 text-xs font-medium capitalize transition ${
                 group === g
                   ? 'border-brand/50 bg-brand/20 text-white'
@@ -104,9 +109,24 @@ export function RulesExplorer({ entries }: { entries: RuleEntry[] }) {
         </label>
       </div>
 
-      <p className="mb-4 text-xs text-zinc-500">
-        Showing {filtered.length} of {entries.length} checks.
-      </p>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs text-zinc-400" aria-live="polite">
+          Showing {filtered.length} of {entries.length} checks.
+        </p>
+        {(query.trim() !== '' || group !== 'all' || fixableOnly) && (
+          <button
+            type="button"
+            onClick={() => {
+              setQuery('');
+              setGroup('all');
+              setFixableOnly(false);
+            }}
+            className="text-xs text-zinc-400 underline-offset-2 hover:text-white hover:underline"
+          >
+            Clear filters
+          </button>
+        )}
+      </div>
 
       <div className="space-y-10">
         {GROUPS.filter((g) => group === 'all' || group === g.key).map((g) => {
@@ -125,9 +145,30 @@ export function RulesExplorer({ entries }: { entries: RuleEntry[] }) {
           );
         })}
         {filtered.length === 0 && (
-          <p className="rounded-xl border border-dashed border-white/10 p-8 text-center text-sm text-zinc-500">
-            No checks match “{query}”.
-          </p>
+          <div className="rounded-xl border border-dashed border-white/10 p-8 text-center text-sm text-zinc-400">
+            <p>
+              No checks match{' '}
+              {[
+                query.trim() ? `“${query.trim()}”` : null,
+                group !== 'all' ? `the ${group} group` : null,
+                fixableOnly ? 'auto-fixable only' : null,
+              ]
+                .filter(Boolean)
+                .join(' + ')}
+              .
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setQuery('');
+                setGroup('all');
+                setFixableOnly(false);
+              }}
+              className="mt-3 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-200 transition hover:bg-white/10 hover:text-white"
+            >
+              Clear filters
+            </button>
+          </div>
         )}
       </div>
     </div>

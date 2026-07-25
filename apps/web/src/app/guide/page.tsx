@@ -13,9 +13,30 @@ function Code({ children }: { children: React.ReactNode }) {
   return <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-[0.85em] text-zinc-200">{children}</code>;
 }
 
-function Section({ n, title, children }: { n: string; title: string; children: React.ReactNode }) {
+/** The steps, in order — also the table of contents, so every step is linkable. */
+const STEPS = [
+  { id: 'what', n: '1', title: 'What agentlint does' },
+  { id: 'validate', n: '2', title: 'Validate your config' },
+  { id: 'find', n: '3', title: 'Find skills, MCP servers & tools' },
+  { id: 'install', n: '4', title: 'Install' },
+  { id: 'where', n: '5', title: 'Where files go' },
+  { id: 'security', n: '6', title: 'Security' },
+  { id: 'mcp', n: '7', title: 'Use it from your agent' },
+] as const;
+
+function Section({
+  id,
+  n,
+  title,
+  children,
+}: {
+  id: string;
+  n: string;
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
-    <section className="border-t border-white/10 pt-8">
+    <section id={id} className="scroll-mt-20 border-t border-white/10 pt-8">
       <h2 className="text-xl font-bold tracking-tight text-white">
         <span className="mr-2 text-brand-fg">{n}</span>
         {title}
@@ -34,10 +55,34 @@ export default function GuidePage() {
           Everything you need to use agentlint — validate your config, then find, install, and secure
           skills, MCP servers, and tools for Claude Code.
         </p>
+        <p className="mt-3 rounded-lg border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-400">
+          New to this? <span className="text-zinc-200">MCP</span> is the{' '}
+          <span className="text-zinc-200">Model Context Protocol</span> — the open standard that lets an
+          agent talk to outside tools (a database, GitHub, a browser). A{' '}
+          <span className="text-zinc-200">skill</span> is a markdown file that teaches your agent how to do
+          a task; a <span className="text-zinc-200">subagent</span> is a specialist it can delegate to; a{' '}
+          <span className="text-zinc-200">slash command</span> is a shortcut you type as{' '}
+          <Code>/name</Code>.
+        </p>
       </header>
 
+      {/* Jump list — seven sections is too many to scroll blindly. */}
+      <nav aria-label="On this page" className="mb-8 rounded-xl border border-white/10 bg-white/[0.03] p-4">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-500">On this page</h2>
+        <ol className="mt-2 grid gap-1.5 text-sm sm:grid-cols-2">
+          {STEPS.map((s) => (
+            <li key={s.id}>
+              <a href={`#${s.id}`} className="text-zinc-300 hover:text-brand-fg hover:underline">
+                <span className="mr-1.5 text-zinc-600">{s.n}</span>
+                {s.title}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
       <div className="space-y-8">
-        <Section n="1" title="What agentlint does">
+        <Section id="what" n="1" title="What agentlint does">
           <p>
             agentlint <span className="text-zinc-200">lints and security-checks</span> AI coding-agent
             configuration — Claude Code (<Code>CLAUDE.md</Code>, <Code>.claude/agents</Code>,{' '}
@@ -48,7 +93,7 @@ export default function GuidePage() {
           </p>
         </Section>
 
-        <Section n="2" title="Validate your config (the Validator)">
+        <Section id="validate" n="2" title="Validate your config (the Validator)">
           <p>
             Open the <Link href="/" className="text-brand-fg hover:underline">Validator</Link>, choose a{' '}
             <span className="text-zinc-200">File kind</span> (or leave auto-detect on), paste or upload
@@ -65,7 +110,7 @@ export default function GuidePage() {
 npx agentlint --fix    # apply safe autofixes`}</pre>
         </Section>
 
-        <Section n="3" title="Find skills, MCP servers & tools (the Catalog)">
+        <Section id="find" n="3" title="Find skills, MCP servers & tools (the Catalog)">
           <p>
             The <Link href="/catalog" className="text-brand-fg hover:underline">Catalog</Link> has{' '}
             <span className="text-zinc-200">{CATALOG_COUNTS.all}</span> vetted building blocks —{' '}
@@ -74,7 +119,7 @@ npx agentlint --fix    # apply safe autofixes`}</pre>
           </p>
         </Section>
 
-        <Section n="4" title="Install — three ways">
+        <Section id="install" n="4" title="Install — three ways">
           <p>
             <span className="font-medium text-zinc-200">A) CLI (easiest)</span> — installs to the right path; MCP servers
             merge into your <Code>.mcp.json</Code> instead of overwriting it:
@@ -83,7 +128,8 @@ npx agentlint --fix    # apply safe autofixes`}</pre>
 npx agentlint add code-reviewer    # a subagent
 npx agentlint add ship-feature     # a workflow skill
 npx agentlint add mcp-github       # merges into .mcp.json
-npx agentlint add mcp-github --dry-run   # preview, write nothing`}</pre>
+npx agentlint add mcp-github --dry-run   # preview, write nothing
+npx agentlint add docx pptx xlsx         # a whole bundle at once`}</pre>
           <p>
             <span className="font-medium text-zinc-200">B) Download .zip</span> — on the Catalog, click{' '}
             <span className="text-zinc-200">Download .zip</span>, then unzip into your project root. Files land in
@@ -96,7 +142,7 @@ npx agentlint add mcp-github --dry-run   # preview, write nothing`}</pre>
           </p>
         </Section>
 
-        <Section n="5" title="Where files go & how to enable">
+        <Section id="where" n="5" title="Where files go & how to enable">
           <ul className="list-disc space-y-1 pl-5 font-mono text-xs">
             <li>skill → <span className="text-zinc-300">.claude/skills/&lt;name&gt;/SKILL.md</span></li>
             <li>subagent → <span className="text-zinc-300">.claude/agents/&lt;name&gt;.md</span></li>
@@ -109,7 +155,7 @@ npx agentlint add mcp-github --dry-run   # preview, write nothing`}</pre>
           </p>
         </Section>
 
-        <Section n="6" title="Security">
+        <Section id="security" n="6" title="Security">
           <p>
             Every catalog item carries a <span className="text-emerald-300">✓ agentlint</span> badge — it passed
             agentlint with <span className="text-zinc-200">zero errors</span>: no hardcoded secrets, no
@@ -119,7 +165,7 @@ npx agentlint add mcp-github --dry-run   # preview, write nothing`}</pre>
           </p>
         </Section>
 
-        <Section n="7" title="Use it from your agent (MCP)">
+        <Section id="mcp" n="7" title="Use it from your agent (MCP)">
           <p>
             agentlint ships an MCP server so an agent can lint its <span className="text-zinc-200">own</span> config.
             Run it with <Code>agentlint mcp</Code> (or the <Code>agentlint-mcp</Code> bin), and point your{' '}
@@ -129,6 +175,30 @@ npx agentlint add mcp-github --dry-run   # preview, write nothing`}</pre>
 { "mcpServers": { "agentlint": { "command": "agentlint", "args": ["mcp"] } } }`}</pre>
         </Section>
       </div>
+
+      {/* Don't dead-end the reader. */}
+      <section className="mt-10 border-t border-white/10 pt-8">
+        <h2 className="text-xl font-bold tracking-tight text-white">What next</h2>
+        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          {[
+            { href: '/', label: 'Validate a config', hint: 'Paste yours and see what it finds' },
+            { href: '/catalog', label: 'Install a bundle', hint: 'Ready-made sets by purpose' },
+            { href: '/collections', label: 'Explore the ecosystem', hint: '138 repos, grouped' },
+          ].map((c) => (
+            <Link
+              key={c.href}
+              href={c.href}
+              className="group rounded-xl border border-white/10 bg-white/[0.03] p-3.5 transition hover:border-brand-fg/30 hover:bg-white/[0.06]"
+            >
+              <span className="font-medium text-white">{c.label}</span>
+              <span className="mt-1 block text-xs text-zinc-400">{c.hint}</span>
+              <span className="mt-1.5 inline-block text-xs text-brand-fg">
+                Open <span aria-hidden className="transition group-hover:translate-x-0.5">→</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

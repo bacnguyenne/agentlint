@@ -15,19 +15,18 @@ export default function CatalogPage() {
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-white">Catalog</h1>
         <p className="mt-2 max-w-2xl text-zinc-400">
-          {CATALOG.length} vetted Claude Code building blocks — Agent{' '}
-          <span className="text-zinc-200">Skills</span>,{' '}
-          <span className="text-zinc-200">MCP servers</span>, and{' '}
-          <span className="text-zinc-200">tools</span> (subagents &amp; slash commands). Every item is{' '}
-          <span className="text-zinc-200">validated by agentlint</span> (zero errors) and uses{' '}
-          <code className="font-mono text-xs">${'{ENV_VAR}'}</code> references instead of secrets.
-          Search, copy a snippet, or download one — or grab them all.
+          {CATALOG.length} ready-to-install building blocks for Claude Code —{' '}
+          <span className="text-zinc-200">skills</span> (how to do a task),{' '}
+          <span className="text-zinc-200">MCP servers</span> (access to outside systems), and{' '}
+          <span className="text-zinc-200">tools</span> (subagents &amp; slash commands). Every item is
+          validated by agentlint with zero errors, and credentials are always{' '}
+          <code className="font-mono text-xs">${'{ENV_VAR}'}</code> references — never real secrets.
         </p>
       </header>
 
-      <details open className="group mb-8 rounded-xl border border-brand-fg/20 bg-brand/[0.06] p-4">
+      <details className="group mb-8 rounded-xl border border-white/10 bg-white/[0.03] p-4">
         <summary className="cursor-pointer list-none text-sm font-semibold text-white">
-          <span className="mr-1 inline-block transition group-open:rotate-90">▸</span> How to use these (skills, MCP servers &amp; tools) — read me first
+          <span className="mr-1 inline-block transition group-open:rotate-90">▸</span> How installing works — three ways, and where files land
         </summary>
 
         <div className="mt-4 space-y-4 text-sm text-zinc-400">

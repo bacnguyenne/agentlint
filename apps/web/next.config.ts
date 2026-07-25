@@ -5,18 +5,24 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
- * Restrictive FALLBACK Content-Security-Policy.
+ * Content-Security-Policy for the server (standalone/Docker) build.
  *
- * The PRIMARY, per-request CSP carrying a fresh nonce is set in middleware.ts
- * (so Next's inline bootstrap scripts run under `script-src 'nonce-…'` without
- * `unsafe-inline`). next.config headers cannot produce a per-request nonce, so
- * this static policy is a safety net for any route the middleware matcher does
- * NOT cover (e.g. /api/* responses): it still ships a locked-down default-src
- * 'self' policy so nothing is left without a CSP. Where middleware runs, its
- * dynamic header takes precedence (last-writer-wins for the response header).
+ * Why `script-src` allows 'unsafe-inline' here — and why a nonce is not an
+ * option: every route in this app is statically prerendered (`○ (Static)` in the
+ * build output), so the HTML is generated once at build time. A per-request
+ * nonce from middleware can never be stamped onto that HTML, and Next's
+ * hydration payload ships as an inline `<script>self.__next_f.push(…)</script>`.
+ * A nonce'd policy therefore blocks the app's own bootstrap: the page renders,
+ * then never hydrates — no client JavaScript at all. (That is exactly what
+ * happened after middleware.ts was removed for the static-export migration: the
+ * e2e suite went red because nothing on the page was interactive.)
  *
- * No nonce is available here, so script-src stays 'self' only — API/JSON routes
- * do not execute scripts, making this safe and meaningfully restrictive.
+ * This matches the policy the static export already ships in a <meta> tag (see
+ * app/layout.tsx) — same trade-off, same reasoning: the app has no backend
+ * state, stores nothing, sets no cookies, and never renders pasted input as HTML
+ * (results are React-escaped text), so the residual XSS surface is minimal.
+ * Everything else stays locked down: default-src 'self', object-src 'none',
+ * frame-ancestors 'none', and no remote origins beyond the read-only GitHub API.
  */
 const FALLBACK_CSP = [
   `default-src 'self'`,
@@ -24,7 +30,7 @@ const FALLBACK_CSP = [
   `form-action 'self'`,
   `frame-ancestors 'none'`,
   `object-src 'none'`,
-  `script-src 'self'`,
+  `script-src 'self' 'unsafe-inline'`,
   `style-src 'self' 'unsafe-inline'`,
   `img-src 'self' data:`,
   `font-src 'self'`,

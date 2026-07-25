@@ -35,11 +35,14 @@ export interface LintCommand {
   colorMode: 'auto' | 'always' | 'never';
 }
 
-/** A successfully parsed `add` invocation (install a catalog item). */
+/** A successfully parsed `add` invocation (install catalog items). */
 export interface AddCommand {
   kind: 'add';
-  /** The catalog item id or name to install (undefined when `--list`). */
-  idOrName: string | undefined;
+  /**
+   * The catalog item ids or names to install — one, or a whole bundle at once
+   * (`agentlint add docx pptx xlsx`). Empty only when `--list`.
+   */
+  idsOrNames: string[];
   /** Overwrite an existing target file. */
   force: boolean;
   /** Print what would be written without touching the filesystem. */
@@ -103,7 +106,7 @@ export function parseArgs(
   // Subcommand: `add <id>` installs a catalog item. Only when it is the FIRST
   // token (mirrors the `init` handling above).
   if (argv[0] === 'add') {
-    const add: AddCommand = { kind: 'add', idOrName: undefined, force: false, dryRun: false, list: false };
+    const add: AddCommand = { kind: 'add', idsOrNames: [], force: false, dryRun: false, list: false };
     for (let i = 1; i < argv.length; i++) {
       const arg = argv[i] as string;
       if (arg === '--force' || arg === '-f') add.force = true;
@@ -111,13 +114,11 @@ export function parseArgs(
       else if (arg === '--list' || arg === '-l') add.list = true;
       else if (arg.startsWith('-') && arg !== '-') {
         return { kind: 'error', message: `Unknown option for 'add': ${arg}` };
-      } else if (add.idOrName === undefined) {
-        add.idOrName = arg;
-      } else {
-        return { kind: 'error', message: `add accepts a single item id (got extra: ${arg}).` };
+      } else if (!add.idsOrNames.includes(arg)) {
+        add.idsOrNames.push(arg);
       }
     }
-    if (!add.list && add.idOrName === undefined) {
+    if (!add.list && add.idsOrNames.length === 0) {
       return { kind: 'error', message: `add requires an item id, or use 'agentlint add --list'.` };
     }
     return add;

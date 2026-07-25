@@ -28,11 +28,12 @@ export default function RulesPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
-      <header className="mb-6">
+      <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-white">What agentlint checks</h1>
-        <p className="mt-2 text-zinc-400">
-          {rules.length} checks for Claude Code &amp; MCP configuration — each with a real bad → good
-          example you can run in one click.
+        <p className="mt-2 max-w-2xl text-zinc-400">
+          The full rule list: {rules.length} checks for Claude Code &amp; MCP configuration. Open any
+          one to see a real example of what fails, what passes, and how to fix it — then try it in the
+          validator.
         </p>
       </header>
       <RulesExplorer entries={entries} />

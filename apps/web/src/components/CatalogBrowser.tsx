@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import type { CatalogItem, CatalogKind } from '@/lib/catalog';
+import { BUNDLES, bundleInstallCommand, bundleItems, unbundledItems, type Bundle } from '@/lib/bundles';
 import { makeZip, type ZipEntry } from '@/lib/zip';
 import { CopyButton } from './CopyButton';
 
@@ -115,16 +116,27 @@ export function CatalogBrowser({
 }) {
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
+  /** Selected bundle id, `'other'` for the unbundled leftovers, or null for everything. */
+  const [bundleId, setBundleId] = useState<string | null>(null);
+
+  const bundle = BUNDLES.find((b) => b.id === bundleId) ?? null;
+
+  /** Items the current bundle selection allows (before kind/search filtering). */
+  const scoped = useMemo(() => {
+    if (bundle) return bundleItems(bundle, items);
+    if (bundleId === 'other') return unbundledItems(items);
+    return items;
+  }, [items, bundle, bundleId]);
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return items.filter((i) => {
+    return scoped.filter((i) => {
       if (filter !== 'all' && i.kind !== filter) return false;
       if (q === '') return true;
       const hay = `${i.name} ${i.title} ${i.description} ${i.tags.join(' ')}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [items, filter, query]);
+  }, [scoped, filter, query]);
 
   function downloadAll(): void {
     const entries: ZipEntry[] = [];
@@ -152,8 +164,97 @@ export function CatalogBrowser({
     downloadBytes('agentlint-catalog.zip', makeZip(entries), 'application/zip');
   }
 
+  const otherCount = useMemo(() => unbundledItems(items).length, [items]);
+
+  // Tab counts follow the current bundle, so "All 13" can never sit above 13 results.
+  const scopedCounts: Record<Filter, number> = useMemo(
+    () =>
+      bundleId === null
+        ? counts
+        : {
+            all: scoped.length,
+            skill: scoped.filter((i) => i.kind === 'skill').length,
+            mcp: scoped.filter((i) => i.kind === 'mcp').length,
+            tool: scoped.filter((i) => i.kind === 'tool').length,
+          },
+    [bundleId, counts, scoped],
+  );
+
   return (
     <div>
+      {/* Bundles — pick by what you're doing, not by file type. */}
+      <section aria-labelledby="bundles-heading" className="mb-8">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 id="bundles-heading" className="text-lg font-semibold text-white">
+            Start with a bundle
+          </h2>
+          {bundleId && (
+            <button
+              onClick={() => setBundleId(null)}
+              className="text-xs text-zinc-400 underline-offset-2 hover:text-white hover:underline"
+            >
+              ← Back to all {counts.all} items
+            </button>
+          )}
+        </div>
+        <p className="mt-1 max-w-2xl text-sm text-zinc-400">
+          Grouped by what you are doing, not by file type. Pick one to install a ready-made set —
+          or browse everything below.
+        </p>
+
+        {!bundleId ? (
+          <div className="mt-4 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+            {BUNDLES.map((b) => {
+              const n = bundleItems(b, items).length;
+              if (n === 0) return null;
+              return (
+                <button
+                  key={b.id}
+                  onClick={() => setBundleId(b.id)}
+                  className="group rounded-xl border border-white/10 bg-white/[0.03] p-3.5 text-left transition hover:border-brand-fg/30 hover:bg-white/[0.06]"
+                >
+                  <div className="flex items-center gap-2">
+                    <span aria-hidden className="text-base">
+                      {b.icon}
+                    </span>
+                    <span className="font-medium text-white">{b.label}</span>
+                    <span className="ml-auto shrink-0 rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-zinc-400">
+                      {n}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-zinc-400">{b.blurb}</p>
+                </button>
+              );
+            })}
+            {otherCount > 0 && (
+              <button
+                onClick={() => setBundleId('other')}
+                className="rounded-xl border border-dashed border-white/10 bg-transparent p-3.5 text-left transition hover:border-white/20 hover:bg-white/[0.03]"
+              >
+                <div className="flex items-center gap-2">
+                  <span aria-hidden className="text-base">
+                    📦
+                  </span>
+                  <span className="font-medium text-zinc-200">Everything else</span>
+                  <span className="ml-auto shrink-0 rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-zinc-400">
+                    {otherCount}
+                  </span>
+                </div>
+                <p className="mt-1.5 text-xs leading-relaxed text-zinc-400">
+                  Items that don&apos;t fit one purpose — browse them on their own.
+                </p>
+              </button>
+            )}
+          </div>
+        ) : (
+          <BundleDetail
+            bundle={bundle}
+            items={scoped}
+            fallbackLabel={bundleId === 'other' ? 'Everything else' : undefined}
+          />
+        )}
+      </section>
+
       {/* Controls */}
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-3">
@@ -196,7 +297,7 @@ export function CatalogBrowser({
                     : 'rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-sm text-zinc-300 transition hover:bg-white/10 hover:text-white'
                 }
               >
-                {t.label} <span className={active ? 'text-brand-fg' : 'text-zinc-500'}>{counts[t.id]}</span>
+                {t.label} <span className={active ? 'text-brand-fg' : 'text-zinc-500'}>{scopedCounts[t.id]}</span>
               </button>
             );
           })}
@@ -221,6 +322,50 @@ export function CatalogBrowser({
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/** The open bundle: what it's for, what's inside, and how to install all of it. */
+function BundleDetail({
+  bundle,
+  items,
+  fallbackLabel,
+}: {
+  bundle: Bundle | null;
+  items: CatalogItem[];
+  fallbackLabel?: string;
+}) {
+  const install = bundle ? bundleInstallCommand(bundle, items) : `npx agentlint add ${items.map((i) => i.id).join(' ')}`;
+  const n = (k: CatalogKind) => items.filter((i) => i.kind === k).length;
+
+  return (
+    <div className="mt-4 rounded-xl border border-brand-fg/20 bg-brand/[0.06] p-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <span aria-hidden className="text-lg">
+          {bundle?.icon ?? '📦'}
+        </span>
+        <h3 className="text-base font-semibold text-white">{bundle?.label ?? fallbackLabel}</h3>
+        <span className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] text-zinc-300">
+          {items.length} items · {n('skill')} skills, {n('tool')} tools, {n('mcp')} MCP servers
+        </span>
+      </div>
+
+      {bundle && <p className="mt-2 text-sm text-zinc-300">{bundle.useWhen}</p>}
+
+      <p className="mt-3 text-xs font-medium text-zinc-300">Install the whole bundle:</p>
+      <div className="mt-1.5 flex items-center gap-2 rounded-md border border-white/10 bg-black/40 px-2.5 py-1.5">
+        <code className="scroll-thin flex-1 overflow-x-auto whitespace-nowrap font-mono text-[11px] text-zinc-200">
+          {install}
+        </code>
+        <CopyButton value={install} label="Copy cmd" />
+      </div>
+      <p className="mt-2 text-[11px] text-zinc-500">
+        Or use <span className="text-zinc-300">↓ Download .zip</span> below to get every file at once —
+        it unzips straight into your project. MCP servers still need their{' '}
+        <span className="text-amber-300/90">🔑 env vars</span> set, and Claude Code needs a restart
+        before it sees new items.
+      </p>
     </div>
   );
 }

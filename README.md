@@ -116,8 +116,9 @@ Options:
 Commands:
   init                 Write a starter .agentlintrc.json (refuses to overwrite
                        without --force).
-  add <id>             Install a catalog item (skill / MCP server / tool) into
-                       the project. `agentlint add --list` lists ids.
+  add <id>...          Install catalog items (skill / MCP server / tool) into
+                       the project. Pass several ids to install a whole bundle
+                       in one go. `agentlint add --list` lists ids.
 ```
 
 ### Install from the catalog (`agentlint add`)
@@ -204,7 +205,7 @@ npm run dev -w @agentlint/web      # http://localhost:3100
 1. Open **/** (the Validator). Pick a **File kind** — `CLAUDE.md`, Subagent, Slash command, **Skill (SKILL.md)**, `settings.json`, `.mcp.json`, or cross-tool Instructions — or leave **auto-detect** on.
 2. **Paste** your config (or **Upload file**). For a Skill, paste the contents of your `SKILL.md`.
 3. Press **Validate**. You get findings grouped by severity, each with `line:col`, the rule id (links to **/rules**), the message, and a **fixable** badge where a safe autofix exists.
-4. **/catalog** — find & download vetted **Skills, MCP servers, and Tools** (subagents & slash commands). Live search, filter by kind, copy a snippet, download one, or **download all**. Every item is validated by agentlint (zero errors) and uses `${ENV_VAR}` references, never secrets.
+4. **/catalog** — find & download vetted **Skills, MCP servers, and Tools** (subagents & slash commands). Starts with **bundles**: the catalog grouped by what you are doing (Everyday essentials, Web & frontend, Backend & APIs, Data & databases, DevOps & cloud, Testing, Security, Code review, Documents & office, Design, Business & content, Research, Architecture, Teams, Accessibility, Web3), so a whole set installs with one command or one zip. Live search, filter by kind, copy a snippet, download one, or **download all**. Every item is validated by agentlint (zero errors) and uses `${ENV_VAR}` references, never secrets.
 5. **/collections** — a discovery directory of the wider ecosystem: 138 GitHub repos (Skills, MCP servers & SDKs, agent tools, awesome lists) grouped into 18 collections, with **live star counts**. Filter by kind, collection, or topic — coding, office, writing, marketing, research, creative, personal. Links to upstream; nothing is vendored. See [**docs/COLLECTIONS.md**](./docs/COLLECTIONS.md).
 6. **/rules** — browse every check with a bad → good example you can run in one click. **/templates** — copy known-good configs and the curated **Skills** catalog.
 

@@ -27,17 +27,19 @@ export default function TemplatesPage() {
             key={t.id}
             className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]"
           >
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
-              <div>
-                <h2 className="text-sm font-semibold text-white">{t.title}</h2>
-                <p className="text-xs text-zinc-500">{t.description}</p>
+            <div className="flex flex-wrap items-start justify-between gap-3 border-b border-white/10 px-4 py-3">
+              <div className="min-w-0">
+                <h2 className="text-base font-semibold text-white">{t.title}</h2>
+                <p className="mt-0.5 text-xs text-zinc-400">{t.description}</p>
+                {/* The destination path is the point of the snippet — never hide it on mobile. */}
+                <p className="mt-1.5 text-xs text-zinc-500">
+                  Save as{' '}
+                  <code className="rounded bg-black/40 px-1.5 py-0.5 font-mono text-zinc-300">
+                    {t.filename}
+                  </code>
+                </p>
               </div>
-              <div className="flex items-center gap-3">
-                <code className="hidden font-mono text-xs text-zinc-400 sm:inline">
-                  {t.filename}
-                </code>
-                <CopyButton value={t.content} />
-              </div>
+              <CopyButton value={t.content} />
             </div>
             <pre className="scroll-thin overflow-x-auto bg-black/40 p-4 font-mono text-xs leading-relaxed text-zinc-200">
               <code>{t.content}</code>

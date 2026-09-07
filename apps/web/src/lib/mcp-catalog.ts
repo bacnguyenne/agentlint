@@ -40,8 +40,8 @@ export const MCP_ITEMS = [
       "reference"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"context7\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@upstash/context7-mcp@3.2.1\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add context7 -- npx -y @upstash/context7-mcp@3.2.1",
+    "content": "{\n  \"mcpServers\": {\n    \"context7\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@upstash/context7-mcp@4.0.5\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add context7 -- npx -y @upstash/context7-mcp@4.0.5",
     "envVars": []
   },
   {
@@ -59,8 +59,8 @@ export const MCP_ITEMS = [
       "testing"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"everything\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-everything@2026.1.26\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add everything -- npx -y @modelcontextprotocol/server-everything@2026.1.26",
+    "content": "{\n  \"mcpServers\": {\n    \"everything\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-everything@2026.8.31\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add everything -- npx -y @modelcontextprotocol/server-everything@2026.8.31",
     "envVars": []
   },
   {
@@ -79,8 +79,8 @@ export const MCP_ITEMS = [
       "api"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"exa\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"exa-mcp-server@3.2.1\"\n      ],\n      \"env\": {\n        \"EXA_API_KEY\": \"${EXA_API_KEY}\"\n      }\n    }\n  }\n}\n",
-    "install": "claude mcp add exa -e EXA_API_KEY=${EXA_API_KEY} -- npx -y exa-mcp-server@3.2.1",
+    "content": "{\n  \"mcpServers\": {\n    \"exa\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"exa-mcp-server@3.4.1\"\n      ],\n      \"env\": {\n        \"EXA_API_KEY\": \"${EXA_API_KEY}\"\n      }\n    }\n  }\n}\n",
+    "install": "claude mcp add exa -e EXA_API_KEY=${EXA_API_KEY} -- npx -y exa-mcp-server@3.4.1",
     "envVars": [
       "EXA_API_KEY"
     ]
@@ -100,8 +100,8 @@ export const MCP_ITEMS = [
       "http"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"fetch\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"mcp-server-fetch==2026.6.4\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add fetch -- uvx mcp-server-fetch==2026.6.4",
+    "content": "{\n  \"mcpServers\": {\n    \"fetch\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"mcp-server-fetch==2026.8.18\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add fetch -- uvx mcp-server-fetch==2026.8.18",
     "envVars": []
   },
   {
@@ -119,8 +119,8 @@ export const MCP_ITEMS = [
       "local"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"filesystem\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-filesystem@2026.1.14\",\n        \".\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem@2026.1.14 .",
+    "content": "{\n  \"mcpServers\": {\n    \"filesystem\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-filesystem@2026.8.31\",\n        \".\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem@2026.8.31 .",
     "envVars": []
   },
   {
@@ -139,8 +139,8 @@ export const MCP_ITEMS = [
       "api"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"firecrawl\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"firecrawl-mcp@3.21.0\"\n      ],\n      \"env\": {\n        \"FIRECRAWL_API_KEY\": \"${FIRECRAWL_API_KEY}\"\n      }\n    }\n  }\n}\n",
-    "install": "claude mcp add firecrawl -e FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY} -- npx -y firecrawl-mcp@3.21.0",
+    "content": "{\n  \"mcpServers\": {\n    \"firecrawl\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"firecrawl-mcp@3.24.0\"\n      ],\n      \"env\": {\n        \"FIRECRAWL_API_KEY\": \"${FIRECRAWL_API_KEY}\"\n      }\n    }\n  }\n}\n",
+    "install": "claude mcp add firecrawl -e FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY} -- npx -y firecrawl-mcp@3.24.0",
     "envVars": [
       "FIRECRAWL_API_KEY"
     ]
@@ -160,8 +160,8 @@ export const MCP_ITEMS = [
       "local"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"git\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"mcp-server-git==2026.6.16\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add git -- uvx mcp-server-git==2026.6.16",
+    "content": "{\n  \"mcpServers\": {\n    \"git\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"mcp-server-git==2026.8.18\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add git -- uvx mcp-server-git==2026.8.18",
     "envVars": []
   },
   {
@@ -220,8 +220,8 @@ export const MCP_ITEMS = [
       "state"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"memory\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-memory@2026.1.26\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add memory -- npx -y @modelcontextprotocol/server-memory@2026.1.26",
+    "content": "{\n  \"mcpServers\": {\n    \"memory\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-memory@2026.8.31\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add memory -- npx -y @modelcontextprotocol/server-memory@2026.8.31",
     "envVars": []
   },
   {
@@ -238,8 +238,8 @@ export const MCP_ITEMS = [
       "database"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"mongodb\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"mongodb-mcp-server@1.13.0\"\n      ],\n      \"env\": {\n        \"MDB_MCP_CONNECTION_STRING\": \"${MDB_MCP_CONNECTION_STRING}\"\n      }\n    }\n  }\n}\n",
-    "install": "claude mcp add mongodb -e MDB_MCP_CONNECTION_STRING=${MDB_MCP_CONNECTION_STRING} -- npx -y mongodb-mcp-server@1.13.0",
+    "content": "{\n  \"mcpServers\": {\n    \"mongodb\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"mongodb-mcp-server@2.1.1\"\n      ],\n      \"env\": {\n        \"MDB_MCP_CONNECTION_STRING\": \"${MDB_MCP_CONNECTION_STRING}\"\n      }\n    }\n  }\n}\n",
+    "install": "claude mcp add mongodb -e MDB_MCP_CONNECTION_STRING=${MDB_MCP_CONNECTION_STRING} -- npx -y mongodb-mcp-server@2.1.1",
     "envVars": [
       "MDB_MCP_CONNECTION_STRING"
     ]
@@ -259,8 +259,8 @@ export const MCP_ITEMS = [
       "api"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"notion\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@notionhq/notion-mcp-server@2.4.0\"\n      ],\n      \"env\": {\n        \"NOTION_TOKEN\": \"${NOTION_TOKEN}\"\n      }\n    }\n  }\n}\n",
-    "install": "claude mcp add notion -e NOTION_TOKEN=${NOTION_TOKEN} -- npx -y @notionhq/notion-mcp-server@2.4.0",
+    "content": "{\n  \"mcpServers\": {\n    \"notion\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@notionhq/notion-mcp-server@2.5.1\"\n      ],\n      \"env\": {\n        \"NOTION_TOKEN\": \"${NOTION_TOKEN}\"\n      }\n    }\n  }\n}\n",
+    "install": "claude mcp add notion -e NOTION_TOKEN=${NOTION_TOKEN} -- npx -y @notionhq/notion-mcp-server@2.5.1",
     "envVars": [
       "NOTION_TOKEN"
     ]
@@ -281,8 +281,8 @@ export const MCP_ITEMS = [
       "web"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"playwright\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@playwright/mcp@0.0.76\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add playwright -- npx -y @playwright/mcp@0.0.76",
+    "content": "{\n  \"mcpServers\": {\n    \"playwright\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@playwright/mcp@0.0.80\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add playwright -- npx -y @playwright/mcp@0.0.80",
     "envVars": []
   },
   {
@@ -360,8 +360,8 @@ export const MCP_ITEMS = [
       "reasoning"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"sequential-thinking\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-sequential-thinking@2025.12.18\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add sequential-thinking -- npx -y @modelcontextprotocol/server-sequential-thinking@2025.12.18",
+    "content": "{\n  \"mcpServers\": {\n    \"sequential-thinking\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-sequential-thinking@2026.8.31\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add sequential-thinking -- npx -y @modelcontextprotocol/server-sequential-thinking@2026.8.31",
     "envVars": []
   },
   {
@@ -441,8 +441,8 @@ export const MCP_ITEMS = [
       "api"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"supabase\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@supabase/mcp-server-supabase@0.8.2\"\n      ],\n      \"env\": {\n        \"SUPABASE_ACCESS_TOKEN\": \"${SUPABASE_ACCESS_TOKEN}\"\n      }\n    }\n  }\n}\n",
-    "install": "claude mcp add supabase -e SUPABASE_ACCESS_TOKEN=${SUPABASE_ACCESS_TOKEN} -- npx -y @supabase/mcp-server-supabase@0.8.2",
+    "content": "{\n  \"mcpServers\": {\n    \"supabase\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@supabase/mcp-server-supabase@0.12.0\"\n      ],\n      \"env\": {\n        \"SUPABASE_ACCESS_TOKEN\": \"${SUPABASE_ACCESS_TOKEN}\"\n      }\n    }\n  }\n}\n",
+    "install": "claude mcp add supabase -e SUPABASE_ACCESS_TOKEN=${SUPABASE_ACCESS_TOKEN} -- npx -y @supabase/mcp-server-supabase@0.12.0",
     "envVars": [
       "SUPABASE_ACCESS_TOKEN"
     ]
@@ -463,8 +463,8 @@ export const MCP_ITEMS = [
       "api"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"tavily\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"tavily-mcp@0.2.20\"\n      ],\n      \"env\": {\n        \"TAVILY_API_KEY\": \"${TAVILY_API_KEY}\"\n      }\n    }\n  }\n}\n",
-    "install": "claude mcp add tavily -e TAVILY_API_KEY=${TAVILY_API_KEY} -- npx -y tavily-mcp@0.2.20",
+    "content": "{\n  \"mcpServers\": {\n    \"tavily\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"tavily-mcp@0.2.22\"\n      ],\n      \"env\": {\n        \"TAVILY_API_KEY\": \"${TAVILY_API_KEY}\"\n      }\n    }\n  }\n}\n",
+    "install": "claude mcp add tavily -e TAVILY_API_KEY=${TAVILY_API_KEY} -- npx -y tavily-mcp@0.2.22",
     "envVars": [
       "TAVILY_API_KEY"
     ]
@@ -483,8 +483,8 @@ export const MCP_ITEMS = [
       "utility"
     ],
     "targetPath": ".mcp.json",
-    "content": "{\n  \"mcpServers\": {\n    \"time\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"mcp-server-time==2026.6.4\"\n      ]\n    }\n  }\n}\n",
-    "install": "claude mcp add time -- uvx mcp-server-time==2026.6.4",
+    "content": "{\n  \"mcpServers\": {\n    \"time\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"mcp-server-time==2026.8.18\"\n      ]\n    }\n  }\n}\n",
+    "install": "claude mcp add time -- uvx mcp-server-time==2026.8.18",
     "envVars": []
   }
 ];
